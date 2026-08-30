@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Clean system data — apri il secchio "Dati di sistema" del tuo Mac</title>
 <meta name="description" content="Scopri cosa c'è davvero dentro i Dati di sistema di macOS: semaforo deterministico, cancellazione sicura con annulla, privacy totale. IT · EN · ES.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='15' width='80' height='18' rx='9' fill='%2334c759'/><rect x='10' y='41' width='80' height='18' rx='9' fill='%23ffd60a'/><rect x='10' y='67' width='80' height='18' rx='9' fill='%23ff453a'/></svg>">
+<link rel="icon" type="image/png" href="assets/icon-256.png">
+<link rel="apple-touch-icon" href="assets/icon-256.png">
 <style>
   :root{
     --bg:#0b0d10; --bg2:#12151a; --card:#161a20; --line:#242a33;
@@ -80,6 +81,26 @@
   details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px;max-width:760px;margin-inline:auto}
   summary{cursor:pointer;font-weight:600}
   details p{color:var(--muted);margin-top:10px;font-size:14.5px}
+  /* ── sezione AI ── */
+  .ai-demo{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:960px;margin:0 auto}
+  @media (max-width:860px){.ai-demo{grid-template-columns:1fr}}
+  .ai-card{background:var(--card);border:1px solid rgba(191,90,242,.38);border-radius:18px;padding:24px;
+           box-shadow:0 18px 60px rgba(191,90,242,.10)}
+  .ai-head{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  .ai-head .spark{color:#bf5af2;font-size:17px}
+  .ai-head .tag{border:1px solid rgba(191,90,242,.5);color:#d9a5f7;border-radius:999px;padding:1px 9px;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .ai-head .meta{margin-left:auto;font-size:12px;opacity:.75}
+  .ai-card h4{font-size:17px;margin-bottom:8px}
+  .ai-card p{color:var(--muted);font-size:14.5px}
+  .caveats{margin:12px 0 0 18px;color:var(--muted);font-size:13px}
+  .caveats li{margin-bottom:4px}
+  .sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted)}
+  .sources a{color:#8ab9ff;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+  .ai-points{display:flex;flex-direction:column;gap:12px}
+  .ai-point{display:flex;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
+  .ai-point>span{font-size:21px}
+  .ai-point b{display:block;font-size:14.5px}
+  .ai-point span:not(:first-child){color:var(--muted);font-size:13.5px}
   /* cta */
   .cta{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:52px 32px;text-align:center}
   .price{font-size:44px;font-weight:800;letter-spacing:-.02em}
@@ -97,6 +118,7 @@
       Clean system data
     </a>
     <a class="navlink" href="#funziona">Come funziona</a>
+    <a class="navlink" href="#ai">AI</a>
     <a class="navlink" href="#sicuro">Sicurezza</a>
     <a class="navlink" href="#faq">FAQ</a>
     <a class="nav-cta" href="#prezzi">Scarica</a>
@@ -108,13 +130,14 @@
     <span class="pill">Per Mac · macOS 13+ · Apple Silicon & Intel</span>
     <h1>Apri il secchio<br><span class="grad">“Dati di sistema”</span></h1>
     <p class="sub">macOS ti dice solo “Dati di sistema: 56 GB”. Clean system data ti mostra
-       <b>cosa c'è davvero</b>, voce per voce, con un semaforo che ti dice cosa puoi cestinare
-       in tranquillità — e cosa non devi toccare.</p>
+       <b>cosa c'è davvero</b>, voce per voce, con un semaforo deterministico che ti dice cosa puoi
+       cestinare in tranquillità — e un'<b>AI che ti spiega ogni voce</b> nella tua lingua, con fonti, costi
+       e tempi trasparenti.</p>
     <div class="ctas">
       <a class="btn primary" href="#prezzi">Scarica ora</a>
-      <a class="btn ghost" href="#funziona">Vedi come funziona</a>
+      <a class="btn ghost" href="#ai">Vedi l'AI all'opera</a>
     </div>
-    <div class="langs">Interfaccia completa in 🇮🇹 Italiano · 🇬🇧 English · 🇪🇸 Español</div>
+    <div class="langs">🤖 250 analisi AI incluse con la licenza · Interfaccia 🇮🇹 🇬🇧 🇪🇸</div>
 
     <figure class="shot">
       <img src="assets/stratigrafia.png" alt="La Stratigrafia: gli strati dei dati di sistema con semaforo verde, giallo e rosso">
@@ -139,7 +162,44 @@
   </div>
 </section>
 
-<section id="sicuro" style="background:var(--bg2)">
+<section id="ai" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>L'AI che ti spiega <span style="color:#bf5af2">✦</span></h2>
+    <p class="lede">Un tasto AI su ogni voce: l'analisi artificiale racconta <b>cosa contiene quella
+       cartella e perché ha quel semaforo</b> — in italiano semplice, con costo e durata in vista.
+       E una regola assoluta: <b>l'AI spiega, non decide mai</b>. Il semaforo lo mettono le regole.</p>
+
+    <div class="ai-demo">
+      <div class="ai-card">
+        <div class="ai-head">
+          <span class="spark">✦</span> Analisi AI
+          <span class="tag">cloud</span>
+          <span class="meta">$0.0004 · 2.1 s</span>
+        </div>
+        <h4>Cache di Safari — perché è verde</h4>
+        <p>Questa cartella è il “ripostiglio” di Safari: il browser ci conserva copie delle pagine
+           che hai visitato per riaprirle più veloce. Si ricrea da sola ogni volta che serve,
+           quindi svuotarla non ti fa perdere nulla di importante — recuperi solo spazio.</p>
+        <ul class="caveats">
+          <li>Ipotesi non verificata: su versioni beta di macOS la cache può essere più grande del previsto.</li>
+        </ul>
+        <div class="sources">
+          <span>Fonti web:</span>
+          <a href="#">support.apple.com</a>
+          <a href="#">apple.stackexchange.com</a>
+        </div>
+      </div>
+      <div class="ai-points">
+        <div class="ai-point"><span>🌐</span><div><b>Ricerca web opzionale</b><span>Con una richiesta di ricerca l'AI consulta fonti reali e te le cita — perfetta per le voci sconosciute.</span></div></div>
+        <div class="ai-point"><span>💬</span><div><b>Nella tua lingua</b><span>Spiegazioni in italiano, inglese o spagnolo, sempre coerenti con il semaforo della voce.</span></div></div>
+        <div class="ai-point"><span>🎁</span><div><b>250 analisi incluse</b><span>Con la licenza: nessuna chiave da configurare. Poi puoi continuare con la tua chiave API (BYOK).</span></div></div>
+        <div class="ai-point"><span>⚡</span><div><b>Fino a 10 in parallelo</b><span>L'analisi batch esamina tutta la selezione contemporaneamente — 9 voci in ~30 secondi.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sicuro">
   <div class="wrap">
     <h2>Un semaforo, zero ansia</h2>
     <p class="lede">Il verdetto non è un'intelligenza artificiale che "pensa": è un insieme di regole deterministiche e trasparenti.</p>
@@ -158,12 +218,12 @@
       </div>
     </div>
     <div class="grid">
+      <div class="card" style="border-color:rgba(191,90,242,.45)"><span class="ico" style="color:#bf5af2">✦</span><h3>AI che spiega, non decide</h3><p>Ogni voce ha il suo tasto AI: ti racconta cosa contiene la cartella e perché ha quel colore, nella tua lingua. Il verdetto resta sempre delle regole — l'AI non può cambiarlo mai.</p></div>
       <div class="card"><span class="ico">🗑️</span><h3>Trash-first, sempre</h3><p>Nessuna cancellazione diretta: tutto passa dal Cestino, con il Put Back garantito dal nostro manifest (quello di macOS è notoriamente inaffidabile).</p></div>
       <div class="card"><span class="ico">↩️</span><h3>Annulla vero</h3><p>Manifest interno di undo: ripristino nella posizione originale anche dopo aver svuotato, con gestione delle collisioni.</p></div>
-      <div class="card"><span class="ico">🔒</span><h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload dei tuoi file. La scansione non manda nulla a nessuno. Label “Data Not Collected”.</p></div>
-      <div class="card"><span class="ico">🧠</span><h3>AI che spiega, non decide</h3><p>L'analisi AI (opzionale) spiega il verdetto già deciso dalle regole — non può mai cambiarlo. Mai contenuti dei file: solo nome e percorso.</p></div>
+      <div class="card"><span class="ico">🔒</span><h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload dei tuoi file. L'AI riceve solo nome e percorso della voce — mai il contenuto dei file.</p></div>
       <div class="card"><span class="ico">📏</span><h3>Matematica dello spazio</h3><p>Perché “256 GB” diventano 245, cos'è lo spazio purgeable, quanto è davvero libero: spiegato senza gergo.</p></div>
-      <div class="card"><span class="ico">🌍</span><h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — non una traduzione automatica.</p></div>
+      <div class="card"><span class="ico">🌍</span><h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — comprese le analisi AI.</p></div>
     </div>
   </div>
 </section>
