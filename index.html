@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean system data — apri il secchio "Dati di sistema" del tuo Mac</title>
+<meta name="description" content="Scopri cosa c'è davvero dentro i Dati di sistema di macOS: semaforo deterministico, cancellazione sicura con annulla, privacy totale. IT · EN · ES.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='15' width='80' height='18' rx='9' fill='%2334c759'/><rect x='10' y='41' width='80' height='18' rx='9' fill='%23ffd60a'/><rect x='10' y='67' width='80' height='18' rx='9' fill='%23ff453a'/></svg>">
+<style>
+  :root{
+    --bg:#0b0d10; --bg2:#12151a; --card:#161a20; --line:#242a33;
+    --text:#e8ebef; --muted:#9aa3ad;
+    --green:#34c759; --yellow:#ffd60a; --red:#ff453a;
+    --accent:#4da3ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+    color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* ── nav ── */
+  nav{position:sticky;top:0;backdrop-filter:blur(20px);background:rgba(11,13,16,.72);
+      border-bottom:1px solid var(--line);z-index:10}
+  nav .wrap{display:flex;align-items:center;gap:28px;height:60px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--text)}
+  .logo .dots{display:flex;flex-direction:column;gap:3px}
+  .logo .dots span{width:22px;height:6px;border-radius:3px;display:block}
+  nav a.navlink{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a.navlink:hover{color:var(--text)}
+  .nav-cta{margin-left:auto;background:var(--accent);color:#04101f!important;padding:8px 16px;
+           border-radius:999px;text-decoration:none;font-weight:600;font-size:14px}
+  /* ── hero ── */
+  header{padding:88px 0 56px;text-align:center;
+         background:radial-gradient(60% 55% at 50% 0%,rgba(77,163,255,.14),transparent)}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+        font-size:13px;color:var(--muted);margin-bottom:22px}
+  h1{font-size:clamp(34px,5.5vw,58px);line-height:1.08;letter-spacing:-.02em;font-weight:800}
+  h1 .grad{background:linear-gradient(92deg,#34c759,#ffd60a 55%,#ff453a);
+           -webkit-background-clip:text;background-clip:text;color:transparent}
+  header p.sub{max-width:640px;margin:22px auto 0;color:var(--muted);font-size:18px}
+  .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:13px 26px;border-radius:14px;text-decoration:none;font-weight:700;font-size:16px}
+  .btn.primary{background:var(--accent);color:#04101f}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  .langs{margin-top:18px;font-size:13px;color:var(--muted)}
+  /* ── shot ── */
+  .shot{margin:26px auto 0;max-width:920px;border:1px solid var(--line);border-radius:18px;
+        overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .shot img{display:block;width:100%;height:auto}
+  .caption{margin-top:12px;font-size:13px;color:var(--muted);text-align:center}
+  /* ── sections ── */
+  section{padding:72px 0}
+  h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em;text-align:center;margin-bottom:10px}
+  .lede{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 44px}
+  /* semaforo demo */
+  .lights{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+  .light{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;width:290px}
+  .light b{display:flex;align-items:center;gap:10px}
+  .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
+  .light p{color:var(--muted);font-size:14px;margin-top:8px}
+  /* features */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .card h3{font-size:17px;margin:10px 0 6px}
+  .card p{color:var(--muted);font-size:14.5px}
+  .card .ico{font-size:26px}
+  /* steps */
+  .steps{max-width:720px;margin:0 auto;counter-reset:step}
+  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:none}
+  .step::before{counter-increment:step;content:counter(step);
+    width:38px;height:38px;flex:0 0 auto;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:var(--accent);color:#04101f;font-weight:800}
+  .step div b{display:block}
+  .step div span{color:var(--muted);font-size:14.5px}
+  /* faq */
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px;max-width:760px;margin-inline:auto}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--muted);margin-top:10px;font-size:14.5px}
+  /* cta */
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:52px 32px;text-align:center}
+  .price{font-size:44px;font-weight:800;letter-spacing:-.02em}
+  .price small{font-size:16px;color:var(--muted);font-weight:500}
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13.5px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">
+      <span class="dots"><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span><span style="background:var(--red)"></span></span>
+      Clean system data
+    </a>
+    <a class="navlink" href="#funziona">Come funziona</a>
+    <a class="navlink" href="#sicuro">Sicurezza</a>
+    <a class="navlink" href="#faq">FAQ</a>
+    <a class="nav-cta" href="#prezzi">Scarica</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="pill">Per Mac · macOS 13+ · Apple Silicon & Intel</span>
+    <h1>Apri il secchio<br><span class="grad">“Dati di sistema”</span></h1>
+    <p class="sub">macOS ti dice solo “Dati di sistema: 56 GB”. Clean system data ti mostra
+       <b>cosa c'è davvero</b>, voce per voce, con un semaforo che ti dice cosa puoi cestinare
+       in tranquillità — e cosa non devi toccare.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#prezzi">Scarica ora</a>
+      <a class="btn ghost" href="#funziona">Vedi come funziona</a>
+    </div>
+    <div class="langs">Interfaccia completa in 🇮🇹 Italiano · 🇬🇧 English · 🇪🇸 Español</div>
+
+    <figure class="shot">
+      <img src="assets/stratigrafia.png" alt="La Stratigrafia: gli strati dei dati di sistema con semaforo verde, giallo e rosso">
+      <figcaption>La <b>Stratigrafia</b>: i tuoi dati di sistema come carotaggio geologico — ogni strato è una categoria.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section id="funziona">
+  <div class="wrap">
+    <h2>Come funziona</h2>
+    <p class="lede">Tre passaggi. Nessuna impostazione tecnica, nessun terminale.</p>
+    <div class="steps">
+      <div class="step"><div><b>Scansiona</b><span>Inventario di cache, log, snapshot, build di sviluppo, backup e altro — misurato sul tuo disco, non stimato.</span></div></div>
+      <div class="step"><div><b>Capisci</b><span>Ogni voce ha un semaforo deciso da regole deterministiche e una spiegazione in italiano chiaro, voce per voce (opzionale: analisi AI).</span></div></div>
+      <div class="step"><div><b>Cestina — e ripensa</b><span>Niente viene cancellato direttamente: tutto va nel Cestino con <b>Annulla</b> sempre disponibile, via manifest interno.</span></div></div>
+    </div>
+    <figure class="shot">
+      <img src="assets/scan-in-corso.png" alt="Scansione in corso con le barre che si depositano">
+      <figcaption>Durante la scansione gli strati si depositano uno a uno, in tempo reale.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="sicuro" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>Un semaforo, zero ansia</h2>
+    <p class="lede">Il verdetto non è un'intelligenza artificiale che "pensa": è un insieme di regole deterministiche e trasparenti.</p>
+    <div class="lights">
+      <div class="light">
+        <b><span class="dot" style="background:var(--green)"></span> Verde — cestinabile</b>
+        <p>Cache e log che si rigenerano da soli. Verificati voce per voce sulla tua versione di macOS.</p>
+      </div>
+      <div class="light">
+        <b><span class="dot" style="background:var(--yellow)"></span> Giallo — attenzione</b>
+        <p>Utile ma delicato: l'app ti guida passo-passo invece di cancellare alla cieca.</p>
+      </div>
+      <div class="light">
+        <b><span class="dot" style="background:var(--red)"></span> Rosso — non toccare</b>
+        <p>Snapshot, backup iPhone, volumi di sistema: spiegati per bene e <b>mai</b> proposti per l'eliminazione.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="ico">🗑️</span><h3>Trash-first, sempre</h3><p>Nessuna cancellazione diretta: tutto passa dal Cestino, con il Put Back garantito dal nostro manifest (quello di macOS è notoriamente inaffidabile).</p></div>
+      <div class="card"><span class="ico">↩️</span><h3>Annulla vero</h3><p>Manifest interno di undo: ripristino nella posizione originale anche dopo aver svuotato, con gestione delle collisioni.</p></div>
+      <div class="card"><span class="ico">🔒</span><h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload dei tuoi file. La scansione non manda nulla a nessuno. Label “Data Not Collected”.</p></div>
+      <div class="card"><span class="ico">🧠</span><h3>AI che spiega, non decide</h3><p>L'analisi AI (opzionale) spiega il verdetto già deciso dalle regole — non può mai cambiarlo. Mai contenuti dei file: solo nome e percorso.</p></div>
+      <div class="card"><span class="ico">📏</span><h3>Matematica dello spazio</h3><p>Perché “256 GB” diventano 245, cos'è lo spazio purgeable, quanto è davvero libero: spiegato senza gergo.</p></div>
+      <div class="card"><span class="ico">🌍</span><h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — non una traduzione automatica.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Domande frequenti</h2>
+    <p class="lede">Le cose che chiunque chiederebbe prima di fidarsi.</p>
+    <details open><summary>È sicuro? Può rompere il mio Mac?</summary>
+      <p>Il semaforo rosso copre tutto ciò che è vitale (snapshot, backup, volumi di sistema) e viene rifiutato a livello di codice: anche selezionandolo, l'eliminazione parte. Tutto il resto passa dal Cestino con Annulla.</p></details>
+    <details><summary>Cosa sono le “richieste AI incluse”?</summary>
+      <p>L'acquisto include un tetto di analisi AI gratuite, conteggiate per la tua licenza. Quando finiscono, l'app continua a funzionare al 100% — puoi aggiungere la tua chiave API per continuare le analisi AI.</p></details>
+    <details><summary>Vedete i miei file?</summary>
+      <p>No. Nessuna telemetria, nessun upload. L'AI opzionale riceve solo il nome e il percorso della voce con il verdetto già deciso — mai il contenuto dei file.</p></details>
+    <details><summary>Funziona sul mio Mac?</summary>
+      <p>macOS 13 o superiore, Apple Silicon e Intel. L'app richiede l'Accesso completo al disco per leggere le dimensioni reali dei dati di sistema — te lo chiede con una guida, e puoi anche usarlo senza concedendolo.</p></details>
+  </div>
+</section>
+
+<section id="prezzi">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Torna a padrone del tuo disco</h2>
+      <p class="lede" style="margin-bottom:26px">Una licenza, un acquisto solo. Include il tetto di analisi AI gratuite.</p>
+      <div class="price">€ 19 <small>/ una volta · aggiornamenti inclusi</small></div>
+      <div class="ctas">
+        <a class="btn primary" href="#">Acquista (presto disponibile)</a>
+        <a class="btn ghost" href="#">Prova la demo</a>
+      </div>
+      <p style="margin-top:16px;font-size:13px;color:var(--muted)">Pagamento sicuro · Licenza via email · Rimborsi 14 giorni</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--text)">Clean system data</b> — System Data, translated.<br>
+    Fatto con cura per Mac · IT · EN · ES · <a style="color:var(--muted)" href="#">Privacy</a> · <a style="color:var(--muted)" href="#">Contatti</a>
+  </div>
+</footer>
+
+</body>
+</html>
