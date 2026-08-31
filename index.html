@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clean system data — apri il secchio "Dati di sistema" del tuo Mac</title>
-<meta name="description" content="Scopri cosa c'è davvero dentro i Dati di sistema di macOS: semaforo deterministico, cancellazione sicura con annulla, privacy totale. IT · EN · ES.">
+<title>Clean system data — open macOS "System Data" and see what's inside</title>
+<meta name="description" content="See what macOS System Data actually contains: a deterministic traffic light, safe deletion with undo, total privacy. English · Italiano · Español.">
+<link rel="alternate" hreflang="en" href="https://cleansystemdata.site/">
+<link rel="alternate" hreflang="it" href="https://cleansystemdata.site/it/">
+<link rel="alternate" hreflang="es" href="https://cleansystemdata.site/es/">
 <link rel="icon" type="image/png" href="assets/icon-256.png">
 <link rel="apple-touch-icon" href="assets/icon-256.png">
 <style>
@@ -31,7 +34,11 @@
   .logo .dots span{width:22px;height:6px;border-radius:3px;display:block}
   nav a.navlink{color:var(--muted);text-decoration:none;font-size:14px}
   nav a.navlink:hover{color:var(--text)}
-  .nav-cta{margin-left:auto;background:var(--accent);color:#04101f!important;padding:8px 16px;
+  .langswitch{margin-left:auto;display:flex;gap:10px;font-size:13px}
+  .langswitch a{color:var(--muted);text-decoration:none;padding:2px 4px}
+  .langswitch a:hover{color:var(--text)}
+  .langswitch a.on{color:var(--text);font-weight:700;border-bottom:2px solid var(--accent)}
+  .nav-cta{background:var(--accent);color:#04101f!important;padding:8px 16px;
            border-radius:999px;text-decoration:none;font-weight:600;font-size:14px}
   /* ── hero ── */
   header{padding:88px 0 56px;text-align:center;
@@ -56,7 +63,7 @@
   section{padding:72px 0}
   h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em;text-align:center;margin-bottom:10px}
   .lede{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 44px}
-  /* semaforo demo */
+  /* traffic-light demo */
   .lights{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
   .light{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;width:290px}
   .light b{display:flex;align-items:center;gap:10px}
@@ -81,7 +88,7 @@
   details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px;max-width:760px;margin-inline:auto}
   summary{cursor:pointer;font-weight:600}
   details p{color:var(--muted);margin-top:10px;font-size:14.5px}
-  /* ── sezione AI ── */
+  /* ── AI section ── */
   .ai-demo{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:960px;margin:0 auto}
   @media (max-width:860px){.ai-demo{grid-template-columns:1fr}}
   .ai-card{background:var(--card);border:1px solid rgba(191,90,242,.38);border-radius:18px;padding:24px;
@@ -117,143 +124,146 @@
       <span class="dots"><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span><span style="background:var(--red)"></span></span>
       Clean system data
     </a>
-    <a class="navlink" href="#funziona">Come funziona</a>
+    <a class="navlink" href="#how">How it works</a>
     <a class="navlink" href="#ai">AI</a>
-    <a class="navlink" href="#sicuro">Sicurezza</a>
+    <a class="navlink" href="#safe">Safety</a>
     <a class="navlink" href="#faq">FAQ</a>
-    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Scarica</a>
+    <span class="langswitch">
+      <a href="/" class="on">EN</a><a href="/it/">IT</a><a href="/es/">ES</a>
+    </span>
+    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Download</a>
   </div>
 </nav>
 
 <header>
   <div class="wrap">
-    <span class="pill">Per Mac · macOS 13+ · Apple Silicon & Intel</span>
-    <h1>Apri il secchio<br><span class="grad">“Dati di sistema”</span></h1>
-    <p class="sub">macOS ti dice solo “Dati di sistema: 56 GB”. Clean system data ti mostra
-       <b>cosa c'è davvero</b>, voce per voce, con un semaforo deterministico che ti dice cosa puoi
-       cestinare in tranquillità — e un'<b>AI che ti spiega ogni voce</b> nella tua lingua, con fonti, costi
-       e tempi trasparenti.</p>
+    <span class="pill">For Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
+    <h1>Open the black box of<br><span class="grad">“System Data”</span></h1>
+    <p class="sub">macOS only tells you “System Data: 40 GB”. Clean system data shows you
+       <b>what's actually inside</b>, item by item, with a deterministic traffic light that tells you
+       what's safe to clean — and an <b>AI that explains every item</b> in your language, with sources,
+       costs and timings out in the open.</p>
     <div class="ctas">
-      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Scarica per Mac — gratis il setup</a>
-      <a class="btn ghost" href="#ai">Vedi l'AI all'opera</a>
+      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Download for Mac — free setup</a>
+      <a class="btn ghost" href="#ai">See the AI in action</a>
     </div>
-    <div class="langs">🤖 250 analisi AI incluse con la licenza · Interfaccia 🇮🇹 🇬🇧 🇪🇸</div>
+    <div class="langs">🤖 250 AI analyses included with the license · Interface 🇬🇧 🇮🇹 🇪🇸</div>
 
     <figure class="shot">
-      <img src="assets/stratigrafia.png" alt="La Stratigrafia: gli strati dei dati di sistema con semaforo verde, giallo e rosso">
-      <figcaption>La <b>Stratigrafia</b>: i tuoi dati di sistema come carotaggio geologico — ogni strato è una categoria.</figcaption>
+      <img src="assets/stratigrafia.png" alt="The Stratigraphy: system data layers with green, yellow and red traffic lights">
+      <figcaption>The <b>Stratigraphy</b>: your system data like a geological core sample — each layer is a category.</figcaption>
     </figure>
   </div>
 </header>
 
-<section id="funziona">
+<section id="how">
   <div class="wrap">
-    <h2>Come funziona</h2>
-    <p class="lede">Tre passaggi. Nessuna impostazione tecnica, nessun terminale.</p>
+    <h2>How it works</h2>
+    <p class="lede">Three steps. No technical settings, no terminal.</p>
     <div class="steps">
-      <div class="step"><div><b>Scansiona</b><span>Inventario di cache, log, snapshot, build di sviluppo, backup e altro — misurato sul tuo disco, non stimato.</span></div></div>
-      <div class="step"><div><b>Capisci</b><span>Ogni voce ha un semaforo deciso da regole deterministiche e una spiegazione in italiano chiaro, voce per voce (opzionale: analisi AI).</span></div></div>
-      <div class="step"><div><b>Cestina — e ripensa</b><span>Niente viene cancellato direttamente: tutto va nel Cestino con <b>Annulla</b> sempre disponibile, via manifest interno.</span></div></div>
+      <div class="step"><div><b>Scan</b><span>An inventory of caches, logs, snapshots, dev builds, backups and more — measured on your disk, not estimated.</span></div></div>
+      <div class="step"><div><b>Understand</b><span>Every item has a traffic light decided by deterministic rules and a clear explanation in your language, item by item (optional: AI analysis).</span></div></div>
+      <div class="step"><div><b>Trash — and rethink</b><span>Nothing is deleted directly: everything goes to the Trash with <b>Undo</b> always available, via an internal manifest.</span></div></div>
     </div>
     <figure class="shot">
-      <img src="assets/item-detail.png" alt="Dettaglio di una voce: semaforo rosso Do not touch, pulsante AI, footer trash-first">
-      <figcaption>Ogni voce ha il suo verdetto e il suo tasto AI. Il rosso <b>non si può cestinare</b> — e nulla viene mai cancellato direttamente.</figcaption>
+      <img src="assets/item-detail.png" alt="Item detail: red Do not touch traffic light, AI button, trash-first footer">
+      <figcaption>Every item gets its verdict and its AI button. Red <b>can't be cleaned</b> — and nothing is ever deleted directly.</figcaption>
     </figure>
   </div>
 </section>
 
 <section id="ai" style="background:var(--bg2)">
   <div class="wrap">
-    <h2>L'AI che ti spiega <span style="color:#bf5af2">✦</span></h2>
-    <p class="lede">Un tasto AI su ogni voce: l'analisi artificiale racconta <b>cosa contiene quella
-       cartella e perché ha quel semaforo</b> — in italiano semplice, con costo e durata in vista.
-       E una regola assoluta: <b>l'AI spiega, non decide mai</b>. Il semaforo lo mettono le regole.</p>
+    <h2>The AI that explains <span style="color:#bf5af2">✦</span></h2>
+    <p class="lede">An AI button on every item: it tells you <b>what that folder contains and why it has
+       that color</b> — in plain language, with cost and duration visible. And one absolute rule:
+       <b>the AI explains, it never decides</b>. The traffic light is set by the rules.</p>
 
     <div class="ai-demo">
       <div class="ai-card">
         <div class="ai-head">
-          <span class="spark">✦</span> Analisi AI
+          <span class="spark">✦</span> AI analysis
           <span class="tag">cloud</span>
           <span class="meta">$0.0004 · 2.1 s</span>
         </div>
-        <h4>Cache di Safari — perché è verde</h4>
-        <p>Questa cartella è il “ripostiglio” di Safari: il browser ci conserva copie delle pagine
-           che hai visitato per riaprirle più veloce. Si ricrea da sola ogni volta che serve,
-           quindi svuotarla non ti fa perdere nulla di importante — recuperi solo spazio.</p>
+        <h4>Safari's cache — why it's green</h4>
+        <p>This folder is the browser's “storage room”: it keeps copies of pages you've visited
+           so they reopen faster. It rebuilds itself whenever needed, so clearing it loses nothing
+           important — you just get the space back.</p>
         <ul class="caveats">
-          <li>Ipotesi non verificata: su versioni beta di macOS la cache può essere più grande del previsto.</li>
+          <li>Unverified assumption: on macOS betas this cache can grow larger than expected.</li>
         </ul>
         <div class="sources">
-          <span>Fonti web:</span>
+          <span>Web sources:</span>
           <a href="#">support.apple.com</a>
           <a href="#">apple.stackexchange.com</a>
         </div>
       </div>
       <div class="ai-points">
-        <div class="ai-point"><span>🌐</span><div><b>Ricerca web opzionale</b><span>Con una richiesta di ricerca l'AI consulta fonti reali e te le cita — perfetta per le voci sconosciute.</span></div></div>
-        <div class="ai-point"><span>💬</span><div><b>Nella tua lingua</b><span>Spiegazioni in italiano, inglese o spagnolo, sempre coerenti con il semaforo della voce.</span></div></div>
-        <div class="ai-point"><span>🎁</span><div><b>250 analisi incluse</b><span>Con la licenza: nessuna chiave da configurare. Poi puoi continuare con la tua chiave API (BYOK).</span></div></div>
-        <div class="ai-point"><span>⚡</span><div><b>Fino a 10 in parallelo</b><span>L'analisi batch esamina tutta la selezione contemporaneamente — 9 voci in ~30 secondi.</span></div></div>
+        <div class="ai-point"><span>🌐</span><div><b>Optional web search</b><span>With one search request the AI consults real sources and cites them — perfect for unknown items.</span></div></div>
+        <div class="ai-point"><span>💬</span><div><b>In your language</b><span>Explanations in English, Italian or Spanish, always consistent with the item's traffic light.</span></div></div>
+        <div class="ai-point"><span>🎁</span><div><b>250 analyses included</b><span>With the license: no API key to configure. Afterwards you can continue with your own key (BYOK).</span></div></div>
+        <div class="ai-point"><span>⚡</span><div><b>Up to 10 in parallel</b><span>Batch analysis reviews the whole selection at once — 9 items in about 30 seconds.</span></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="sicuro">
+<section id="safe">
   <div class="wrap">
-    <h2>Un semaforo, zero ansia</h2>
-    <p class="lede">Il verdetto non è un'intelligenza artificiale che "pensa": è un insieme di regole deterministiche e trasparenti.</p>
+    <h2>One traffic light, zero anxiety</h2>
+    <p class="lede">The verdict isn't an artificial intelligence that "thinks": it's a set of deterministic, transparent rules.</p>
     <div class="lights">
       <div class="light">
-        <b><span class="dot" style="background:var(--green)"></span> Verde — cestinabile</b>
-        <p>Cache e log che si rigenerano da soli. Verificati voce per voce sulla tua versione di macOS.</p>
+        <b><span class="dot" style="background:var(--green)"></span> Green — safe to clean</b>
+        <p>Caches and logs that regenerate on their own. Verified item by item on your macOS version.</p>
       </div>
       <div class="light">
-        <b><span class="dot" style="background:var(--yellow)"></span> Giallo — attenzione</b>
-        <p>Utile ma delicato: l'app ti guida passo-passo invece di cancellare alla cieca.</p>
+        <b><span class="dot" style="background:var(--yellow)"></span> Yellow — careful</b>
+        <p>Useful but delicate: the app walks you through it step by step instead of blindly deleting.</p>
       </div>
       <div class="light">
-        <b><span class="dot" style="background:var(--red)"></span> Rosso — non toccare</b>
-        <p>Snapshot, backup iPhone, volumi di sistema: spiegati per bene e <b>mai</b> proposti per l'eliminazione.</p>
+        <b><span class="dot" style="background:var(--red)"></span> Red — don't touch</b>
+        <p>Snapshots, iPhone backups, system volumes: clearly explained and <b>never</b> offered for deletion.</p>
       </div>
     </div>
     <div class="grid">
-      <div class="card" style="border-color:rgba(191,90,242,.45)"><span class="ico" style="color:#bf5af2">✦</span><h3>AI che spiega, non decide</h3><p>Ogni voce ha il suo tasto AI: ti racconta cosa contiene la cartella e perché ha quel colore, nella tua lingua. Il verdetto resta sempre delle regole — l'AI non può cambiarlo mai.</p></div>
-      <div class="card"><span class="ico">🗑️</span><h3>Trash-first, sempre</h3><p>Nessuna cancellazione diretta: tutto passa dal Cestino, con il Put Back garantito dal nostro manifest (quello di macOS è notoriamente inaffidabile).</p></div>
-      <div class="card"><span class="ico">↩️</span><h3>Annulla vero</h3><p>Manifest interno di undo: ripristino nella posizione originale anche dopo aver svuotato, con gestione delle collisioni.</p></div>
-      <div class="card"><span class="ico">🔒</span><h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload dei tuoi file. L'AI riceve solo nome e percorso della voce — mai il contenuto dei file.</p></div>
-      <div class="card"><span class="ico">📏</span><h3>Matematica dello spazio</h3><p>Perché “256 GB” diventano 245, cos'è lo spazio purgeable, quanto è davvero libero: spiegato senza gergo.</p></div>
-      <div class="card"><span class="ico">🌍</span><h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — comprese le analisi AI.</p></div>
+      <div class="card" style="border-color:rgba(191,90,242,.45)"><span class="ico" style="color:#bf5af2">✦</span><h3>AI that explains, never decides</h3><p>Every item has its AI button: it tells you what the folder contains and why it has that color, in your language. The verdict always stays with the rules — the AI can never change it.</p></div>
+      <div class="card"><span class="ico">🗑️</span><h3>Trash-first, always</h3><p>No direct deletion: everything goes to the Trash, with Put Back guaranteed by our own manifest (macOS's is notoriously unreliable).</p></div>
+      <div class="card"><span class="ico">↩️</span><h3>Real undo</h3><p>An internal undo manifest: restore to the original location even after emptying, with collision handling.</p></div>
+      <div class="card"><span class="ico">🔒</span><h3>Total privacy</h3><p>No telemetry, no analytics, no uploads of your files. The optional AI only receives the item's name and path — never file contents.</p></div>
+      <div class="card"><span class="ico">📏</span><h3>The math of space</h3><p>Why a “512 GB” drive shows 494, what purgeable space is, how much is really free: explained without jargon.</p></div>
+      <div class="card"><span class="ico">🌍</span><h3>Three complete languages</h3><p>Interface, explanations and knowledge base entirely in English, Italian and Spanish — AI analyses included.</p></div>
     </div>
   </div>
 </section>
 
 <section id="faq">
   <div class="wrap">
-    <h2>Domande frequenti</h2>
-    <p class="lede">Le cose che chiunque chiederebbe prima di fidarsi.</p>
-    <details open><summary>È sicuro? Può rompere il mio Mac?</summary>
-      <p>Il semaforo rosso copre tutto ciò che è vitale (snapshot, backup, volumi di sistema) e viene rifiutato a livello di codice: anche selezionandolo, l'eliminazione parte. Tutto il resto passa dal Cestino con Annulla.</p></details>
-    <details><summary>Cosa sono le “richieste AI incluse”?</summary>
-      <p>L'acquisto include un tetto di analisi AI gratuite, conteggiate per la tua licenza. Quando finiscono, l'app continua a funzionare al 100% — puoi aggiungere la tua chiave API per continuare le analisi AI.</p></details>
-    <details><summary>Vedete i miei file?</summary>
-      <p>No. Nessuna telemetria, nessun upload. L'AI opzionale riceve solo il nome e il percorso della voce con il verdetto già deciso — mai il contenuto dei file.</p></details>
-    <details><summary>Funziona sul mio Mac?</summary>
-      <p>macOS 13 o superiore, Apple Silicon e Intel. L'app richiede l'Accesso completo al disco per leggere le dimensioni reali dei dati di sistema — te lo chiede con una guida, e puoi anche usarlo senza concedendolo.</p></details>
+    <h2>Frequently asked questions</h2>
+    <p class="lede">The things anyone would ask before trusting an app like this.</p>
+    <details open><summary>Is it safe? Can it break my Mac?</summary>
+      <p>The red traffic light covers everything vital (snapshots, backups, system volumes) and is rejected at the code level: even if you select it, deletion won't start. Everything else goes to the Trash with Undo.</p></details>
+    <details><summary>What are the “included AI requests”?</summary>
+      <p>The purchase includes a cap of free AI analyses, counted for your license. When they run out, the app keeps working 100% — you can add your own API key to continue the AI analyses.</p></details>
+    <details><summary>Do you see my files?</summary>
+      <p>No. No telemetry, no uploads. The optional AI only receives the item's name and path with its verdict already decided — never file contents.</p></details>
+    <details><summary>Will it work on my Mac?</summary>
+      <p>macOS 13 or later, Apple Silicon and Intel. The app asks for Full Disk Access to measure the real size of system data — with a step-by-step guide, and you can also use it without granting it.</p></details>
   </div>
 </section>
 
-<section id="prezzi">
+<section id="pricing">
   <div class="wrap">
     <div class="cta">
-      <h2>Torna a padrone del tuo disco</h2>
-      <p class="lede" style="margin-bottom:26px">Una licenza, un acquisto solo. Include il tetto di analisi AI gratuite.</p>
-      <div class="price">€ 19 <small>/ una volta · aggiornamenti inclusi</small></div>
+      <h2>Take back your disk</h2>
+      <p class="lede" style="margin-bottom:26px">One license, one purchase. Includes the cap of free AI analyses.</p>
+      <div class="price">€ 8 <small>/ one-time · updates included</small></div>
       <div class="ctas">
-        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — € 19</a>
-        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Scarica e prova</a>
+        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Buy — € 8</a>
+        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Download &amp; try</a>
       </div>
-      <p style="margin-top:16px;font-size:13px;color:var(--muted)">macOS 13+ · Apple Silicon · Firmata e notarizzata Apple: si apre con un doppio click</p>
+      <p style="margin-top:16px;font-size:13px;color:var(--muted)">macOS 13+ · Apple Silicon · Apple-signed and notarized: it opens with a double click</p>
     </div>
   </div>
 </section>
@@ -261,7 +271,7 @@
 <footer>
   <div class="wrap">
     <b style="color:var(--text)">Clean system data</b> — System Data, translated.<br>
-    Fatto con cura per Mac · IT · EN · ES · <a style="color:var(--muted)" href="#">Privacy</a> · <a style="color:var(--muted)" href="#">Contatti</a>
+    Made with care for Mac · <a style="color:var(--muted)" href="#">Privacy</a> · <a style="color:var(--muted)" href="#">Contact</a>
   </div>
 </footer>
 

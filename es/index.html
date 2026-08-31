@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean system data — abre la caja negra de "Datos del sistema" en tu Mac</title>
+<meta name="description" content="Descubre qué contienen de verdad los Datos del sistema de macOS: semáforo determinista, borrado seguro con deshacer, privacidad total. Español · English · Italiano.">
+<link rel="alternate" hreflang="en" href="https://cleansystemdata.site/">
+<link rel="alternate" hreflang="it" href="https://cleansystemdata.site/it/">
+<link rel="alternate" hreflang="es" href="https://cleansystemdata.site/es/">
+<link rel="icon" type="image/png" href="../assets/icon-256.png">
+<link rel="apple-touch-icon" href="../assets/icon-256.png">
+<style>
+  :root{
+    --bg:#0b0d10; --bg2:#12151a; --card:#161a20; --line:#242a33;
+    --text:#e8ebef; --muted:#9aa3ad;
+    --green:#34c759; --yellow:#ffd60a; --red:#ff453a;
+    --accent:#4da3ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+    color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* ── nav ── */
+  nav{position:sticky;top:0;backdrop-filter:blur(20px);background:rgba(11,13,16,.72);
+      border-bottom:1px solid var(--line);z-index:10}
+  nav .wrap{display:flex;align-items:center;gap:28px;height:60px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--text)}
+  .logo .dots{display:flex;flex-direction:column;gap:3px}
+  .logo .dots span{width:22px;height:6px;border-radius:3px;display:block}
+  nav a.navlink{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a.navlink:hover{color:var(--text)}
+  .langswitch{margin-left:auto;display:flex;gap:10px;font-size:13px}
+  .langswitch a{color:var(--muted);text-decoration:none;padding:2px 4px}
+  .langswitch a:hover{color:var(--text)}
+  .langswitch a.on{color:var(--text);font-weight:700;border-bottom:2px solid var(--accent)}
+  .nav-cta{background:var(--accent);color:#04101f!important;padding:8px 16px;
+           border-radius:999px;text-decoration:none;font-weight:600;font-size:14px}
+  /* ── hero ── */
+  header{padding:88px 0 56px;text-align:center;
+         background:radial-gradient(60% 55% at 50% 0%,rgba(77,163,255,.14),transparent)}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+        font-size:13px;color:var(--muted);margin-bottom:22px}
+  h1{font-size:clamp(34px,5.5vw,58px);line-height:1.08;letter-spacing:-.02em;font-weight:800}
+  h1 .grad{background:linear-gradient(92deg,#34c759,#ffd60a 55%,#ff453a);
+           -webkit-background-clip:text;background-clip:text;color:transparent}
+  header p.sub{max-width:640px;margin:22px auto 0;color:var(--muted);font-size:18px}
+  .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:13px 26px;border-radius:14px;text-decoration:none;font-weight:700;font-size:16px}
+  .btn.primary{background:var(--accent);color:#04101f}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  .langs{margin-top:18px;font-size:13px;color:var(--muted)}
+  /* ── shot ── */
+  .shot{margin:26px auto 0;max-width:920px;border:1px solid var(--line);border-radius:18px;
+        overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .shot img{display:block;width:100%;height:auto}
+  .caption{margin-top:12px;font-size:13px;color:var(--muted);text-align:center}
+  /* ── sections ── */
+  section{padding:72px 0}
+  h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em;text-align:center;margin-bottom:10px}
+  .lede{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 44px}
+  /* semáforo demo */
+  .lights{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+  .light{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;width:290px}
+  .light b{display:flex;align-items:center;gap:10px}
+  .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
+  .light p{color:var(--muted);font-size:14px;margin-top:8px}
+  /* features */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .card h3{font-size:17px;margin:10px 0 6px}
+  .card p{color:var(--muted);font-size:14.5px}
+  .card .ico{font-size:26px}
+  /* steps */
+  .steps{max-width:720px;margin:0 auto;counter-reset:step}
+  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:none}
+  .step::before{counter-increment:step;content:counter(step);
+    width:38px;height:38px;flex:0 0 auto;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:var(--accent);color:#04101f;font-weight:800}
+  .step div b{display:block}
+  .step div span{color:var(--muted);font-size:14.5px}
+  /* faq */
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px;max-width:760px;margin-inline:auto}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--muted);margin-top:10px;font-size:14.5px}
+  /* ── sección IA ── */
+  .ai-demo{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:960px;margin:0 auto}
+  @media (max-width:860px){.ai-demo{grid-template-columns:1fr}}
+  .ai-card{background:var(--card);border:1px solid rgba(191,90,242,.38);border-radius:18px;padding:24px;
+           box-shadow:0 18px 60px rgba(191,90,242,.10)}
+  .ai-head{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  .ai-head .spark{color:#bf5af2;font-size:17px}
+  .ai-head .tag{border:1px solid rgba(191,90,242,.5);color:#d9a5f7;border-radius:999px;padding:1px 9px;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .ai-head .meta{margin-left:auto;font-size:12px;opacity:.75}
+  .ai-card h4{font-size:17px;margin-bottom:8px}
+  .ai-card p{color:var(--muted);font-size:14.5px}
+  .caveats{margin:12px 0 0 18px;color:var(--muted);font-size:13px}
+  .caveats li{margin-bottom:4px}
+  .sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted)}
+  .sources a{color:#8ab9ff;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+  .ai-points{display:flex;flex-direction:column;gap:12px}
+  .ai-point{display:flex;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
+  .ai-point>span{font-size:21px}
+  .ai-point b{display:block;font-size:14.5px}
+  .ai-point span:not(:first-child){color:var(--muted);font-size:13.5px}
+  /* cta */
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:52px 32px;text-align:center}
+  .price{font-size:44px;font-weight:800;letter-spacing:-.02em}
+  .price small{font-size:16px;color:var(--muted);font-weight:500}
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13.5px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="/es/">
+      <span class="dots"><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span><span style="background:var(--red)"></span></span>
+      Clean system data
+    </a>
+    <a class="navlink" href="#como">Cómo funciona</a>
+    <a class="navlink" href="#ia">IA</a>
+    <a class="navlink" href="#seguro">Seguridad</a>
+    <a class="navlink" href="#faq">FAQ</a>
+    <span class="langswitch">
+      <a href="/">EN</a><a href="/it/">IT</a><a href="/es/" class="on">ES</a>
+    </span>
+    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Descargar</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="pill">Para Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
+    <h1>Abre la caja negra de<br><span class="grad">“Datos del sistema”</span></h1>
+    <p class="sub">macOS solo te dice “Datos del sistema: 40 GB”. Clean system data te muestra
+       <b>qué hay en realidad</b>, elemento por elemento, con un semáforo determinista que te dice qué
+       puedes limpiar con tranquilidad — y una <b>IA que te explica cada elemento</b> en tu idioma, con fuentes,
+       costes y tiempos transparentes.</p>
+    <div class="ctas">
+      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Descargar para Mac — configuración gratis</a>
+      <a class="btn ghost" href="#ia">Ver la IA en acción</a>
+    </div>
+    <div class="langs">🤖 250 análisis de IA incluidos con la licencia · Interfaz 🇪🇸 🇬🇧 🇮🇹</div>
+
+    <figure class="shot">
+      <img src="../assets/stratigrafia.png" alt="La Estratigrafía: las capas de los datos del sistema con semáforo verde, amarillo y rojo">
+      <figcaption>La <b>Estratigrafía</b>: tus datos del sistema como una muestra geológica — cada capa es una categoría.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section id="como">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <p class="lede">Tres pasos. Sin ajustes técnicos, sin terminal.</p>
+    <div class="steps">
+      <div class="step"><div><b>Escanea</b><span>Inventario de cachés, logs, snapshots, builds de desarrollo, copias de seguridad y más — medido en tu disco, no estimado.</span></div></div>
+      <div class="step"><div><b>Entiende</b><span>Cada elemento tiene un semáforo decidido por reglas deterministas y una explicación clara en tu idioma, elemento por elemento (opcional: análisis con IA).</span></div></div>
+      <div class="step"><div><b>A la papelera — y repiensa</b><span>Nada se borra directamente: todo va a la Papelera con <b>Deshacer</b> siempre disponible, mediante un manifiesto interno.</span></div></div>
+    </div>
+    <figure class="shot">
+      <img src="../assets/item-detail.png" alt="Detalle de un elemento: semáforo rojo No tocar, botón de IA, pie trash-first">
+      <figcaption>Cada elemento tiene su veredicto y su botón de IA. El rojo <b>no se puede limpiar</b> — y nunca se borra nada directamente.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="ia" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>La IA que te explica <span style="color:#bf5af2">✦</span></h2>
+    <p class="lede">Un botón de IA en cada elemento: el análisis artificial te cuenta <b>qué contiene esa
+       carpeta y por qué tiene ese semáforo</b> — en español sencillo, con coste y duración a la vista.
+       Y una regla absoluta: <b>la IA explica, nunca decide</b>. El semáforo lo ponen las reglas.</p>
+
+    <div class="ai-demo">
+      <div class="ai-card">
+        <div class="ai-head">
+          <span class="spark">✦</span> Análisis IA
+          <span class="tag">cloud</span>
+          <span class="meta">$0.0004 · 2,1 s</span>
+        </div>
+        <h4>La caché de Safari — por qué está en verde</h4>
+        <p>Esta carpeta es el “trastero” del navegador: guarda copias de las páginas que has visitado
+           para abrirlas más rápido. Se reconstruye sola cada vez que hace falta, así que vaciarla
+           no te hace perder nada importante — solo recuperas espacio.</p>
+        <ul class="caveats">
+          <li>Suposición sin verificar: en versiones beta de macOS esta caché puede crecer más de lo previsto.</li>
+        </ul>
+        <div class="sources">
+          <span>Fuentes web:</span>
+          <a href="#">support.apple.com</a>
+          <a href="#">apple.stackexchange.com</a>
+        </div>
+      </div>
+      <div class="ai-points">
+        <div class="ai-point"><span>🌐</span><div><b>Búsqueda web opcional</b><span>Con una petición de búsqueda la IA consulta fuentes reales y te las cita — perfecta para los elementos desconocidos.</span></div></div>
+        <div class="ai-point"><span>💬</span><div><b>En tu idioma</b><span>Explicaciones en español, inglés o italiano, siempre coherentes con el semáforo del elemento.</span></div></div>
+        <div class="ai-point"><span>🎁</span><div><b>250 análisis incluidos</b><span>Con la licencia: ninguna clave que configurar. Después puedes continuar con tu propia clave API (BYOK).</span></div></div>
+        <div class="ai-point"><span>⚡</span><div><b>Hasta 10 en paralelo</b><span>El análisis por lotes examina toda la selección a la vez — 9 elementos en unos 30 segundos.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="seguro">
+  <div class="wrap">
+    <h2>Un semáforo, cero ansiedad</h2>
+    <p class="lede">El veredicto no es una inteligencia artificial que "piensa": es un conjunto de reglas deterministas y transparentes.</p>
+    <div class="lights">
+      <div class="light">
+        <b><span class="dot" style="background:var(--green)"></span> Verde — se puede limpiar</b>
+        <p>Cachés y logs que se regeneran solos. Verificados elemento por elemento en tu versión de macOS.</p>
+      </div>
+      <div class="light">
+        <b><span class="dot" style="background:var(--yellow)"></span> Amarillo — cuidado</b>
+        <p>Útil pero delicado: la app te guía paso a paso en lugar de borrar a ciegas.</p>
+      </div>
+      <div class="light">
+        <b><span class="dot" style="background:var(--red)"></span> Rojo — no tocar</b>
+        <p>Snapshots, copias de seguridad del iPhone, volúmenes del sistema: bien explicados y <b>nunca</b> propuestos para borrar.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card" style="border-color:rgba(191,90,242,.45)"><span class="ico" style="color:#bf5af2">✦</span><h3>IA que explica, no decide</h3><p>Cada elemento tiene su botón de IA: te cuenta qué contiene la carpeta y por qué tiene ese color, en tu idioma. El veredicto siempre lo mantienen las reglas — la IA no puede cambiarlo jamás.</p></div>
+      <div class="card"><span class="ico">🗑️</span><h3>Papelera primero, siempre</h3><p>Ningún borrado directo: todo pasa por la Papelera, con el Put Back garantizado por nuestro manifiesto (el de macOS es conocido por ser poco fiable).</p></div>
+      <div class="card"><span class="ico">↩️</span><h3>Deshacer de verdad</h3><p>Manifiesto interno de undo: restauración en la posición original incluso después de vaciar, con gestión de colisiones.</p></div>
+      <div class="card"><span class="ico">🔒</span><h3>Privacidad total</h3><p>Sin telemetría, sin analytics, sin subir tus archivos. La IA opcional solo recibe el nombre y la ruta del elemento — nunca el contenido de los archivos.</p></div>
+      <div class="card"><span class="ico">📏</span><h3>La matemática del espacio</h3><p>Por qué un disco de “512 GB” muestra 494, qué es el espacio purgable, cuánto libre hay de verdad: explicado sin jerga.</p></div>
+      <div class="card"><span class="ico">🌍</span><h3>Tres idiomas completos</h3><p>Interfaz, explicaciones y base de conocimiento enteramente en español, inglés e italiano — incluidos los análisis de IA.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <p class="lede">Lo que cualquiera preguntaría antes de confiar.</p>
+    <details open><summary>¿Es seguro? ¿Puede estropear mi Mac?</summary>
+      <p>El semáforo rojo cubre todo lo vital (snapshots, copias de seguridad, volúmenes del sistema) y se rechaza a nivel de código: aunque lo selecciones, el borrado no se inicia. Todo lo demás va a la Papelera con Deshacer.</p></details>
+    <details><summary>¿Qué son las “peticiones de IA incluidas”?</summary>
+      <p>La compra incluye un límite de análisis de IA gratuitos, contabilizados para tu licencia. Cuando se agotan, la app sigue funcionando al 100% — puedes añadir tu propia clave API para continuar con los análisis.</p></details>
+    <details><summary>¿Veis mis archivos?</summary>
+      <p>No. Sin telemetría, sin subidas. La IA opcional solo recibe el nombre y la ruta del elemento con el veredicto ya decidido — nunca el contenido de los archivos.</p></details>
+    <details><summary>¿Funciona en mi Mac?</summary>
+      <p>macOS 13 o superior, Apple Silicon e Intel. La app pide el Acceso total al disco para medir el tamaño real de los datos del sistema — te lo pide con una guía, y también puedes usarla sin concederlo.</p></details>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Vuelve a ser dueño de tu disco</h2>
+      <p class="lede" style="margin-bottom:26px">Una licencia, una sola compra. Incluye el límite de análisis de IA gratuitos.</p>
+      <div class="price">€ 8 <small>/ una vez · actualizaciones incluidas</small></div>
+      <div class="ctas">
+        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Comprar — € 8</a>
+        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.1.dmg">Descargar y probar</a>
+      </div>
+      <p style="margin-top:16px;font-size:13px;color:var(--muted)">macOS 13+ · Apple Silicon · Firmada y notarizada por Apple: se abre con doble clic</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--text)">Clean system data</b> — System Data, translated.<br>
+    Hecho con cariño para Mac · <a style="color:var(--muted)" href="#">Privacidad</a> · <a style="color:var(--muted)" href="#">Contacto</a>
+  </div>
+</footer>
+
+</body>
+</html>
