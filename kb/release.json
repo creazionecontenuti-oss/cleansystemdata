@@ -1,0 +1,1333 @@
+{
+  "schemaVersion": 1,
+  "kbVersion": "1.0.0",
+  "changelog": "v1.0.0 — Trilingual baseline (en/it/es): 37 rules covering dossier §6.1 (33 entries) plus Parte 2 resolutions (MobileSync red, Mail Downloads yellow, Homebrew, Docker).",
+  "entries": [
+    {
+      "id": "apple.macos.caches-user",
+      "pattern": "~/Library/Caches/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "User cache",
+        "it": "Cache utente",
+        "es": "Caché de usuario"
+      },
+      "explanationTemplate": {
+        "en": "An app's cache: temporary copies of data (web pages, thumbnails, resources) that speed up its work. Deleting it never touches your documents: the app rebuilds the cache as needed. {SNAPSHOT_NOTE}",
+        "it": "Cache di un'app: copie temporanee di dati (pagine web, miniature, risorse) che servono ad accelerare il suo funzionamento. Cancellarla non tocca i tuoi documenti: l'app ricrea la cache quando serve. {SNAPSHOT_NOTE}",
+        "es": "La caché de una app: copias temporales de datos (páginas web, miniaturas, recursos) que aceleran su funcionamiento. Borrarla no toca tus documentos: la app la reconstruye cuando hace falta. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None. The app's first launch afterwards may be slower while the cache rebuilds.",
+        "it": "Nessuno. Il primo avvio successivo può essere più lento mentre la cache si ricostruisce.",
+        "es": "Ninguno. El primer uso tras borrarla puede ser más lento mientras se reconstruye."
+      },
+      "source": "Dossier Parte 1 §1.3, §6.1 (voce 1)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "homebrew.cache",
+      "pattern": "~/Library/Caches/Homebrew/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Homebrew cache",
+        "it": "Cache di Homebrew",
+        "es": "Caché de Homebrew"
+      },
+      "explanationTemplate": {
+        "en": "Packages and bottles downloaded by the Homebrew package manager. They are only needed during installation: brew re-downloads them on the next command if required. {SNAPSHOT_NOTE}",
+        "it": "Pacchetti e bottiglie scaricate dal gestore di pacchetti Homebrew. Servono solo durante l'installazione: brew li riscarica al prossimo comando se servono. {SNAPSHOT_NOTE}",
+        "es": "Paquetes y botellas descargados por el gestor Homebrew. Solo sirven durante la instalación: brew los vuelve a bajar en el próximo comando si hacen falta. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: re-downloaded at the next brew install/upgrade.",
+        "it": "Nessuno: ri-download al prossimo brew install/upgrade.",
+        "es": "Ninguno: se vuelven a bajar en el próximo brew install/upgrade."
+      },
+      "source": "Dossier Parte 2 B (record homebrew.cache)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.spm.cache",
+      "pattern": "~/Library/Caches/org.swift.swiftpm/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Swift Package Manager cache",
+        "it": "Cache Swift Package Manager",
+        "es": "Caché de Swift Package Manager"
+      },
+      "explanationTemplate": {
+        "en": "Dependencies and compiled packages fetched by Swift Package Manager. Xcode re-downloads and recompiles them on the next build. {SNAPSHOT_NOTE}",
+        "it": "Dipendenze e pacchetti compilati da Swift Package Manager. Xcode le riscarica e ricompila al prossimo build. {SNAPSHOT_NOTE}",
+        "es": "Dependencias y paquetes compilados por Swift Package Manager. Xcode los vuelve a descargar y compilar en el próximo build. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: re-downloaded; the next first build will be slower.",
+        "it": "Nessuno: riscaricabili; il primo build successivo sarà più lento.",
+        "es": "Ninguno: se vuelven a descargar; la primera compilación será más lenta."
+      },
+      "source": "Dossier Parte 1 §1.14 (voce 28)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.caches-system",
+      "pattern": "/Library/Caches/*",
+      "category": "systemCache",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "System cache",
+        "it": "Cache di sistema",
+        "es": "Caché del sistema"
+      },
+      "explanationTemplate": {
+        "en": "Caches created by system processes and apps for all users. In principle they regenerate, but some entries are used by components that may rebuild slowly or only in part. {SNAPSHOT_NOTE}",
+        "it": "Cache create da processi di sistema e da app per tutti gli utenti. In linea di principio si rigenerano, ma alcune voci sono usate da componenti che potrebbero ricostruirle lentamente o solo in parte. {SNAPSHOT_NOTE}",
+        "es": "Cachés creadas por procesos del sistema y apps para todos los usuarios. En principio se regeneran, pero algunas son usadas por componentes que pueden reconstruirlas lenta o parcialmente. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "Medium: rebuilding is almost always possible but can be slow; check item by item.",
+        "it": "Medio: ricreazione quasi sempre possibile, ma con costi di tempo; verificare voce per voce.",
+        "es": "Medio: la reconstrucción casi siempre es posible pero puede ser lenta; verifica elemento por elemento."
+      },
+      "source": "Dossier Parte 1 §1.3, §6.1 (voce 2)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.caches-os",
+      "pattern": "/System/Library/Caches/**",
+      "category": "systemVolume",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "Operating system cache (sealed volume)",
+        "it": "Cache del sistema operativo (volume sigillato)",
+        "es": "Caché del sistema operativo (volumen sellado)"
+      },
+      "explanationTemplate": {
+        "en": "OS cache on the sealed system volume: protected by SIP, it can be neither read nor modified. It is not space you can recover: it is part of macOS's constant weight.",
+        "it": "Cache del sistema sul volume sigillato: protetta da SIP, non è né leggibile né modificabile. Non è spazio che puoi recuperare: fa parte del peso costante di macOS.",
+        "es": "Caché del SO en el volumen del sistema sellado: protegida por SIP, no se puede leer ni modificar. No es espacio que puedas recuperar: forma parte del peso constante de macOS."
+      },
+      "riskIfDeleted": {
+        "en": "Not applicable: out of reach by construction (SIP).",
+        "it": "Non applicabile: fuori portata per costruzione (SIP).",
+        "es": "No aplicable: fuera de alcance por diseño (SIP)."
+      },
+      "source": "Dossier Parte 1 §1.3, §6.1 (voce 3)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.snapshots.tm",
+      "pattern": "sdt://snapshot/tm/*",
+      "category": "snapshots",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Time Machine local snapshot",
+        "it": "Snapshot locale di Time Machine",
+        "es": "Instantánea local de Time Machine"
+      },
+      "explanationTemplate": {
+        "en": "A disk snapshot taken by Time Machine (about every hour when the backup disk is not connected). Files you delete stay on disk as long as this snapshot lives: it is the main cause of the \"I deleted but got no space\" feeling. It expires on its own within ~24 hours; with the direct version you can delete it right away with administrator privileges.",
+        "it": "Fotografia del disco creata da Time Machine (circa ogni ora quando il disco di backup non è collegato). I file che cancelli restano occupati finché questo snapshot vive: è la causa principale del 'ho cancellato ma non ho spazio'. Scade da solo in ~24 ore; con la versione diretta puoi eliminarlo subito con privilegi amministratore.",
+        "es": "Una foto del disco que crea Time Machine (aprox. cada hora cuando el disco de copia no está conectado). Los archivos borrados siguen ocupando espacio mientras esta instantánea viva: es la causa principal del 'borré y no gané espacio'. Caduca sola en ~24 h; con la versión directa puedes eliminarla al instante con privilegios de administrador."
+      },
+      "riskIfDeleted": {
+        "en": "Deleting the newest snapshot forces Time Machine into a deep scan at the next backup. You would also lose the restore point at this exact hour.",
+        "it": "Eliminare lo snapshot più recente costringe Time Machine a un deep scan al prossimo backup. Perderesti anche il ripristino a quest'ora esatta.",
+        "es": "Eliminar la instantánea más reciente obliga a Time Machine a un escaneo profundo en el próximo backup. También perderías el punto de restauración de esta hora exacta."
+      },
+      "source": "Dossier Parte 1 §1.1, §2.2 (Eclectic Light, Apple man tmutil)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.snapshots.preupdate",
+      "pattern": "sdt://snapshot/preupdate/*",
+      "category": "snapshots",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "macOS pre-update snapshot",
+        "it": "Snapshot pre-aggiornamento di macOS",
+        "es": "Instantánea previa a la actualización de macOS"
+      },
+      "explanationTemplate": {
+        "en": "A snapshot created by the macOS installer before an update: it is your rollback path if the update goes wrong. Apple manages it and removes it when no longer needed.",
+        "it": "Snapshot creato dall'installer di macOS prima di un aggiornamento: è la tua via di rollback se l'aggiornamento va male. Apple lo gestisce e lo elimina quando non serve più.",
+        "es": "Instantánea creada por el instalador de macOS antes de una actualización: es tu vía de retroceso si la actualización falla. Apple la gestiona y la elimina cuando ya no hace falta."
+      },
+      "riskIfDeleted": {
+        "en": "High: deleting it right after an update removes your way back.",
+        "it": "Alto: eliminarla subito dopo un aggiornamento elimina la via di ritorno.",
+        "es": "Alto: eliminarla justo tras una actualización quita la vía de regreso."
+      },
+      "source": "Dossier Parte 1 §1.1, §4.4",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.snapshots.thirdparty",
+      "pattern": "sdt://snapshot/thirdparty/*",
+      "category": "snapshots",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Third-party backup snapshot",
+        "it": "Snapshot di un'app di backup di terze parti",
+        "es": "Instantánea de una app de backup de terceros"
+      },
+      "explanationTemplate": {
+        "en": "A snapshot created by a backup app (e.g. Carbon Copy Cloner). It is NOT purgeable: macOS will never remove it on its own, and only the app that created it can delete it correctly. The right action is to manage it from the owning app.",
+        "it": "Snapshot creato da un'app di backup (es. Carbon Copy Cloner). NON è purgeable: macOS non lo eliminerà mai da solo, e solo l'app che l'ha creato può cancellarlo correttamente. L'azione giusta è gestirlo dall'app proprietaria.",
+        "es": "Instantánea creada por una app de backup (p. ej. Carbon Copy Cloner). NO es purgable: macOS jamás la borrará por su cuenta y solo la app que la creó puede eliminarla correctamente. Lo correcto es gestionarla desde la app propietaria."
+      },
+      "riskIfDeleted": {
+        "en": "The backup app will lose its reference: always use the owning app to delete it.",
+        "it": "L'app di backup perderà il riferimento: usa sempre l'app proprietaria per eliminarlo.",
+        "es": "La app de backup perderá la referencia: usa siempre la app propietaria para borrarla."
+      },
+      "source": "Dossier Parte 1 §1.2, §2.2 (DaisyDisk Hidden Space)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.purgeable",
+      "pattern": "sdt://purgeable",
+      "category": "purgeable",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Purgeable space",
+        "it": "Spazio purgeable",
+        "es": "Espeso purgable"
+      },
+      "explanationTemplate": {
+        "en": "Space macOS has committed to free 'when needed': CacheDelete-managed caches, expiring snapshots, evicted iCloud files. It is not in any scannable area — not even with elevated permissions — so there are no 'files' to delete: the system reclaims it by itself under storage pressure.",
+        "it": "Spazio che macOS si impegna a liberare 'quando serve': cache gestite da CacheDelete, snapshot in scadenza, file iCloud sfrattati. Non è in nessuna area scansionabile — nemmeno con permessi elevati — quindi non esistono 'file' da cancellare: il sistema lo recupera da solo sotto pressione di spazio.",
+        "es": "Espacio que macOS se compromete a liberar 'cuando hace falta': cachés de CacheDelete, instantáneas por caducar, archivos iCloud expulsados. No está en ninguna zona escaneable — ni con permisos elevados — así que no hay 'archivos' que borrar: el sistema lo recupera solo bajo presión de espacio."
+      },
+      "riskIfDeleted": {
+        "en": "Not applicable: it cannot be deleted by hand; macOS manages it (forcing it can take minutes and still leaves several GB).",
+        "it": "Non applicabile: non è cancellabile a mano; macOS lo gestisce (una forzatura esterna può richiedere minuti e lascia comunque alcuni GB).",
+        "es": "No aplicable: no se puede borrar a mano; macOS lo gestiona (forzarlo puede tardar minutos y aun así deja varios GB)."
+      },
+      "source": "Dossier Parte 1 §1.11, §2.1–2.2 (DaisyDisk, Apple Developer)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.spotlight",
+      "pattern": "sdt://spotlight",
+      "category": "spotlight",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Spotlight index",
+        "it": "Indice di Spotlight",
+        "es": "Índice de Spotlight"
+      },
+      "explanationTemplate": {
+        "en": "Spotlight's indexing database on the data volume. It rebuilds itself, but a rebuild costs hours of CPU and the Mac may heat up. If its size exceeds ~10 GB there is likely a reindexing anomaly: the documented remedy is mdutil -E (guided in this app; root required).",
+        "it": "Il database di indicizzazione di Spotlight sul volume dati. Si ricrea da solo, ma una ricostruzione costa ore di CPU e il Mac potrebbe scaldarsi. Se la dimensione supera ~10 GB è probabile un'anomalia di reindicizzazione: il rimedio documentato è mdutil -E (guidato in questa app, root richiesto).",
+        "es": "La base de datos de indexación de Spotlight en el volumen de datos. Se reconstruye sola, pero cuesta horas de CPU y el Mac puede calentarse. Si supera ~10 GB es probable una anomalía de reindexación: el remedio documentado es mdutil -E (guiado en esta app; requiere root)."
+      },
+      "riskIfDeleted": {
+        "en": "Low but expensive: hours of reindexing; search stays partial until the index is ready.",
+        "it": "Basso ma costoso: ore di reindicizzazione; la ricerca resta parziale finché l'indice non è pronto.",
+        "es": "Bajo pero costoso: horas de reindexación; la búsqueda queda parcial hasta que el índice esté listo."
+      },
+      "source": "Dossier Parte 1 §1.6, §6.1 (voce 11)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.mobilesync",
+      "pattern": "~/Library/Application Support/MobileSync/Backup/*",
+      "category": "backup",
+      "verdict": "red",
+      "regenerates": false,
+      "title": {
+        "en": "iPhone/iPad local backup",
+        "it": "Backup locale di iPhone/iPad",
+        "es": "Copia local de iPhone/iPad"
+      },
+      "explanationTemplate": {
+        "en": "A full backup of an iOS/iPadOS device. This is USER DATA, not cache: it can be the phone's only local backup. The correct deletion path is Finder (device → Manage Backups), where you choose which backup to delete and see its date.",
+        "it": "Backup completo di un dispositivo iOS/iPadOS. Sono DATI UTENTE, non cache: possono essere l'unico backup locale del telefono. La cancellazione corretta avviene da Finder (dispositivo → Gestisci backup), dove puoi scegliere quale backup eliminare e vederne la data.",
+        "es": "Copia de seguridad completa de un dispositivo iOS/iPadOS. Son DATOS DE USUARIO, no caché: pueden ser la única copia local del teléfono. La forma correcta de borrarla es Finder (dispositivo → Gestionar copias), donde eliges cuál borrar y ves su fecha."
+      },
+      "riskIfDeleted": {
+        "en": "Loss of the device's only local backup: photos, chats and settings not saved elsewhere would be gone.",
+        "it": "Perdita dell'unico backup locale del dispositivo: foto/chat/impostazioni non ancora salvate altrove andrebbero perse.",
+        "es": "Pérdida de la única copia local del dispositivo: fotos, chats y ajustes no guardados en otro sitio se perderían."
+      },
+      "source": "Dossier Parte 2 B — conflitto Parte 1 (🟢) risolto a favore della Parte 2",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.mail.downloads",
+      "pattern": "~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/*",
+      "category": "mail",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Mail opened attachments",
+        "it": "Allegati aperti da Mail",
+        "es": "Adjuntos abiertos de Mail"
+      },
+      "explanationTemplate": {
+        "en": "Copies of attachments you opened from Mail. For IMAP accounts Mail re-downloads them from the server if the message still exists; for local mailboxes (POP3 or 'On My Mac') they may not be recoverable. {SNAPSHOT_NOTE}",
+        "it": "Copie degli allegati che hai aperto da Mail. Per gli account IMAP Mail le riscarica dal server se il messaggio esiste ancora; per mailbox locali (POP3 o 'Sul mio Mac') potrebbero non essere recuperabili. {SNAPSHOT_NOTE}",
+        "es": "Copias de los adjuntos que abriste desde Mail. Con cuentas IMAP Mail los vuelve a bajar del servidor si el mensaje sigue existiendo; en buzones locales (POP3 o 'En mi Mac') podría no haber forma de recuperarlos. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "Attachments of POP3/local accounts might not be re-downloadable: check before proceeding.",
+        "it": "Allegati di account POP3/locali potrebbero non essere riscaricabili: verifica prima di procedere.",
+        "es": "Adjuntos de cuentas POP3/locales podrían no poder volverse a descargar: verifica antes de continuar."
+      },
+      "source": "Dossier Parte 1 §1.15; verdetto allineato alla Parte 2 B",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.mail.imap-cache",
+      "pattern": "~/Library/Mail/V*",
+      "category": "mail",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Mail cache",
+        "it": "Cache della posta",
+        "es": "Caché de correo"
+      },
+      "explanationTemplate": {
+        "en": "Mail's local message cache. For IMAP accounts it re-downloads from the server, but the same tree also holds 'On My Mac' and POP3 mailboxes, which exist ONLY locally. The app cannot tell the two cases apart without analysing the account, so the verdict stays cautious.",
+        "it": "Cache locale dei messaggi Mail. Per account IMAP si riscarica dal server, ma dentro la stessa struttura vivono anche le mailbox 'Sul mio Mac' e POP3, che esistono SOLO in locale. L'app non riesce a distinguere i due casi senza analisi dell'account: il verdetto resta prudenziale.",
+        "es": "Caché local de los mensajes de Mail. Con IMAP se vuelve a bajar del servidor, pero en el mismo árbol viven también los buzones 'En mi Mac' y POP3, que existen SOLO en local. La app no puede distinguir ambos casos sin analizar la cuenta: el veredicto sigue siendo prudente."
+      },
+      "riskIfDeleted": {
+        "en": "Loss of POP3/On-My-Mac mailbox messages. For pure IMAP: re-downloaded from the server.",
+        "it": "Perdita dei messaggi nelle mailbox POP3/Sul-mio-Mac. Per IMAP puro: riscaricamento dal server.",
+        "es": "Pérdida de los mensajes en buzones POP3/En-mi-Mac. Con IMAP puro: se vuelven a bajar del servidor."
+      },
+      "source": "Dossier Parte 1 §1.15, §4.4",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.logs-user",
+      "pattern": "~/Library/Logs/*",
+      "category": "logs",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "User logs",
+        "it": "Log utente",
+        "es": "Registros de usuario"
+      },
+      "explanationTemplate": {
+        "en": "Diagnostic log files written by apps. They only matter for investigating past incidents; the system and apps write new ones all the time. {SNAPSHOT_NOTE}",
+        "it": "File di registro diagnostico delle app. Servono solo per capire incidenti passati; sistemi e app ne scrivono di nuovi di continuo. {SNAPSHOT_NOTE}",
+        "es": "Archivos de registro de diagnóstico escritos por apps. Solo sirven para investigar incidentes pasados; el sistema y las apps escriben otros nuevos constantemente. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: they regenerate.",
+        "it": "Nessuno: si rigenerano.",
+        "es": "Ninguno: se regeneran."
+      },
+      "source": "Dossier Parte 1 §1.7, §6.1 (voce 13)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.logs-system",
+      "pattern": "/Library/Logs/*",
+      "category": "logs",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "System logs",
+        "it": "Log di sistema",
+        "es": "Registros del sistema"
+      },
+      "explanationTemplate": {
+        "en": "System-wide logs. Same nature as user logs: diagnostics, not data. {SNAPSHOT_NOTE}",
+        "it": "Log condivisi a livello di sistema. Come i log utente: diagnostica, non dati. {SNAPSHOT_NOTE}",
+        "es": "Registros compartidos a nivel de sistema. Igual que los de usuario: diagnóstico, no datos. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: they regenerate.",
+        "it": "Nessuno: si rigenerano.",
+        "es": "Ninguno: se regeneran."
+      },
+      "source": "Dossier Parte 1 §1.7, §6.1 (voce 13)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.diagnostics-user",
+      "pattern": "~/Library/Logs/DiagnosticReports/*",
+      "category": "logs",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Crash reports (user)",
+        "it": "Resoconti di crash (utente)",
+        "es": "Informes de fallos (usuario)"
+      },
+      "explanationTemplate": {
+        "en": "Reports of app crashes (.ips). Only useful to whoever analyses that specific crash; safe to delete. {SNAPSHOT_NOTE}",
+        "it": "Report dei crash delle app (.ips). Utili solo per chi analizza quel crash specifico; sono sicuri da cancellare. {SNAPSHOT_NOTE}",
+        "es": "Informes de fallos de apps (.ips). Solo sirven a quien analice ese fallo concreto; se pueden borrar con seguridad. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: they regenerate at the next crash.",
+        "it": "Nessuno: si rigenerano al prossimo crash.",
+        "es": "Ninguno: se regeneran en el próximo fallo."
+      },
+      "source": "Dossier Parte 1 §1.7, §6.1 (voce 14)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.diagnostics-system",
+      "pattern": "/Library/Logs/DiagnosticReports/*",
+      "category": "logs",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Crash reports (system)",
+        "it": "Resoconti di crash (sistema)",
+        "es": "Informes de fallos (sistema)"
+      },
+      "explanationTemplate": {
+        "en": "System-level crash reports: same nature as user ones. {SNAPSHOT_NOTE}",
+        "it": "Report di crash a livello di sistema: stessa natura di quelli utente. {SNAPSHOT_NOTE}",
+        "es": "Informes de fallos a nivel de sistema: misma naturaleza que los de usuario. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: they regenerate.",
+        "it": "Nessuno: si rigenerano.",
+        "es": "Ninguno: se regeneran."
+      },
+      "source": "Dossier Parte 1 §1.7, §6.1 (voce 14)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.swap",
+      "pattern": "/private/var/vm/swapfile*",
+      "category": "memory",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "Swap files",
+        "it": "File di swap",
+        "es": "Archivos de intercambio"
+      },
+      "explanationTemplate": {
+        "en": "Virtual memory on disk managed by the kernel: when RAM runs out, macOS moves memory pages here. It exists as long as the system runs and resizes itself. Deleting it while the system is live can corrupt sleep state and is useless anyway: the kernel recreates it immediately.",
+        "it": "Memoria virtuale su disco gestita dal kernel: quando la RAM finisce, macOS sposta qui pagine di memoria. Esiste finché il sistema gira; si ridimensiona da solo. Cancellarlo a sistema attivo può corrompere lo stato di riposo ed è comunque inutile: il kernel lo ricrea subito.",
+        "es": "Memoria virtual en disco gestionada por el kernel: cuando la RAM se agota, macOS mueve páginas aquí. Existe mientras el sistema está en marcha y se redimensiona solo. Borrarlo con el sistema activo puede corromper el estado de reposo y además es inútil: el kernel lo recrea de inmediato."
+      },
+      "riskIfDeleted": {
+        "en": "Corruption of sleep/hibernation state; useless because recreated immediately.",
+        "it": "Corruzione dello stato di sleep/ibernazione; inutile perché ricreato immediatamente.",
+        "es": "Corrupción del estado de reposo/hibernación; inútil porque se recrea de inmediato."
+      },
+      "source": "Dossier Parte 1 §1.8, §6.1 (voce 15)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.sleepimage",
+      "pattern": "/private/var/vm/sleepimage",
+      "category": "memory",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "Sleepimage",
+        "it": "Sleepimage",
+        "es": "Sleepimage"
+      },
+      "explanationTemplate": {
+        "en": "A copy of RAM written when the Mac hibernates. It is as large as your installed memory (8–16+ GB) and is kernel-managed: it is recreated at every deep sleep.",
+        "it": "Copia della RAM scritta quando il Mac va in ibernazione. È grande quanto la memoria installata (8–16+ GB) ed è gestita dal kernel: si ricrea a ogni riposo profondo.",
+        "es": "Una copia de la RAM escrita cuando el Mac hiberna. Es tan grande como la memoria instalada (8–16+ GB) y la gestiona el kernel: se recrea en cada reposo profundo."
+      },
+      "riskIfDeleted": {
+        "en": "Corruption of wake-from-hibernation; recreated anyway at the next sleep.",
+        "it": "Corruzione del risveglio dall'ibernazione; ricreato comunque al prossimo sleep.",
+        "es": "Corrupción del despertar de la hibernación; se recrea en el próximo reposo."
+      },
+      "source": "Dossier Parte 1 §1.8, §6.1 (voce 16)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.ai-models",
+      "pattern": "/System/Library/AssetsV2/com_apple_MobileAsset_UAF_FM_*",
+      "category": "aiModels",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "Apple Intelligence models",
+        "it": "Modelli Apple Intelligence",
+        "es": "Modelos de Apple Intelligence"
+      },
+      "explanationTemplate": {
+        "en": "Apple Intelligence's on-device models (~9–12 GB), shipped as SIP-protected system assets. Even turning Apple Intelligence off does not free the space immediately: documented behaviour, not a bug. Deleting them would require disabling system protection: never an option.",
+        "it": "I modelli on-device di Apple Intelligence (~9–12 GB), distribuiti come asset di sistema protetti da SIP. Anche disattivando Apple Intelligence lo spazio non si libera subito: è un comportamento documentato, non un bug. Cancellarli richiederebbe di disabilitare la protezione di sistema: mai una strada.",
+        "es": "Los modelos en el dispositivo de Apple Intelligence (~9–12 GB), distribuidos como activos del sistema protegidos por SIP. Aunque desactives Apple Intelligence, el espacio no se libera de inmediato: es comportamiento documentado, no un fallo. Borrarlos exigiría desactivar la protección del sistema: nunca una opción."
+      },
+      "riskIfDeleted": {
+        "en": "Not applicable: SIP-protected; forcing it would compromise system integrity.",
+        "it": "Non applicabile: protetti da SIP; la forzatura comprometterebbe l'integrità del sistema.",
+        "es": "No aplicable: protegidos por SIP; forzarlo comprometería la integridad del sistema."
+      },
+      "source": "Dossier Parte 1 §1.10, §6.1 (voce 17)",
+      "macosMin": 15,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.installer",
+      "pattern": "/Applications/Install macOS *.app",
+      "category": "installer",
+      "verdict": "green",
+      "regenerates": false,
+      "title": {
+        "en": "macOS installer",
+        "it": "Installer di macOS",
+        "es": "Instalador de macOS"
+      },
+      "explanationTemplate": {
+        "en": "The full installer of a macOS update (12–13 GB), left in Applications after the update. You do not need it anymore: if you ever do, it is re-downloadable from the App Store. {SNAPSHOT_NOTE}",
+        "it": "L'installer completo di un aggiornamento macOS (12–13 GB), rimasto in Applicazioni dopo l'aggiornamento. Non serve più: se mai ti servisse, è riscaricabile dall'App Store. {SNAPSHOT_NOTE}",
+        "es": "El instalador completo de una actualización de macOS (12–13 GB), que queda en Aplicaciones tras actualizar. Ya no hace falta: si algún día sirviera, se vuelve a bajar del App Store. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: re-downloadable from the App Store when needed.",
+        "it": "Nessuno: riscaricabile da App Store quando serve.",
+        "es": "Ninguno: se vuelve a descargar del App Store cuando haga falta."
+      },
+      "source": "Dossier Parte 1 §1.5, §6.1 (voce 18)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.library-updates",
+      "pattern": "/Library/Updates/*",
+      "category": "updates",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Update leftovers",
+        "it": "Residui di aggiornamenti",
+        "es": "Restos de actualizaciones"
+      },
+      "explanationTemplate": {
+        "en": "Payloads of software updates left in /Library/Updates. Some files are partially SIP-protected: safe deletion requires administrator authorization, item by item. {SNAPSHOT_NOTE}",
+        "it": "Payload di aggiornamenti software lasciati in /Library/Updates. Alcuni file sono parzialmente protetti da SIP: la cancellazione sicura va fatta con autorizzazione amministratore, voce per voce. {SNAPSHOT_NOTE}",
+        "es": "Cargas de actualizaciones de software dejadas en /Library/Updates. Algunos archivos están parcialmente protegidos por SIP: el borrado seguro requiere autorización de administrador, elemento por elemento. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "Medium: protected payloads may require privileges; interrupting an ongoing update is harmful.",
+        "it": "Medio: payload protetti possono richiedere privilegi; interrompere un update in corso è dannoso.",
+        "es": "Medio: los payloads protegidos pueden requerir privilegios; interrumpir una actualización en curso es dañino."
+      },
+      "source": "Dossier Parte 1 §1.5, §6.1 (voce 19)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.temp-folders-c",
+      "pattern": "/private/var/folders/*/*/C",
+      "category": "temp",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "System temp files",
+        "it": "Temporanei di sistema",
+        "es": "Temporales del sistema"
+      },
+      "explanationTemplate": {
+        "en": "Per-user temporary files managed by the system (CacheDelete and deleted). Files opened by running processes must not be touched; the verdict stays yellow because apps keep in-flight work here too.",
+        "it": "File temporanei per-utente gestiti dal sistema (CacheDelete e deleted). File aperti da processi attivi non vanno toccati; il verdetto resta giallo perché qui le app tengono anche lavoro in corso d'opera.",
+        "es": "Archivos temporales por usuario gestionados por el sistema (CacheDelete y deleted). No toques archivos abiertos por procesos en ejecución; el veredicto sigue amarillo porque las apps también guardan trabajo en curso aquí."
+      },
+      "riskIfDeleted": {
+        "en": "Medium: an app can lose session data if you delete its open temp files.",
+        "it": "Medio: un'app può perdere dati di sessione se cancelli i suoi file temporanei aperti.",
+        "es": "Medio: una app puede perder datos de sesión si borras sus temporales abiertos."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 20)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.temp-folders-t",
+      "pattern": "/private/var/folders/*/*/T",
+      "category": "temp",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "System temp files",
+        "it": "Temporanei di sistema",
+        "es": "Temporales del sistema"
+      },
+      "explanationTemplate": {
+        "en": "Per-user temporary files managed by the system. Same nature as the cache side: files opened by running processes should be left alone.",
+        "it": "File temporanei per-utente gestiti dal sistema. Stessa natura della cache per-utente: file aperti da processi attivi vanno lasciati stare.",
+        "es": "Archivos temporales por usuario gestionados por el sistema. Igual que la caché por usuario: deja intactos los archivos abiertos por procesos en ejecución."
+      },
+      "riskIfDeleted": {
+        "en": "Medium: session data of running apps.",
+        "it": "Medio: dati di sessione di app in esecuzione.",
+        "es": "Medio: datos de sesión de apps en ejecución."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 20)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.icloud-dataless",
+      "pattern": "~/Library/Mobile Documents/**",
+      "category": "icloud",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "iCloud files (Optimize Mac Storage)",
+        "it": "File iCloud (Ottimizzazione storage)",
+        "es": "Archivos iCloud (Optimizar almacenamiento del Mac)"
+      },
+      "explanationTemplate": {
+        "en": "This holds your iCloud Drive documents, including 'evicted' placeholder files that Optimize Storage keeps off the disk to save space. This is NOT junk: real data lives here. Proper eviction goes through FileProvider APIs only, never by deleting .icloud placeholders.",
+        "it": "Contiene i tuoi documenti iCloud Drive, inclusi i file 'sfrattati' (solo segnaposto) che l'Ottimizzazione storage tiene fuori dal disco per risparmiare spazio. NON sono spazzatura: qui vivono dati veri. L'eviction corretta passa solo dalle API FileProvider, mai dalla cancellazione dei segnaposto .icloud.",
+        "es": "Aquí están tus documentos de iCloud Drive, incluidos los archivos 'expulsados' (solo marcadores) que Optimizar almacenamiento mantiene fuera del disco. NO es basura: aquí viven datos reales. La expulsión correcta pasa solo por las API de FileProvider, nunca borrando los marcadores .icloud."
+      },
+      "riskIfDeleted": {
+        "en": "Loss or desync of iCloud documents: never delete by hand.",
+        "it": "Perdita o disallineamento dei documenti iCloud: non cancellare a mano.",
+        "es": "Pérdida o desajuste de los documentos iCloud: no los borres a mano."
+      },
+      "source": "Dossier Parte 1 §1.12, §6.1 (voce 21)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "docker.raw",
+      "pattern": "~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Docker virtual disk",
+        "it": "Disco virtuale di Docker",
+        "es": "Disco virtual de Docker"
+      },
+      "explanationTemplate": {
+        "en": "Docker Desktop's virtual machine disk file. It is sparse: it grows when you pull images but NEVER shrinks on its own when you delete them inside the VM. Deleting the file would destroy images, volumes and containers. The right fix is Docker Desktop's official reclaim command (guided action).",
+        "it": "Il file disco della macchina virtuale Docker Desktop. È sparse: cresce quando scarichi immagini MA non si restringe mai da solo quando le cancelli dentro la VM. Cancellare il file distruggerebbe immagini, volumi e container. Il rimedio corretto è il comando ufficiale di reclaim di Docker Desktop (azione guidata).",
+        "es": "El archivo de disco de la máquina virtual de Docker Desktop. Es sparse: crece al descargar imágenes pero JAMÁS se encoge solo cuando las borras dentro de la VM. Borrar el archivo destruiría imágenes, volúmenes y contenedores. La solución correcta es el comando oficial de recuperación de Docker Desktop (acción guiada)."
+      },
+      "riskIfDeleted": {
+        "en": "Loss of all Docker images, volumes and containers on the Mac.",
+        "it": "Perdita di tutte le immagini, volumi e container Docker sul Mac.",
+        "es": "Pérdida de todas las imágenes, volúmenes y contenedores de Docker en el Mac."
+      },
+      "source": "Dossier Parte 1 §1.13, §6.1 (voce 22)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.xcode.deriveddata",
+      "pattern": "~/Library/Developer/Xcode/DerivedData/*",
+      "category": "devBuild",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Xcode DerivedData",
+        "it": "DerivedData di Xcode",
+        "es": "DerivedData de Xcode"
+      },
+      "explanationTemplate": {
+        "en": "Xcode's build intermediates and indexes. Xcode recompiles them on the next build: pure cache, among the most honest entries in System Data. {SNAPSHOT_NOTE}",
+        "it": "Intermedi e indici di build di Xcode. Xcode li ricompila al prossimo build: è cache pura, tra le voci più oneste del System Data. {SNAPSHOT_NOTE}",
+        "es": "Intermedios e índices de compilación de Xcode. Xcode los recompila en el próximo build: caché pura, de las entradas más honestas de los Datos del sistema. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: the next first build will be slower.",
+        "it": "Nessuno: prossimo build più lento la prima volta.",
+        "es": "Ninguno: la próxima compilación inicial será más lenta."
+      },
+      "source": "Dossier Parte 1 §1.14, §6.1 (voce 23)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.xcode.devicesupport",
+      "pattern": "~/Library/Developer/Xcode/iOS DeviceSupport/*",
+      "category": "devBuild",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Device support symbols",
+        "it": "Simboli dispositivo (DeviceSupport)",
+        "es": "Símbolos de dispositivo (DeviceSupport)"
+      },
+      "explanationTemplate": {
+        "en": "System symbols extracted from connected iPhones/iPads for debugging. They regenerate by reconnecting the device on the same iOS version. {SNAPSHOT_NOTE}",
+        "it": "Simboli di sistema estratti dagli iPhone/iPad collegati per il debugging. Si rigenerano ricollegando il dispositivo alla stessa versione di iOS. {SNAPSHOT_NOTE}",
+        "es": "Símbolos del sistema extraídos de iPhone/iPad conectados para depurar. Se regeneran al reconectar el dispositivo con la misma versión de iOS. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: recreated at the next device connection.",
+        "it": "Nessuno: ricreati alla prossima connessione del dispositivo.",
+        "es": "Ninguno: se recrean al conectar el dispositivo."
+      },
+      "source": "Dossier Parte 1 §1.14, §6.1 (voce 24)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.xcode.archives",
+      "pattern": "~/Library/Developer/Xcode/Archives/*",
+      "category": "devArchives",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Xcode archives",
+        "it": "Archivi di distribuzione Xcode",
+        "es": "Archivos de distribución de Xcode"
+      },
+      "explanationTemplate": {
+        "en": "The archives of the apps you shipped. They LOOK like build caches but contain the dSYMs needed to symbolicate crashes of published versions: deleting them makes future crash reports of those releases unreadable. Delete only archives of versions you no longer support.",
+        "it": "Gli archivi delle app che hai distribuito. SEMBRANO cache di build ma contengono i dSYM necessari per simbolizzare i crash delle versioni già pubblicate: cancellarli rende illeggibili i futuri report di crash di quelle release. Cancella solo archivi di versioni che non supporti più.",
+        "es": "Los archivos de las apps que has distribuido. PARECEN cachés de compilación pero contienen los dSYM necesarios para simbolizar los fallos de versiones ya publicadas: borrarlos deja ilegibles los futuros informes de fallos de esas versiones. Borra solo archivos de versiones que ya no soportes."
+      },
+      "riskIfDeleted": {
+        "en": "Crash reports of releases whose archives/dSYMs are deleted become unreadable: real loss.",
+        "it": "Impossibile simbolizzare i crash delle release i cui archivi/dSYM vengono cancellati: perdita reale.",
+        "es": "No podrás simbolizar los fallos de las versiones cuyos archivos/dSYM borres: pérdida real."
+      },
+      "source": "Dossier Parte 1 §1.14, §4.4",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.simulator.devices",
+      "pattern": "~/Library/Developer/CoreSimulator/Devices/*",
+      "category": "devSimulators",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Simulator devices",
+        "it": "Dispositivi simulatore",
+        "es": "Dispositivos de simulador"
+      },
+      "explanationTemplate": {
+        "en": "Simulated iOS/watchOS devices created by Xcode. They can be recreated with xcrun simctl or from Xcode. Note: deleting a device deletes the app data installed on that simulator. {SNAPSHOT_NOTE}",
+        "it": "Dispositivi iOS/watchOS simulati creati da Xcode. Si ricreano con xcrun simctl o da Xcode. Attenzione: cancellare un dispositivo ne elimina i dati di app installate nel simulatore. {SNAPSHOT_NOTE}",
+        "es": "Dispositivos iOS/watchOS simulados creados por Xcode. Se recrean con xcrun simctl o desde Xcode. Ojo: borrar un dispositivo elimina los datos de las apps instaladas en él. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "Low: device is recreatable; that simulator's app data is lost.",
+        "it": "Basso: dispositivo ricreabile; dati di app di quel simulatore persi.",
+        "es": "Bajo: el dispositivo se puede recrear; se pierden los datos de apps de ese simulador."
+      },
+      "source": "Dossier Parte 1 §1.14, §6.1 (voce 26)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.simulator.runtimes",
+      "pattern": "/Library/Developer/CoreSimulator/Profiles/Runtimes/*",
+      "category": "devSimulators",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Simulator runtimes",
+        "it": "Runtime di simulatore",
+        "es": "Runtimes de simulador"
+      },
+      "explanationTemplate": {
+        "en": "iOS/watchOS platform runtimes installed for the simulator (5–8 GB each). They are re-downloadable from Xcode → Settings → Platforms, but the download is heavy. {SNAPSHOT_NOTE}",
+        "it": "Piattaforme iOS/watchOS installate per il simulatore (5–8 GB ciascuna). Sono riscaricabili da Xcode → Impostazioni → Piattaforme, ma il download è pesante. {SNAPSHOT_NOTE}",
+        "es": "Plataformas iOS/watchOS instaladas para el simulador (5–8 GB cada una). Se vuelven a bajar desde Xcode → Ajustes → Plataformas, pero la descarga es pesada. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "Low: re-downloadable (5–8 GB download per runtime).",
+        "it": "Basso: riscaricabili (download 5–8 GB per runtime).",
+        "es": "Bajo: se vuelven a descargar (5–8 GB por runtime)."
+      },
+      "source": "Dossier Parte 1 §1.14, §6.1 (voce 27)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.trash",
+      "pattern": "~/.Trash/*",
+      "category": "trash",
+      "verdict": "green",
+      "regenerates": false,
+      "title": {
+        "en": "Trash",
+        "it": "Cestino",
+        "es": "Papelera"
+      },
+      "explanationTemplate": {
+        "en": "Trashed files not yet emptied: they count as System Data until the Trash is emptied (Apple documents this explicitly). Note: on Sequoia and later, emptying the Trash can temporarily INCREASE System Data, because the blocks move into purgeable space before being reclaimed.",
+        "it": "File cestinati non ancora svuotati: contano nel System Data finché il Cestino non viene svuotato (Apple lo documenta esplicitamente). Nota: su Sequoia e successivi svuotare il Cestino può far salire temporaneamente il System Data, perché i blocchi passano nel purgeable prima di essere recuperati.",
+        "es": "Archivos en la papelera aún no vaciada: cuentan como Datos del sistema hasta vaciarla (Apple lo documenta). Ojo: en Sequoia y posteriores, vaciar la papelera puede aumentar temporalmente los Datos del sistema, porque los bloques pasan al espacio purgable antes de recuperarse."
+      },
+      "riskIfDeleted": {
+        "en": "Emptying the Trash is irreversible: check its contents first.",
+        "it": "Svuotare il Cestino è irreversibile: controlla il contenuto prima.",
+        "es": "Vaciar la papelera es irreversible: revisa su contenido antes."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 29); nota Sequoia §2.1",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.macos.downloads-dmg",
+      "pattern": "~/Downloads/*.dmg",
+      "category": "downloads",
+      "verdict": "green",
+      "regenerates": false,
+      "title": {
+        "en": "Downloaded disk image",
+        "it": "Immagine disco scaricata",
+        "es": "Imagen de disco descargada"
+      },
+      "explanationTemplate": {
+        "en": "A .dmg in Downloads: a downloaded installer or image. Once installed you do not need it, and it can be re-downloaded from its source. {SNAPSHOT_NOTE}",
+        "it": "Un .dmg in Download: installer o immagine scaricata. Dopo l'installazione non serve più ed è riscaricabile dalla fonte. {SNAPSHOT_NOTE}",
+        "es": "Un .dmg en Descargas: instalador o imagen descargada. Tras instalar ya no hace falta y se puede volver a bajar de su origen. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None if the app is already installed.",
+        "it": "Nessuno se l'app è già installata.",
+        "es": "Ninguno si la app ya está instalada."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 30)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.downloads-pkg",
+      "pattern": "~/Downloads/*.pkg",
+      "category": "downloads",
+      "verdict": "green",
+      "regenerates": false,
+      "title": {
+        "en": "Downloaded installer package",
+        "it": "Pacchetto di installazione scaricato",
+        "es": "Paquete de instalación descargado"
+      },
+      "explanationTemplate": {
+        "en": "A .pkg in Downloads: an app or component installer. Once installed you do not need it. {SNAPSHOT_NOTE}",
+        "it": "Un .pkg in Download: installer di un'app o componente. Dopo l'installazione non serve più. {SNAPSHOT_NOTE}",
+        "es": "Un .pkg en Descargas: instalador de una app o componente. Tras instalarlo ya no hace falta. {SNAPSHOT_NOTA}"
+      },
+      "riskIfDeleted": {
+        "en": "None: re-downloadable from its source.",
+        "it": "Nessuno: riscaricabile dalla fonte.",
+        "es": "Ninguno: se vuelve a bajar de la fuente."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 30)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.macos.fsevents",
+      "pattern": "/.fseventsd/**",
+      "category": "fsevents",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "FSEvents journal",
+        "it": "Journal FSEvents",
+        "es": "Diario FSEvents"
+      },
+      "explanationTemplate": {
+        "en": "The filesystem event journal on the volume. Deleting it forces a full Time Machine deep scan at the next backup and can confuse processes monitoring the disk. System-managed.",
+        "it": "Il diario degli eventi del filesystem sul volume. Cancellarlo forza un deep scan di Time Machine al prossimo backup e può confondere i processi che monitorano il disco. Gestito dal sistema.",
+        "es": "El diario de eventos del sistema de archivos del volumen. Borrarlo obliga a Time Machine a un escaneo profundo en el próximo backup y puede confundir a los procesos que vigilan el disco. Gestionado por el sistema."
+      },
+      "riskIfDeleted": {
+        "en": "Full Time Machine deep scan at the next backup.",
+        "it": "Deep scan completo di Time Machine al backup successivo.",
+        "es": "Escaneo profundo completo de Time Machine en el próximo backup."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 31)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.documentrevisions",
+      "pattern": "/.DocumentRevisions-V100/**",
+      "category": "documentVersions",
+      "verdict": "red",
+      "regenerates": true,
+      "title": {
+        "en": "Document versions database",
+        "it": "Versioni dei documenti",
+        "es": "Versiones de documentos"
+      },
+      "explanationTemplate": {
+        "en": "The database of automatic document versioning (the 'Browse All Versions' feature). It holds the HISTORY of your edits: deleting it removes all previous versions with no undo, and it has been excluded from Time Machine backups since Big Sur. Documented cases exceed 100 GB: if you need space here, the right path is per-document version pruning, never deleting the database.",
+        "it": "Il database del versionamento automatico dei documenti (la funzione 'Sfoglia tutte le versioni'). Contiene la STORIA delle tue modifiche: cancellarlo elimina tutte le versioni precedenti senza undo e non è incluso nei backup Time Machine da Big Sur in poi. Casi documentati oltre 100 GB: se ti serve spazio qui, il percorso giusto è ridurre le versioni per singolo documento, non cancellare il database.",
+        "es": "La base de datos del versionado automático de documentos ('Examinar todas las versiones'). Contiene la HISTORIA de tus ediciones: borrarla elimina todas las versiones anteriores sin volver atrás, y no se incluye en Time Machine desde Big Sur. Hay casos documentados de más de 100 GB: si necesitas espacio aquí, el camino correcto es recortar versiones documento a documento, nunca borrar la base."
+      },
+      "riskIfDeleted": {
+        "en": "Irreversible loss of all historical document versions.",
+        "it": "Perdita irreversibile di tutte le versioni storiche dei documenti.",
+        "es": "Pérdida irreversible de todas las versiones históricas de los documentos."
+      },
+      "source": "Dossier Parte 1 §1.9, §6.1 (voce 12)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.macos.other-users",
+      "pattern": "/Users/*",
+      "category": "otherUsers",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Another user's home folder",
+        "it": "Home di un altro utente",
+        "es": "Carpeta de inicio de otro usuario"
+      },
+      "explanationTemplate": {
+        "en": "The home folder of another account on this Mac. It lands in 'System Data' because it is outside your home, but it holds someone else's data: manage it from the owning account, not from here.",
+        "it": "La cartella home di un altro account del Mac. Finisce nel 'Dati di sistema' perché è fuori dalla tua home, ma contiene dati di qualcun altro: si gestisce dall'account proprietario, non da qui.",
+        "es": "La carpeta de inicio de otra cuenta de este Mac. Cuenta como 'Datos del sistema' porque está fuera de tu carpeta, pero contiene datos de otra persona: se gestiona desde su cuenta, no desde aquí."
+      },
+      "riskIfDeleted": {
+        "en": "Loss of another user's personal data: never delete from a different account.",
+        "it": "Perdita dei dati personali di un altro utente: mai cancellare da un account diverso.",
+        "es": "Pérdida de los datos de otro usuario: jamás borres desde una cuenta distinta."
+      },
+      "source": "Dossier Parte 1 §1.16, §6.1 (voce 33)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "infoOnly"
+    },
+    {
+      "id": "apple.groupcontainers.user",
+      "pattern": "~/Library/Group Containers/*",
+      "category": "cache",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "App group data",
+        "it": "Dati di gruppo delle app",
+        "es": "Datos de grupo de apps"
+      },
+      "explanationTemplate": {
+        "en": "Shared data containers used by app suites (and their extensions/widgets): sync databases, settings, shared caches. They often hold REAL data (e.g. message history, keychain-synced items), not only cache. Delete only entries you can attribute to an app you have removed. {SNAPSHOT_NOTE}",
+        "it": "Container di dati condivisi tra app della stessa suite (ed estensioni/widget): database di sincronizzazione, impostazioni e cache. Spesso contengono dati veri (es. cronologia messaggi, segreti portachiavi), non solo cache. {SNAPSHOT_NOTE}",
+        "es": "Contenedores de datos compartidos por suites de apps (y sus extensiones/widgets): bases de datos de sincronización, ajustes y datos compartidos. A menudo contienen datos reales, no solo caché. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "May break app suites, extensions, widgets and sync; possible loss of local-only data (e.g. chat history not on the server).",
+        "it": "Può rompere suite di app, estensioni, widget e la sincronizzazione; possibile perdita dati reali (es. chat solo locali).",
+        "es": "Puede romper suites de apps, extensiones, widgets y la sincronización; posible pérdida de datos (p. ej. chats locales)."
+      },
+      "source": "Dossier Parte 1 §5 (euristica appdata); prodotto: radici estese",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "apple.spotlight.index",
+      "pattern": "/System/Volumes/Data/.Spotlight-V100/**",
+      "category": "spotlight",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Spotlight index",
+        "it": "Indice Spotlight",
+        "es": "Índice de Spotlight"
+      },
+      "explanationTemplate": {
+        "en": "The Spotlight search index. Normally under 3 GB; bugs can inflate it dramatically. It rebuilds itself if removed, but the safe fix is a rebuild via mdutil, not manual deletion. {SNAPSHOT_NOTE}",
+        "it": "L'indice di ricerca Spotlight. Di norma resta sotto i 3 GB; bug noti l'hanno fatto gonfiare fino a decine di GB. Si ricostruisce da solo, ma il rimedio corretto è la ricostruzione via mdutil, non la cancellazione manuale. {SNAPSHOT_NOTE}",
+        "es": "El índice de búsqueda de Spotlight. Normalmente ocupa menos de 3 GB; errores pueden inflarlo mucho. Se reconstruye solo; el remedio correcto es reconstruirlo con mdutil, no borrarlo a mano. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Manual deletion corrupts the index and can trigger a full re-index (worse than the disease).",
+        "it": "Cancellarlo a mano forza una reindicizzazione completa; nei peggiori casi corrompe il database.",
+        "es": "Borrarlo a mano fuerza una reindexación completa y puede corromper la base de datos."
+      },
+      "source": "Dossier Parte 1 §6.1 (voce 11)",
+      "macosMin": 13,
+      "review": "core",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "adobe.mediacache.user",
+      "pattern": "~/Library/Application Support/Adobe/Common/Media Cache Files/**",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Adobe media cache",
+        "it": "Cache media Adobe",
+        "es": "Caché de medios Adobe"
+      },
+      "explanationTemplate": {
+        "en": "Preview files and media conformed by Adobe apps (Premiere, After Effects, Audition). They are 100% regenerable on demand: the apps re-render previews when you reopen a project. Large caches (tens of GB) are normal after big edits. {SNAPSHOT_NOTE}",
+        "it": "File di anteprima e media conformizzati dalle app Adobe (Premiere, After Effects): si rigenerano aprendo di nuovo il progetto. Cancellarli non tocca i progetti né i media originali. {SNAPSHOT_NOTE}",
+        "es": "Archivos de vista previa y medios conformados por apps de Adobe: se regeneran al reabrir el proyecto. No tocan proyectos ni medios originales. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "None: previews and conform files are rebuilt when the project is opened. Renders already exported are NOT touched (those live next to your project).",
+        "it": "Nessuno. Le app rigenerano i file di anteprima; gli export finiti non vengono toccati (vivono accanto al progetto).",
+        "es": "Ninguno. Los archivos se regeneran al reabrir los proyectos."
+      },
+      "source": "Pacchetto top-6 prodotto (creativi)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "adobe.caches.user",
+      "pattern": "~/Library/Caches/Adobe/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Adobe apps cache",
+        "it": "Cache delle app Adobe",
+        "es": "Caché de apps Adobe"
+      },
+      "explanationTemplate": {
+        "en": "Temporary files of Adobe apps (camera raw previews, type kits, sync): rebuilt automatically. {SNAPSHOT_NOTE}",
+        "it": "Cache delle app Adobe (anteprime Camera Raw, componenti condivisi): copie temporanee che si ricreano da sole. {SNAPSHOT_NOTE}",
+        "es": "Caché de apps Adobe (previsualizaciones Camera Raw, recursos). Se regeneran automáticamente. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "None; first launches or asset browsing may be slower while rebuilding.",
+        "it": "Nessuno; le prime aperture possono essere più lente mentre si ricrea.",
+        "es": "Ninguna; los primeros usos pueden ser más lentos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "electron.app.cache",
+      "pattern": "~/Library/Application Support/*/Cache/**",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Electron app cache",
+        "it": "Cache di app Electron",
+        "es": "Caché de apps Electron"
+      },
+      "explanationTemplate": {
+        "en": "Cache of an Electron-based app (Slack, Discord, Notion, Teams, VS Code…): downloaded web resources kept to feel fast. Rebuilt on demand; never contains your messages or documents themselves. {SNAPSHOT_NOTE}",
+        "it": "Cache di un'app basata su Electron (Slack, Discord, Notion, Teams, VS Code…): copie temporanee per velocizzare l'app. Si ricostruisce da sola. {SNAPSHOT_NOTE}",
+        "es": "Caché de una app Electron (Slack, Discord, Notion, Teams…): copias temporales que aceleran la app. Se reconstruye sola. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "None; next launch may be slower and avatars/images reload.",
+        "it": "Nessuno; il prossimo avvio può essere più lento e le immagini ricaricate.",
+        "es": "Ninguno; la app puede tardar un poco más al arrancar."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "apple.messages.attachments",
+      "pattern": "~/Library/Messages/Attachments/**",
+      "category": "mail",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Messages attachments",
+        "it": "Allegati di Messaggi (iMessage)",
+        "es": "Adjuntos de Mensajes"
+      },
+      "explanationTemplate": {
+        "en": "Photos, videos and files received in Messages/Intelock chats stored locally. Deleting them removes media from THIS Mac only (iCloud Messages keeps server copies if enabled). {SNAPSHOT_NOTE}",
+        "it": "Allegati delle chat di Messaggi/iMessage salvati in locale. Cancellandoli spariscono dal Mac: restano solo se la conversazione è su iCloud. {SNAPSHOT_NOTE}",
+        "es": "Adjuntos de Mensajes/iMessage guardados en local. Al borrarlos desaparecen del Mac; si usas Mensajes en iCloud quedan copias en el servidor. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Local-only media disappears from all your chats on this Mac.",
+        "it": "Media solo locali spariscono dalle chat su questo Mac.",
+        "es": "Los medios solo locales desaparecen de los chats en este Mac."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "steam.library.user",
+      "pattern": "~/Library/Application Support/Steam/**",
+      "category": "cache",
+      "verdict": "yellow",
+      "regenerates": true,
+      "title": {
+        "en": "Steam library & shader cache",
+        "it": "Libreria Steam e cache shader",
+        "es": "Biblioteca de Steam y caché de shaders"
+      },
+      "explanationTemplate": {
+        "en": "Steam's download cache (shacache) and downloaded game files. Games can be re-downloaded, but deleting a game folder uninstalls it. Prefer Steam's own 'Manage > Uninstall' for games; cache folders (depotcache, shadercache) are safe to remove. {SNAPSHOT_NOTE}",
+        "it": "Libreria Steam: cache di download e shader. I giochi vanno rimossi da Steam (disinstallazione corretta), non cestinandoli a mano. {SNAPSHOT_NOTE}",
+        "es": "Biblioteca de Steam: caché de descargas y shaders. Los juegos se desinstalan desde Steam, no borrando carpetas. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Deleting game folders manually corrupts the Steam library (manifest mismatch); remove games from Steam instead.",
+        "it": "Cancellare le cartelle di gioco a mano corrompe la libreria (manifest incoerente): disinstalla da Steam.",
+        "es": "Borrar carpetas de juegos a mano corrompe la biblioteca de Steam."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "dev.npm.cache",
+      "pattern": "~/.npm/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "npm cache",
+        "it": "Cache npm",
+        "es": "Caché de npm"
+      },
+      "explanationTemplate": {
+        "en": "npm's package download cache (Node.js). Safe to remove; packages re-download on the next `npm install`. {SNAPSHOT_NOTE}",
+        "it": "La cache di npm (pacchetti Node.js). Si riscaricano al prossimo `npm install`. {SNAPSHOT_NOTE}",
+        "es": "La caché de npm. Se vuelve a descargar con el siguiente `npm install`. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "None; next install re-downloads.",
+        "it": "Nessuno; riscaricata al prossimo install.",
+        "es": "Ninguno; se vuelve a descargar."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "dev.generic.dotcache",
+      "pattern": "~/.cache/*",
+      "category": "cache",
+      "verdict": "green",
+      "regenerates": true,
+      "title": {
+        "en": "Unix tool caches (pip, uv, Hugging Face…)",
+        "it": "Cache di tool Unix (pip, uv, HF)",
+        "es": "Cachés de herramientas Unix (pip, uv…)"
+      },
+      "explanationTemplate": {
+        "en": "Caches of cross-platform developer tools (pip, uv, Hugging Face models, browsers drivers). Regenerated on demand; safe to clean. {SNAPSHOT_NOTE}",
+        "it": "Cache di strumenti di sviluppo multipiattaforma (pip, uv, HF): si riscaricano all'occorrenza. {SNAPSHOT_NOTE}",
+        "es": "Cachés de herramientas multiplataforma (pip, uv, HF). Se regeneran solas. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "None; re-downloaded on next use.",
+        "it": "Nessuno; riscaricate al prossimo uso.",
+        "es": "Ninguno; se vuelven a descargar."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "trashable"
+    },
+    {
+      "id": "dev.vm.vmware",
+      "pattern": "~/Virtual Machines/*.vmdk",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Virtual machine disk",
+        "it": "Disco di macchina virtuale",
+        "es": "Disco de máquina virtual"
+      },
+      "explanationTemplate": {
+        "en": "A virtual machine disk (Parallels .pvm/.hdd, VMware .vmdk, UTM .qcow2/.img). It contains the ENTIRE virtual computer: its files, apps and data. Never delete it as a cache: use the VM app to delete the whole machine you no longer need. {SNAPSHOT_NOTE}",
+        "it": "Il disco di una macchina virtuale (Parallels, VMware, UTM). Contiene un intero computer: file, app e dati del sistema guest. Va cancellata intera dall'app delle VM, non come un file qualsiasi. {SNAPSHOT_NOTE}",
+        "es": "El disco de una máquina virtual (Parallels, VMware, UTM). Contiene un sistema entero; elimínala desde la app de la VM. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Destroying the VM: guest OS, its files and any snapshots inside it.",
+        "it": "Perdita completa della macchina virtuale: sistema, file e dati del guest.",
+        "es": "Destruye la máquina virtual: sistema invitado, archivos y datos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "dev.vm.parallels",
+      "pattern": "~/Parallels/*.pvm",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Virtual machine disk",
+        "it": "Disco di macchina virtuale",
+        "es": "Disco de máquina virtual"
+      },
+      "explanationTemplate": {
+        "en": "A virtual machine disk (Parallels .pvm/.hdd, VMware .vmdk, UTM .qcow2/.img). It contains the ENTIRE virtual computer: its files, apps and data. Never delete it as a cache: use the VM app to delete the whole machine you no longer need. {SNAPSHOT_NOTE}",
+        "it": "Il disco di una macchina virtuale (Parallels, VMware, UTM). Contiene un intero computer: file, app e dati del sistema guest. Va cancellata intera dall'app delle VM, non come un file qualsiasi. {SNAPSHOT_NOTE}",
+        "es": "El disco de una máquina virtual (Parallels, VMware, UTM). Contiene un sistema entero; elimínala desde la app de la VM. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Destroying the VM: guest OS, its files and any snapshots inside it.",
+        "it": "Perdita completa della macchina virtuale: sistema, file e dati del guest.",
+        "es": "Destruye la máquina virtual: sistema invitado, archivos y datos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "dev.vm.parallels-hdd",
+      "pattern": "~/Virtual Machines/*.hdd",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Virtual machine disk",
+        "it": "Disco di macchina virtuale",
+        "es": "Disco de máquina virtual"
+      },
+      "explanationTemplate": {
+        "en": "A virtual machine disk (Parallels .pvm/.hdd, VMware .vmdk, UTM .qcow2/.img). It contains the ENTIRE virtual computer: its files, apps and data. Never delete it as a cache: use the VM app to delete the whole machine you no longer need. {SNAPSHOT_NOTE}",
+        "it": "Il disco di una macchina virtuale (Parallels, VMware, UTM). Contiene un intero computer: file, app e dati del sistema guest. Va cancellata intera dall'app delle VM, non come un file qualsiasi. {SNAPSHOT_NOTE}",
+        "es": "El disco de una máquina virtual (Parallels, VMware, UTM). Contiene un sistema entero; elimínala desde la app de la VM. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Destroying the VM: guest OS, its files and any snapshots inside it.",
+        "it": "Perdita completa della macchina virtuale: sistema, file e dati del guest.",
+        "es": "Destruye la máquina virtual: sistema invitado, archivos y datos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "dev.vm.utm-qcow2",
+      "pattern": "~/Library/Containers/com.utmapp.UTM/Data/Documents/*.qcow2",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Virtual machine disk",
+        "it": "Disco di macchina virtuale",
+        "es": "Disco de máquina virtual"
+      },
+      "explanationTemplate": {
+        "en": "A virtual machine disk (Parallels .pvm/.hdd, VMware .vmdk, UTM .qcow2/.img). It contains the ENTIRE virtual computer: its files, apps and data. Never delete it as a cache: use the VM app to delete the whole machine you no longer need. {SNAPSHOT_NOTE}",
+        "it": "Il disco di una macchina virtuale (Parallels, VMware, UTM). Contiene un intero computer: file, app e dati del sistema guest. Va cancellata intera dall'app delle VM, non come un file qualsiasi. {SNAPSHOT_NOTE}",
+        "es": "El disco de una máquina virtual (Parallels, VMware, UTM). Contiene un sistema entero; elimínala desde la app de la VM. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Destroying the VM: guest OS, its files and any snapshots inside it.",
+        "it": "Perdita completa della macchina virtuale: sistema, file e dati del guest.",
+        "es": "Destruye la máquina virtual: sistema invitado, archivos y datos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    },
+    {
+      "id": "dev.vm.utm",
+      "pattern": "~/Library/Containers/com.utmapp.UTM/Data/Documents/*.utm",
+      "category": "devBuild",
+      "verdict": "yellow",
+      "regenerates": false,
+      "title": {
+        "en": "Virtual machine disk",
+        "it": "Disco di macchina virtuale",
+        "es": "Disco de máquina virtual"
+      },
+      "explanationTemplate": {
+        "en": "A virtual machine disk (Parallels .pvm/.hdd, VMware .vmdk, UTM .qcow2/.img). It contains the ENTIRE virtual computer: its files, apps and data. Never delete it as a cache: use the VM app to delete the whole machine you no longer need. {SNAPSHOT_NOTE}",
+        "it": "Il disco di una macchina virtuale (Parallels, VMware, UTM). Contiene un intero computer: file, app e dati del sistema guest. Va cancellata intera dall'app delle VM, non come un file qualsiasi. {SNAPSHOT_NOTE}",
+        "es": "El disco de una máquina virtual (Parallels, VMware, UTM). Contiene un sistema entero; elimínala desde la app de la VM. {SNAPSHOT_NOTE}"
+      },
+      "riskIfDeleted": {
+        "en": "Destroying the VM: guest OS, its files and any snapshots inside it.",
+        "it": "Perdita completa della macchina virtuale: sistema, file e dati del guest.",
+        "es": "Destruye la máquina virtual: sistema invitado, archivos y datos."
+      },
+      "source": "Pacchetto top-6 (prodotto)",
+      "macosMin": 13,
+      "review": "reviewed",
+      "actionPolicy": "guidedOnly"
+    }
+  ]
+}
