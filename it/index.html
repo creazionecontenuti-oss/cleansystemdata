@@ -80,12 +80,16 @@ nav.scrolled{border-bottom-color:var(--line);background:rgba(5,8,16,.82)}
 .nav-cta{background:var(--blue);color:#fff;text-decoration:none;padding:9px 18px;border-radius:999px;
   font-weight:600;font-size:13.5px;transition:transform .15s ease-out,box-shadow .15s ease-out;box-shadow:0 0 0 0 rgba(66,114,245,0)}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(66,114,245,.4)}
+.nav-buy{border:1px solid var(--line2);color:var(--text);text-decoration:none;padding:8px 16px;border-radius:999px;
+  font-weight:600;font-size:13.5px;transition:transform .15s ease-out,border-color .2s,background .2s}
+.nav-buy:hover{transform:translateY(-2px);border-color:#3a4a75;background:rgba(17,26,43,.7)}
 @media(max-width:900px){.nav-links{display:none}}
 @media(max-width:640px){
   .nav-in{padding:0 16px;gap:12px;height:56px}
   .logo{white-space:nowrap;font-size:13.5px;gap:8px}
   .nav-cta{padding:8px 14px;font-size:12.5px}
   .langswitch{font-size:10px;gap:0}
+  .nav-buy{display:none}
   .hero{padding-top:118px}
   .readout{flex-direction:column}
   .readout div{border-right:none;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-width:0}
@@ -350,22 +354,26 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
     <span class="langswitch">
       <a href="https://cleansystemdata.site/">EN</a><a href="https://cleansystemdata.site/it/" class="on">IT</a><a href="https://cleansystemdata.site/es/">ES</a>
     </span>
-    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Scarica</a>
+    <a class="nav-buy" href="#pricing">Acquista — $8</a>
+    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica</a>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="hero-glow"></div>
   <div class="wrap">
-    <span class="pill">Per Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
-    <h1>Apri la scatola nera di<br><span class="grad">“Dati di sistema”</span></h1>
-    <p class="sub">macOS ti dice solo “Dati di sistema: 40 GB”. Clean system data ti mostra
-       <b>cosa c'è davvero</b>, voce per voce, con un semaforo deterministico che ti dice cosa puoi
-       cestinare in tranquillità — e un'<b>AI che ti spiega ogni voce</b> nella tua lingua, con fonti, costi
-       e tempi trasparenti.</p>
-    <div class="ctas">
-      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Scarica per Mac — gratis il setup</a>
- (restore confirm, engine picker, fix gate))
+    <span class="eyebrow" data-reveal><span class="pulse"></span>Per Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
+    <h1 data-reveal style="--i:1">Apri la scatola nera dei <span class="grad">“Dati di&nbsp;sistema”</span></h1>
+    <p class="sub" data-reveal style="--i:2">macOS ti dice solo “Dati di sistema: 40 GB”. Clean system data ti mostra
+      <b>cosa c'è davvero</b>, voce per voce — con un semaforo deterministico che ti dice cosa puoi
+      cestinare in tranquillità, e un'<b>AI che ti spiega ogni voce</b> nella tua lingua.</p>
+    <div class="readout" data-reveal style="--i:3">
+      <div><div class="k">Dati scansionabili</div><div class="v"><span data-count="203.32" data-dec="2">0</span> <small>GB</small></div></div>
+      <div><div class="k">Eliminabili</div><div class="v"><span data-count="7.9" data-dec="1">0</span> <small>GB</small></div></div>
+      <div><div class="k">Verdetti</div><div class="v"><span style="color:var(--green)">●</span> <span style="color:var(--amber)">●</span> <span style="color:var(--red)">●</span></div></div>
+    </div>
+    <div class="ctas" data-reveal style="--i:4">
+      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica per Mac <span class="arr">→</span></a>
       <a class="btn ghost" href="#ai">Vedi l'AI all'opera</a>
     </div>
     <div class="hero-note" data-reveal style="--i:5"><span class="violet">✦</span>&nbsp; 400 ANALISI AI INCLUSE CON LA LICENZA · INTERFACCIA IN IT / EN / ES</div>
@@ -545,16 +553,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
   <div class="pricing" data-reveal>
     <div class="price-box">
       <div class="price-k">Una licenza · Un solo acquisto · Aggiornamenti inclusi</div>
-      <div class="price">€8<small> / una tantum</small></div>
+      <div class="price">$8<small> / una tantum</small></div>
       <p class="price-sub">Include 400 analisi AI. Riprenditi il tuo disco — e capisci finalmente cosa c'era dentro.</p>
       <div class="ctas">
-<<<<<<< HEAD
-        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — €8 <span class="arr">→</span></a>
+        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — $8 <span class="arr">→</span></a>
         <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica e prova</a>
-=======
-        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — € 8</a>
-        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Scarica e prova</a>
->>>>>>> df8b1b3 (Release v1.0.3: DMG notarizzato (restore confirm, engine picker, fix gate))
       </div>
       <div class="price-fine">macOS 13+ · Apple Silicon · Firmata e notarizzata Apple — si apre con un doppio clic</div>
     </div>
