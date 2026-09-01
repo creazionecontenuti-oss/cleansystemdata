@@ -3,277 +3,686 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clean system data — apri il secchio "Dati di sistema" del tuo Mac</title>
+<title>Clean system data — apri la scatola nera dei "Dati di sistema" del tuo Mac</title>
 <meta name="description" content="Scopri cosa c'è davvero dentro i Dati di sistema di macOS: semaforo deterministico, cancellazione sicura con annulla, privacy totale. Italiano · English · Español.">
 <link rel="alternate" hreflang="en" href="https://cleansystemdata.site/">
 <link rel="alternate" hreflang="it" href="https://cleansystemdata.site/it/">
 <link rel="alternate" hreflang="es" href="https://cleansystemdata.site/es/">
 <link rel="icon" type="image/png" href="../assets/icon-256.png">
 <link rel="apple-touch-icon" href="../assets/icon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0b0d10; --bg2:#12151a; --card:#161a20; --line:#242a33;
-    --text:#e8ebef; --muted:#9aa3ad;
-    --green:#34c759; --yellow:#ffd60a; --red:#ff453a;
-    --accent:#4da3ff;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
-    color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  /* ── nav ── */
-  nav{position:sticky;top:0;backdrop-filter:blur(20px);background:rgba(11,13,16,.72);
-      border-bottom:1px solid var(--line);z-index:10}
-  nav .wrap{display:flex;align-items:center;gap:28px;height:60px}
-  .logo{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--text)}
-  .logo .dots{display:flex;flex-direction:column;gap:3px}
-  .logo .dots span{width:22px;height:6px;border-radius:3px;display:block}
-  nav a.navlink{color:var(--muted);text-decoration:none;font-size:14px}
-  nav a.navlink:hover{color:var(--text)}
-  .langswitch{margin-left:auto;display:flex;gap:10px;font-size:13px}
-  .langswitch a{color:var(--muted);text-decoration:none;padding:2px 4px}
-  .langswitch a:hover{color:var(--text)}
-  .langswitch a.on{color:var(--text);font-weight:700;border-bottom:2px solid var(--accent)}
-  .nav-cta{background:var(--accent);color:#04101f!important;padding:8px 16px;
-           border-radius:999px;text-decoration:none;font-weight:600;font-size:14px}
-  /* ── hero ── */
-  header{padding:88px 0 56px;text-align:center;
-         background:radial-gradient(60% 55% at 50% 0%,rgba(77,163,255,.14),transparent)}
-  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 14px;
-        font-size:13px;color:var(--muted);margin-bottom:22px}
-  h1{font-size:clamp(34px,5.5vw,58px);line-height:1.08;letter-spacing:-.02em;font-weight:800}
-  h1 .grad{background:linear-gradient(92deg,#34c759,#ffd60a 55%,#ff453a);
-           -webkit-background-clip:text;background-clip:text;color:transparent}
-  header p.sub{max-width:640px;margin:22px auto 0;color:var(--muted);font-size:18px}
-  .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .btn{padding:13px 26px;border-radius:14px;text-decoration:none;font-weight:700;font-size:16px}
-  .btn.primary{background:var(--accent);color:#04101f}
-  .btn.ghost{border:1px solid var(--line);color:var(--text)}
-  .langs{margin-top:18px;font-size:13px;color:var(--muted)}
-  /* ── shot ── */
-  .shot{margin:26px auto 0;max-width:920px;border:1px solid var(--line);border-radius:18px;
-        overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
-  .shot img{display:block;width:100%;height:auto}
-  .caption{margin-top:12px;font-size:13px;color:var(--muted);text-align:center}
-  /* ── sections ── */
-  section{padding:72px 0}
-  h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em;text-align:center;margin-bottom:10px}
-  .lede{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 44px}
-  /* semaforo demo */
-  .lights{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
-  .light{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;width:290px}
-  .light b{display:flex;align-items:center;gap:10px}
-  .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
-  .light p{color:var(--muted);font-size:14px;margin-top:8px}
-  /* features */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
-  .card h3{font-size:17px;margin:10px 0 6px}
-  .card p{color:var(--muted);font-size:14.5px}
-  .card .ico{font-size:26px}
-  /* steps */
-  .steps{max-width:720px;margin:0 auto;counter-reset:step}
-  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
-  .step:last-child{border-bottom:none}
-  .step::before{counter-increment:step;content:counter(step);
-    width:38px;height:38px;flex:0 0 auto;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:var(--accent);color:#04101f;font-weight:800}
-  .step div b{display:block}
-  .step div span{color:var(--muted);font-size:14.5px}
-  /* faq */
-  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px;max-width:760px;margin-inline:auto}
-  summary{cursor:pointer;font-weight:600}
-  details p{color:var(--muted);margin-top:10px;font-size:14.5px}
-  /* ── sezione AI ── */
-  .ai-demo{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:960px;margin:0 auto}
-  @media (max-width:860px){.ai-demo{grid-template-columns:1fr}}
-  .ai-card{background:var(--card);border:1px solid rgba(191,90,242,.38);border-radius:18px;padding:24px;
-           box-shadow:0 18px 60px rgba(191,90,242,.10)}
-  .ai-head{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);margin-bottom:12px}
-  .ai-head .spark{color:#bf5af2;font-size:17px}
-  .ai-head .tag{border:1px solid rgba(191,90,242,.5);color:#d9a5f7;border-radius:999px;padding:1px 9px;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
-  .ai-head .meta{margin-left:auto;font-size:12px;opacity:.75}
-  .ai-card h4{font-size:17px;margin-bottom:8px}
-  .ai-card p{color:var(--muted);font-size:14.5px}
-  .caveats{margin:12px 0 0 18px;color:var(--muted);font-size:13px}
-  .caveats li{margin-bottom:4px}
-  .sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted)}
-  .sources a{color:#8ab9ff;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
-  .ai-points{display:flex;flex-direction:column;gap:12px}
-  .ai-point{display:flex;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
-  .ai-point>span{font-size:21px}
-  .ai-point b{display:block;font-size:14.5px}
-  .ai-point span:not(:first-child){color:var(--muted);font-size:13.5px}
-  /* cta */
-  .cta{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:52px 32px;text-align:center}
-  .price{font-size:44px;font-weight:800;letter-spacing:-.02em}
-  .price small{font-size:16px;color:var(--muted);font-weight:500}
-  /* footer */
-  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13.5px;text-align:center}
+:root{
+  --bg:#050810; --panel:#0c1220; --panel2:#111a2b; --line:#1a2540; --line2:#232f4d;
+  --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.52); --faint:rgba(255,255,255,.34);
+  --green:#34d399; --amber:#fbbf24; --red:#f87171;
+  --mac-green:#28c840; --mac-amber:#febc2e; --mac-red:#ff5f57;
+  --violet:#bf5af2; --blue:#4272f5;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,"Helvetica Neue",sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html:focus-within{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#2f3d61}
+:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--blue);border-radius:6px}
+
+/* ── vignette + grain ── */
+body::before,body::after{
+  content:"";position:fixed;left:0;right:0;height:160px;z-index:90;pointer-events:none;
+}
+body::before{top:0;background:linear-gradient(180deg,rgba(5,8,16,.85),transparent)}
+body::after{bottom:0;background:linear-gradient(0deg,rgba(5,8,16,.85),transparent)}
+.grain{
+  position:fixed;inset:-50%;z-index:91;pointer-events:none;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── scroll progress ── */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;z-index:120;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--green),var(--amber) 55%,var(--red))}
+
+/* ── nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(5,8,16,.62);border-bottom:1px solid transparent;transition:border-color .35s,background .35s}
+nav.scrolled{border-bottom-color:var(--line);background:rgba(5,8,16,.82)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 28px;height:62px;display:flex;align-items:center;gap:30px}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.logo .strata{display:flex;flex-direction:column;gap:3px}
+.logo .strata span{height:5px;border-radius:2.5px;display:block}
+.logo .strata span:nth-child(1){width:20px;background:var(--green)}
+.logo .strata span:nth-child(2){width:14px;background:var(--amber)}
+.logo .strata span:nth-child(3){width:8px;background:var(--red)}
+.nav-links{display:flex;gap:26px;margin-left:8px}
+.nav-links a{color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.langswitch{margin-left:auto;display:flex;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.langswitch a{color:var(--faint);text-decoration:none;padding:4px 7px;border-radius:6px;transition:color .2s,background .2s}
+.langswitch a:hover{color:var(--text)}
+.langswitch a.on{color:var(--text);background:rgba(255,255,255,.07)}
+.nav-cta{background:var(--blue);color:#fff;text-decoration:none;padding:9px 18px;border-radius:999px;
+  font-weight:600;font-size:13.5px;transition:transform .15s ease-out,box-shadow .15s ease-out;box-shadow:0 0 0 0 rgba(66,114,245,0)}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(66,114,245,.4)}
+@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:640px){
+  .nav-in{padding:0 16px;gap:12px;height:56px}
+  .logo{white-space:nowrap;font-size:13.5px;gap:8px}
+  .nav-cta{padding:8px 14px;font-size:12.5px}
+  .langswitch{font-size:10px;gap:0}
+  .hero{padding-top:118px}
+  .readout{flex-direction:column}
+  .readout div{border-right:none;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-width:0}
+  .readout div:last-child{border-bottom:none}
+  .readout .v{margin-top:0}
+  .readout .k{white-space:nowrap;font-size:9.5px}
+  .stmt .slot{vertical-align:-22%}
+}
+@media(max-width:420px){
+  .nav-in{gap:10px;padding:0 12px}
+  .logo{font-size:12.5px}
+  .langswitch a{padding:3px 4px}
+  .nav-cta{padding:7px 12px;font-size:12px}
+}
+
+/* ── hero ── */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-start;position:relative;padding:150px 0 0;overflow:hidden}
+.hero-glow{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(42% 30% at 18% 8%,rgba(52,211,153,.07),transparent 70%),
+    radial-gradient(42% 30% at 82% 6%,rgba(248,113,113,.06),transparent 70%),
+    radial-gradient(55% 38% at 50% 0%,rgba(66,114,245,.10),transparent 70%)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 16px;background:rgba(12,18,32,.6)}
+.eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{
+  margin-top:30px;
+  font-size:clamp(44px,7.4vw,104px);
+  line-height:1.02;letter-spacing:-.038em;font-weight:800;max-width:14ch;
+}
+.hero h1 .grad{background:linear-gradient(92deg,var(--green),var(--amber) 52%,var(--red));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:26px;max-width:590px;color:var(--muted);font-size:clamp(16px,1.6vw,19px);font-weight:400}
+.hero .sub b{color:var(--text);font-weight:600}
+.readout{margin-top:34px;display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:640px;background:rgba(12,18,32,.5)}
+.readout div{padding:14px 22px;border-right:1px solid var(--line);flex:1;min-width:140px}
+.readout div:last-child{border-right:none}
+.readout .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.readout .v{font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;margin-top:2px;color:var(--text)}
+.readout .v small{font-size:12px;color:var(--muted)}
+.ctas{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{padding:16px 30px;border-radius:999px;text-decoration:none;font-weight:600;font-size:16px;letter-spacing:-.01em;
+  transition:transform .15s ease-out,box-shadow .15s ease-out,background .2s,border-color .2s;display:inline-flex;align-items:center;gap:9px}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(66,114,245,.42)}
+.btn.ghost{border:1px solid var(--line2);color:var(--text);background:rgba(12,18,32,.4)}
+.btn.ghost:hover{transform:translateY(-3px);border-color:#3a4a75;background:rgba(17,26,43,.7)}
+.btn .arr{transition:transform .2s var(--ease-out)}
+.btn:hover .arr{transform:translateX(3px)}
+.hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--faint)}
+.hero-note .violet{color:var(--violet)}
+
+/* ── 3D app window ── */
+.scene{perspective:1400px;perspective-origin:50% 42%;margin:64px auto 0;max-width:1060px;padding:0 28px;position:relative}
+.scene-glow{position:absolute;inset:6% -4% -8%;pointer-events:none;filter:blur(70px);opacity:.5;
+  background:
+    radial-gradient(30% 42% at 24% 60%,rgba(52,211,153,.16),transparent 70%),
+    radial-gradient(30% 42% at 52% 70%,rgba(251,191,36,.13),transparent 70%),
+    radial-gradient(30% 42% at 78% 58%,rgba(248,113,113,.15),transparent 70%)}
+#appWindow{position:relative;width:100%;will-change:transform;transform-style:preserve-3d}
+#appWindow img,#win2 img{display:block;width:100%;height:auto;border-radius:14px;
+  filter:drop-shadow(0 44px 90px rgba(0,0,0,.7)) drop-shadow(0 4px 18px rgba(0,0,0,.45))}
+.caption{margin-top:26px;text-align:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--faint)}
+.caption b{color:var(--muted);font-weight:500}
+
+/* ── generic section ── */
+section{padding:12vh 0;position:relative}
+.sec-head{max-width:1180px;margin:0 auto 48px;padding:0 28px}
+.sec-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.sec-eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
+.sec-eyebrow .idx{color:var(--blue)}
+h2{font-size:clamp(30px,4.4vw,54px);letter-spacing:-.03em;line-height:1.08;font-weight:750;max-width:20ch}
+.lede{color:var(--muted);max-width:600px;margin-top:18px;font-size:clamp(15px,1.5vw,18px)}
+.lede b{color:var(--text);font-weight:600}
+
+/* ── statements with inline slots ── */
+.statements{max-width:980px;margin:0 auto;padding:0 28px}
+.stmt{font-weight:300;font-size:clamp(26px,4vw,52px);line-height:1.32;letter-spacing:-.032em;color:rgba(255,255,255,.88);
+  padding:7.5vh 0;border-bottom:1px solid var(--line)}
+.stmt:last-child{border-bottom:none}
+.stmt b{font-weight:650;color:#fff}
+.stmt .slot{display:inline-block;vertical-align:-16%;height:.92em;margin:0 .12em;position:relative}
+.slot-lights,.stmt .slot.slot-lights{width:2.5em;height:.88em;border:1px solid var(--line2);border-radius:999px;background:rgba(12,18,32,.8);
+  display:inline-grid;grid-template-columns:1fr 1fr 1fr;align-items:center;justify-items:center;padding:0 .1em;
+  vertical-align:middle}
+.slot-lights i{width:.32em;height:.32em;border-radius:50%;display:block}
+.slot-lights i:nth-child(1){background:var(--green);box-shadow:0 0 .5em var(--green)}
+.slot-lights i:nth-child(2){background:var(--amber);box-shadow:0 0 .5em var(--amber)}
+.slot-lights i:nth-child(3){background:var(--red);box-shadow:0 0 .5em var(--red)}
+.slot-switch{width:1.72em;height:.92em;border-radius:999px;background:#30d158;display:inline-block;
+  box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08)}
+.slot-switch::after{content:"";position:absolute;top:.08em;left:.09em;width:.76em;height:.76em;border-radius:50%;background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.32),0 .5px 1px rgba(0,0,0,.18)}
+.slot-ai,.stmt .slot.slot-ai{width:auto;height:1em;padding:0 .5em;border-radius:999px;border:1px solid rgba(191,90,242,.6);background:linear-gradient(180deg,rgba(191,90,242,.34),rgba(191,90,242,.18));
+  display:inline-flex;align-items:center;justify-content:center;color:#e5b8fb;
+  font-family:var(--mono);font-size:.46em;font-weight:700;letter-spacing:.08em;line-height:1;
+  vertical-align:middle;
+  box-shadow:0 0 .9em rgba(191,90,242,.3),inset 0 1px 0 rgba(255,255,255,.18);text-transform:uppercase}
+
+/* ── strata visualizer ── */
+.strata-sec{background:linear-gradient(180deg,transparent,rgba(12,18,32,.55) 18%,rgba(12,18,32,.55) 82%,transparent)}
+.strata{max-width:900px;margin:0 auto;padding:0 28px}
+.strata-row{padding:22px 0;border-bottom:1px solid var(--line)}
+.strata-row:first-child{border-top:1px solid var(--line)}
+.strata-top{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}
+.strata-name{font-weight:600;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.dot.g{background:var(--green);box-shadow:0 0 12px rgba(52,211,153,.7)}
+.dot.a{background:var(--amber);box-shadow:0 0 12px rgba(251,191,36,.7)}
+.dot.r{background:var(--red);box-shadow:0 0 12px rgba(248,113,113,.7)}
+.strata-tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.strata-gb{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text)}
+.strata-gb small{font-size:11px;color:var(--faint)}
+.bar{height:34px;border-radius:9px;background:rgba(255,255,255,.045);overflow:hidden;position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;width:0;border-radius:9px;
+  transition:width 1.5s var(--ease-out)}
+.bar .g{background:linear-gradient(180deg,rgba(52,211,153,.85),rgba(52,211,153,.5));box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.bar .a{background:linear-gradient(180deg,rgba(251,191,36,.85),rgba(251,191,36,.5));box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.bar .r{background:linear-gradient(180deg,rgba(248,113,113,.85),rgba(248,113,113,.5));box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.strata-foot{display:flex;justify-content:space-between;margin-top:18px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+
+/* ── steps ── */
+.steps{max-width:860px;margin:0 auto;padding:0 28px}
+.step{display:flex;gap:34px;padding:44px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.step:last-child{border-bottom:none}
+.step .num{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--blue);letter-spacing:.1em;flex:0 0 52px}
+.step h3{font-size:clamp(21px,2.4vw,28px);letter-spacing:-.02em;font-weight:700;margin-bottom:8px}
+.step p{color:var(--muted);font-size:15.5px;max-width:56ch}
+.step p b{color:var(--text);font-weight:600}
+
+/* ── second window (parallax) ── */
+.scene2{perspective:1200px;margin:64px auto 0;max-width:960px;padding:0 28px;position:relative}
+#win2{will-change:transform}
+
+/* ── AI section ── */
+.ai{background:linear-gradient(180deg,transparent,rgba(191,90,242,.045) 25%,rgba(191,90,242,.045) 75%,transparent)}
+.ai-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;max-width:1180px;margin:0 auto;padding:0 28px;align-items:start}
+@media(max-width:920px){.ai-grid{grid-template-columns:1fr}}
+.ai-card{background:rgba(17,26,43,.72);border:1px solid rgba(191,90,242,.4);border-radius:20px;padding:30px;
+  box-shadow:0 24px 70px rgba(191,90,242,.12),0 2px 0 rgba(255,255,255,.04) inset;backdrop-filter:blur(8px)}
+.ai-head{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.ai-head .spark{color:var(--violet);font-size:16px;text-shadow:0 0 14px rgba(191,90,242,.8)}
+.ai-head .tag{border:1px solid rgba(191,90,242,.5);color:#d9a5f7;border-radius:999px;padding:2px 10px;font-size:9.5px}
+.ai-head .meta{margin-left:auto;color:var(--faint);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.ai-card h4{font-size:20px;letter-spacing:-.015em;margin-bottom:10px}
+.ai-card>p{color:var(--muted);font-size:15px}
+.caveats{margin:16px 0 0 18px;color:var(--faint);font-size:13px}
+.caveats li{margin-bottom:5px}
+.sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.08em;color:var(--faint)}
+.sources a{color:#8ab9ff;text-decoration:none;border:1px solid var(--line2);border-radius:999px;padding:4px 12px;transition:border-color .2s,background .2s}
+.sources a:hover{border-color:#3a4a75;background:rgba(66,114,245,.1)}
+.ai-points{display:flex;flex-direction:column}
+.ai-point{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}
+.ai-point:first-child{padding-top:6px}
+.ai-point:last-child{border-bottom:none}
+.ai-point .glyph{font-family:var(--mono);font-size:13px;color:var(--violet);flex:0 0 30px;padding-top:2px}
+.ai-point b{display:block;font-size:15.5px;letter-spacing:-.01em;margin-bottom:3px}
+.ai-point p{color:var(--muted);font-size:13.5px}
+
+/* ── verdicts ── */
+.verdicts{display:grid;grid-template-columns:repeat(3,1fr);max-width:1180px;margin:0 auto;padding:0 28px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+@media(max-width:860px){.verdicts{grid-template-columns:1fr}}
+.verdict{padding:44px 34px;border-right:1px solid var(--line)}
+.verdict:last-child{border-right:none}
+@media(max-width:860px){.verdict{border-right:none;border-bottom:1px solid var(--line)}.verdict:last-child{border-bottom:none}}
+.verdict .bigdot{width:16px;height:16px;border-radius:50%;display:block;margin-bottom:22px}
+.verdict .bigdot.g{background:var(--green);box-shadow:0 0 26px rgba(52,211,153,.8)}
+.verdict .bigdot.a{background:var(--amber);box-shadow:0 0 26px rgba(251,191,36,.8)}
+.verdict .bigdot.r{background:var(--red);box-shadow:0 0 26px rgba(248,113,113,.8)}
+.verdict .vk{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.verdict h3{font-size:22px;letter-spacing:-.02em;margin:6px 0 10px}
+.verdict p{color:var(--muted);font-size:14.5px}
+.verdict p b{color:var(--text)}
+
+/* ── feature grid (hairline) ── */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);max-width:1180px;margin:0 auto;padding:0 28px;
+  border-top:1px solid var(--line)}
+@media(max-width:960px){.fgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.fgrid{grid-template-columns:1fr}}
+.fcell{padding:40px 34px 46px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.fcell:nth-child(3n){border-right:none}
+@media(max-width:960px){.fcell:nth-child(3n){border-right:1px solid var(--line)}.fcell:nth-child(2n){border-right:none}}
+@media(max-width:640px){.fcell{border-right:none}}
+.fcell svg{width:26px;height:26px;stroke-width:1.5;margin-bottom:18px;display:block}
+.fcell h3{font-size:16.5px;letter-spacing:-.01em;margin-bottom:8px}
+.fcell p{color:var(--muted);font-size:14px}
+.fcell p b{color:var(--text);font-weight:600}
+
+/* ── FAQ ── */
+.faq{max-width:700px;margin:0 auto;padding:0 28px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-q{width:100%;background:none;border:none;color:var(--text);font-family:var(--sans);text-align:left;
+  font-size:17px;font-weight:600;letter-spacing:-.015em;padding:26px 44px 26px 4px;cursor:pointer;position:relative;
+  transition:color .2s}
+.faq-q:hover{color:#fff}
+.faq-q .plus{position:absolute;right:8px;top:50%;width:16px;height:16px;transform:translateY(-50%);transition:transform .35s var(--spring)}
+.faq-q .plus::before,.faq-q .plus::after{content:"";position:absolute;background:var(--muted);border-radius:2px;left:50%;top:50%}
+.faq-q .plus::before{width:14px;height:1.5px;transform:translate(-50%,-50%)}
+.faq-q .plus::after{width:1.5px;height:14px;transform:translate(-50%,-50%)}
+.faq-item.open .plus{transform:translateY(-50%) rotate(45deg)}
+.faq-a{overflow:hidden;height:0;transition:height .45s var(--spring)}
+.faq-a-in{padding:0 4px 28px;color:var(--muted);font-size:15px;max-width:60ch}
+.faq-a-in b{color:var(--text);font-weight:600}
+
+/* ── pricing ── */
+.pricing{max-width:1180px;margin:0 auto;padding:0 28px}
+.price-box{border:1px solid var(--line2);border-radius:28px;padding:76px 32px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(70% 90% at 50% -20%,rgba(66,114,245,.13),transparent 60%),var(--panel)}
+.price-k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.price{margin-top:18px;font-size:clamp(72px,10vw,130px);font-weight:800;letter-spacing:-.045em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.price small{font-size:clamp(15px,1.8vw,19px);color:var(--muted);font-weight:500;letter-spacing:-.01em}
+.price-sub{margin:20px auto 0;color:var(--muted);max-width:440px;font-size:15px}
+.price-box .ctas{justify-content:center;margin-top:36px}
+.price-fine{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--faint)}
+
+/* ── footer ── */
+footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);font-size:13px}
+.foot{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+.foot .brand{display:flex;align-items:center;gap:10px;color:var(--muted);font-weight:600}
+.foot a{color:var(--muted);text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--text)}
+.foot .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em}
+
+/* ── reveal ── */
+[data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out);
+  transition-delay:calc(var(--i,0)*90ms)}
+[data-reveal].in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  [data-reveal]{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
 
-<nav>
-  <div class="wrap">
+<nav id="nav">
+  <div class="nav-in">
     <a class="logo" href="/it/">
-      <span class="dots"><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span><span style="background:var(--red)"></span></span>
+      <span class="strata"><span></span><span></span><span></span></span>
       Clean system data
     </a>
-    <a class="navlink" href="#funziona">Come funziona</a>
-    <a class="navlink" href="#ai">AI</a>
-    <a class="navlink" href="#sicuro">Sicurezza</a>
-    <a class="navlink" href="#faq">FAQ</a>
+    <div class="nav-links">
+      <a href="#strata">Stratigrafia</a>
+      <a href="#funziona">Come funziona</a>
+      <a href="#ai">AI</a>
+      <a href="#sicuro">Sicurezza</a>
+      <a href="#faq">FAQ</a>
+    </div>
     <span class="langswitch">
-      <a href="/">EN</a><a href="/it/" class="on">IT</a><a href="/es/">ES</a>
+      <a href="https://cleansystemdata.site/">EN</a><a href="https://cleansystemdata.site/it/" class="on">IT</a><a href="https://cleansystemdata.site/es/">ES</a>
     </span>
     <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica</a>
   </div>
 </nav>
 
-<header>
+<header class="hero" id="top">
+  <div class="hero-glow"></div>
   <div class="wrap">
-    <span class="pill">Per Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
-    <h1>Apri la scatola nera di<br><span class="grad">“Dati di sistema”</span></h1>
-    <p class="sub">macOS ti dice solo “Dati di sistema: 40 GB”. Clean system data ti mostra
-       <b>cosa c'è davvero</b>, voce per voce, con un semaforo deterministico che ti dice cosa puoi
-       cestinare in tranquillità — e un'<b>AI che ti spiega ogni voce</b> nella tua lingua, con fonti, costi
-       e tempi trasparenti.</p>
-    <div class="ctas">
-      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica per Mac — gratis il setup</a>
+    <span class="eyebrow" data-reveal><span class="pulse"></span>Per Mac · macOS 13+ · Apple Silicon &amp; Intel</span>
+    <h1 data-reveal style="--i:1">Apri la scatola nera dei <span class="grad">“Dati di&nbsp;sistema”</span></h1>
+    <p class="sub" data-reveal style="--i:2">macOS ti dice solo “Dati di sistema: 40 GB”. Clean system data ti mostra
+      <b>cosa c'è davvero</b>, voce per voce — con un semaforo deterministico che ti dice cosa puoi
+      cestinare in tranquillità, e un'<b>AI che ti spiega ogni voce</b> nella tua lingua.</p>
+    <div class="readout" data-reveal style="--i:3">
+      <div><div class="k">Dati scansionabili</div><div class="v"><span data-count="203.32" data-dec="2">0</span> <small>GB</small></div></div>
+      <div><div class="k">Eliminabili</div><div class="v"><span data-count="7.9" data-dec="1">0</span> <small>GB</small></div></div>
+      <div><div class="k">Verdetti</div><div class="v"><span style="color:var(--green)">●</span> <span style="color:var(--amber)">●</span> <span style="color:var(--red)">●</span></div></div>
+    </div>
+    <div class="ctas" data-reveal style="--i:4">
+      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica per Mac <span class="arr">→</span></a>
       <a class="btn ghost" href="#ai">Vedi l'AI all'opera</a>
     </div>
-    <div class="langs">🤖 400 analisi AI incluse con la licenza · Interfaccia 🇮🇹 🇬🇧 🇪🇸</div>
-
-    <figure class="shot">
-      <img src="../assets/stratigrafia.png" alt="La Stratigrafia: gli strati dei dati di sistema con semaforo verde, giallo e rosso">
-      <figcaption>La <b>Stratigrafia</b>: i tuoi dati di sistema come carotaggio geologico — ogni strato è una categoria.</figcaption>
-    </figure>
+    <div class="hero-note" data-reveal style="--i:5"><span class="violet">✦</span>&nbsp; 400 ANALISI AI INCLUSE CON LA LICENZA · INTERFACCIA IN IT / EN / ES</div>
   </div>
+
+  <div class="scene">
+    <div class="scene-glow"></div>
+    <div id="appWindow">
+      <img src="../assets/stratigrafia.png" alt="La Stratigrafia: gli strati dei dati di sistema con semaforo verde, giallo e rosso">
+    </div>
+  </div>
+  <p class="caption">La <b>Stratigrafia</b> — i tuoi dati di sistema come un carotaggio geologico. Ogni strato è una categoria, ogni colore un verdetto.</p>
 </header>
 
-<section id="funziona">
-  <div class="wrap">
-    <h2>Come funziona</h2>
-    <p class="lede">Tre passaggi. Nessuna impostazione tecnica, nessun terminale.</p>
-    <div class="steps">
-      <div class="step"><div><b>Scansiona</b><span>Inventario di cache, log, snapshot, build di sviluppo, backup e altro — misurato sul tuo disco, non stimato.</span></div></div>
-      <div class="step"><div><b>Capisci</b><span>Ogni voce ha un semaforo deciso da regole deterministiche e una spiegazione chiara nella tua lingua, voce per voce (opzionale: analisi AI).</span></div></div>
-      <div class="step"><div><b>Cestina — e ripensa</b><span>Niente viene cancellato direttamente: tutto va nel Cestino con <b>Annulla</b> sempre disponibile, via manifest interno.</span></div></div>
-    </div>
-    <figure class="shot">
-      <img src="../assets/item-detail.png" alt="Dettaglio di una voce: semaforo rosso Do not touch, pulsante AI, footer trash-first">
-      <figcaption>Ogni voce ha il suo verdetto e il suo tasto AI. Il rosso <b>non si può cestinare</b> — e nulla viene mai cancellato direttamente.</figcaption>
-    </figure>
+<section>
+  <div class="statements">
+    <p class="stmt" data-reveal>Ogni voce ha un semaforo <span class="slot slot-lights"><i></i><i></i><i></i></span> deciso da <b>regole deterministiche</b> — non da un'AI che “pensa”.</p>
+    <p class="stmt" data-reveal>Niente viene cancellato direttamente: tutto va nel Cestino, con il <b>Rimetti a posto garantito</b> <span class="slot slot-switch"></span> dal nostro manifest — quello di macOS è notoriamente inaffidabile.</p>
+    <p class="stmt" data-reveal>Un tasto <span class="slot slot-ai">AI</span> su ogni voce spiega <b>cos'è e perché ha quel colore</b> — in italiano semplice, con fonti, costi e tempi in chiaro.</p>
   </div>
 </section>
 
-<section id="ai" style="background:var(--bg2)">
-  <div class="wrap">
-    <h2>L'AI che ti spiega <span style="color:#bf5af2">✦</span></h2>
-    <p class="lede">Un tasto AI su ogni voce: l'analisi artificiale racconta <b>cosa contiene quella
-       cartella e perché ha quel semaforo</b> — in italiano semplice, con costo e durata in vista.
-       E una regola assoluta: <b>l'AI spiega, non decide mai</b>. Il semaforo lo mettono le regole.</p>
+<section class="strata-sec" id="strata">
+  <div class="sec-head" data-reveal>
+    <div class="sec-eyebrow"><span class="idx">01</span> LA STRATIGRAFIA</div>
+    <h2>Misurato sul tuo disco. Non stimato.</h2>
+    <p class="lede">Un inventario di cache, log, snapshot, build di sviluppo e backup — ogni strato pesato
+      sul posto, poi colorato per verdetto. Questa è una scansione vera, dall'inventario demo dell'app.</p>
+  </div>
+  <div class="strata">
+    <div class="strata-row" data-reveal>
+      <div class="strata-top"><span class="strata-name"><span class="dot a"></span>Developer caches</span><span class="strata-tag">Attenzione</span><span class="strata-gb"><span data-count="57.9" data-dec="1">0</span> <small>GB</small></span></div>
+      <div class="bar"><i class="a" data-w="100"></i></div>
+    </div>
+    <div class="strata-row" data-reveal style="--i:1">
+      <div class="strata-top"><span class="strata-name"><span class="dot r"></span>iPhone &amp; iPad backups</span><span class="strata-tag">Non toccare</span><span class="strata-gb"><span data-count="42.5" data-dec="1">0</span> <small>GB</small></span></div>
+      <div class="bar"><i class="r" data-w="73.4"></i></div>
+    </div>
+    <div class="strata-row" data-reveal style="--i:2">
+      <div class="strata-top"><span class="strata-name"><span class="dot r"></span>Kernel memory on disk</span><span class="strata-tag">Non toccare</span><span class="strata-gb"><span data-count="16.11" data-dec="2">0</span> <small>GB</small></span></div>
+      <div class="bar"><i class="r" data-w="27.8"></i></div>
+    </div>
+    <div class="strata-row" data-reveal style="--i:3">
+      <div class="strata-top"><span class="strata-name"><span class="dot g"></span>macOS installers</span><span class="strata-tag">Cestinabile</span><span class="strata-gb"><span data-count="13.5" data-dec="1">0</span> <small>GB</small></span></div>
+      <div class="bar"><i class="g" data-w="23.3"></i></div>
+    </div>
+    <div class="strata-row" data-reveal style="--i:4">
+      <div class="strata-top"><span class="strata-name"><span class="dot a"></span>Spotlight index</span><span class="strata-tag">Attenzione</span><span class="strata-gb"><span data-count="12.88" data-dec="2">0</span> <small>GB</small></span></div>
+      <div class="bar"><i class="a" data-w="22.2"></i></div>
+    </div>
+    <div class="strata-foot"><span>Inventario demo — nessun disco toccato</span><span>Accesso completo al disco: concesso</span></div>
+  </div>
+</section>
 
-    <div class="ai-demo">
-      <div class="ai-card">
-        <div class="ai-head">
-          <span class="spark">✦</span> Analisi AI
-          <span class="tag">cloud</span>
-          <span class="meta">$0.0025 · 3 s</span>
-        </div>
-        <h4>La cache di Safari — perché è verde</h4>
-        <p>Questa cartella è il “ripostiglio” del browser: ci conserva copie delle pagine
-           che hai visitato per riaprirle più veloce. Si ricrea da sola ogni volta che serve,
-           quindi svuotarla non ti fa perdere nulla di importante — recuperi solo spazio.</p>
-        <ul class="caveats">
-          <li>Ipotesi non verificata: su versioni beta di macOS la cache può essere più grande del previsto.</li>
-        </ul>
-        <div class="sources">
-          <span>Fonti web:</span>
-          <a href="#">support.apple.com</a>
-          <a href="#">apple.stackexchange.com</a>
-        </div>
+<section id="funziona">
+  <div class="sec-head" data-reveal>
+    <div class="sec-eyebrow"><span class="idx">02</span> COME FUNZIONA</div>
+    <h2>Tre passaggi. Nessuna impostazione tecnica, nessun Terminale.</h2>
+  </div>
+  <div class="steps">
+    <div class="step" data-reveal><span class="num">01</span><div><h3>Scansiona</h3><p>Inventario di cache, log, snapshot, build di sviluppo, backup e altro — misurato sul tuo disco, non stimato.</p></div></div>
+    <div class="step" data-reveal><span class="num">02</span><div><h3>Capisci</h3><p>Ogni voce ha un semaforo deciso da regole deterministiche e una spiegazione chiara nella tua lingua, voce per voce. Opzionale: analisi AI.</p></div></div>
+    <div class="step" data-reveal><span class="num">03</span><div><h3>Cestina — e ripensaci</h3><p>Niente viene cancellato direttamente: tutto va nel Cestino con <b>Annulla</b> sempre disponibile, via manifest interno.</p></div></div>
+  </div>
+  <div class="scene2">
+    <div id="win2">
+      <img src="../assets/item-detail.png" alt="Dettaglio di una voce: semaforo rosso Non toccare, tasto AI, footer trash-first">
+    </div>
+  </div>
+  <p class="caption">Ogni voce ha il suo verdetto e il suo tasto AI. Il rosso <b>non si può cestinare</b> — e nulla viene mai cancellato direttamente.</p>
+</section>
+
+<section class="ai" id="ai">
+  <div class="sec-head" data-reveal>
+    <div class="sec-eyebrow"><span class="idx">03</span> L'AI CHE TI SPIEGA <span style="color:var(--violet)">✦</span></div>
+    <h2>Spiega. <span style="color:var(--violet)">Non decide mai.</span></h2>
+    <p class="lede">Un tasto AI su ogni voce ti racconta <b>cosa contiene quella cartella e perché ha quel
+      semaforo</b> — in italiano semplice, con costo e durata in vista. Una regola assoluta: il semaforo
+      lo mettono le regole, e l'AI non può cambiarlo mai.</p>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-card" data-reveal>
+      <div class="ai-head">
+        <span class="spark">✦</span> Analisi AI
+        <span class="tag">cloud</span>
+        <span class="meta">$0.0025 · 3 s</span>
       </div>
-      <div class="ai-points">
-        <div class="ai-point"><span>🌐</span><div><b>Ricerca web opzionale</b><span>Con una richiesta di ricerca l'AI consulta fonti reali e te le cita — perfetta per le voci sconosciute.</span></div></div>
-        <div class="ai-point"><span>💬</span><div><b>Nella tua lingua</b><span>Spiegazioni in italiano, inglese o spagnolo, sempre coerenti con il semaforo della voce.</span></div></div>
-        <div class="ai-point"><span>🎁</span><div><b>400 analisi incluse</b><span>Con la licenza: nessuna chiave da configurare. Poi puoi continuare con la tua chiave API (BYOK).</span></div></div>
-        <div class="ai-point"><span>⚡</span><div><b>Fino a 10 in parallelo</b><span>L'analisi batch esamina tutta la selezione contemporaneamente — 9 voci in ~30 secondi.</span></div></div>
+      <h4>La cache di Safari — perché è verde</h4>
+      <p>Questa cartella è il “ripostiglio” del browser: ci conserva copie delle pagine
+         che hai visitato per riaprirle più in fretta. Si ricrea da sola ogni volta che serve,
+         quindi svuotarla non ti fa perdere nulla di importante — recuperi solo spazio.</p>
+      <ul class="caveats">
+        <li>Ipotesi non verificata: sulle beta di macOS questa cache può crescere più del previsto.</li>
+      </ul>
+      <div class="sources">
+        <span>FONTI WEB:</span>
+        <a href="#">support.apple.com</a>
+        <a href="#">apple.stackexchange.com</a>
       </div>
+    </div>
+    <div class="ai-points">
+      <div class="ai-point" data-reveal><span class="glyph">⌕</span><div><b>Ricerca web opzionale</b><p>Con una richiesta di ricerca l'AI consulta fonti reali e te le cita — perfetta per le voci sconosciute.</p></div></div>
+      <div class="ai-point" data-reveal style="--i:1"><span class="glyph">◇</span><div><b>Nella tua lingua</b><p>Spiegazioni in italiano, inglese o spagnolo, sempre coerenti con il semaforo della voce.</p></div></div>
+      <div class="ai-point" data-reveal style="--i:2"><span class="glyph">✦</span><div><b>400 analisi incluse</b><p>Con la licenza: nessuna chiave da configurare. Poi puoi continuare con la tua chiave API (BYOK).</p></div></div>
+      <div class="ai-point" data-reveal style="--i:3"><span class="glyph">≡</span><div><b>Fino a 10 in parallelo</b><p>L'analisi batch esamina tutta la selezione in una volta — 9 voci in circa 30 secondi.</p></div></div>
     </div>
   </div>
 </section>
 
 <section id="sicuro">
-  <div class="wrap">
-    <h2>Un semaforo, zero ansia</h2>
-    <p class="lede">Il verdetto non è un'intelligenza artificiale che "pensa": è un insieme di regole deterministiche e trasparenti.</p>
-    <div class="lights">
-      <div class="light">
-        <b><span class="dot" style="background:var(--green)"></span> Verde — cestinabile</b>
-        <p>Cache e log che si rigenerano da soli. Verificati voce per voce sulla tua versione di macOS.</p>
-      </div>
-      <div class="light">
-        <b><span class="dot" style="background:var(--yellow)"></span> Giallo — attenzione</b>
-        <p>Utile ma delicato: l'app ti guida passo-passo invece di cancellare alla cieca.</p>
-      </div>
-      <div class="light">
-        <b><span class="dot" style="background:var(--red)"></span> Rosso — non toccare</b>
-        <p>Snapshot, backup iPhone, volumi di sistema: spiegati per bene e <b>mai</b> proposti per l'eliminazione.</p>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="card" style="border-color:rgba(191,90,242,.45)"><span class="ico" style="color:#bf5af2">✦</span><h3>AI che spiega, non decide</h3><p>Ogni voce ha il suo tasto AI: ti racconta cosa contiene la cartella e perché ha quel colore, nella tua lingua. Il verdetto resta sempre delle regole — l'AI non può cambiarlo mai.</p></div>
-      <div class="card"><span class="ico">🗑️</span><h3>Trash-first, sempre</h3><p>Nessuna cancellazione diretta: tutto passa dal Cestino, con il Put Back garantito dal nostro manifest (quello di macOS è notoriamente inaffidabile).</p></div>
-      <div class="card"><span class="ico">↩️</span><h3>Annulla vero</h3><p>Manifest interno di undo: ripristino nella posizione originale anche dopo aver svuotato, con gestione delle collisioni.</p></div>
-      <div class="card"><span class="ico">🔒</span><h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload dei tuoi file. L'AI riceve solo nome e percorso della voce — mai il contenuto dei file.</p></div>
-      <div class="card"><span class="ico">📏</span><h3>La matematica dello spazio</h3><p>Perché un disco “512 GB” ne mostra 494, cos'è lo spazio purgeable, quanto è davvero libero: spiegato senza gergo.</p></div>
-      <div class="card"><span class="ico">🌍</span><h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — comprese le analisi AI.</p></div>
-    </div>
+  <div class="sec-head" data-reveal>
+    <div class="sec-eyebrow"><span class="idx">04</span> SICUREZZA</div>
+    <h2>Un semaforo, zero ansia.</h2>
+    <p class="lede">Il verdetto non è un'intelligenza artificiale che “pensa”: è un insieme di regole
+      deterministiche e trasparenti — verificate voce per voce sulla tua versione di macOS.</p>
+  </div>
+  <div class="verdicts">
+    <div class="verdict" data-reveal><span class="bigdot g"></span><span class="vk">Cestinabile</span><h3>Verde</h3><p>Cache e log che si rigenerano da soli. Verificati voce per voce sulla tua versione di macOS.</p></div>
+    <div class="verdict" data-reveal style="--i:1"><span class="bigdot a"></span><span class="vk">Attenzione</span><h3>Giallo</h3><p>Utile ma delicato: l'app ti guida passo-passo invece di cancellare alla cieca.</p></div>
+    <div class="verdict" data-reveal style="--i:2"><span class="bigdot r"></span><span class="vk">Non toccare</span><h3>Rosso</h3><p>Snapshot, backup iPhone, volumi di sistema: spiegati per bene e <b>mai</b> proposti per l'eliminazione — rifiutati a livello di codice.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head" data-reveal>
+    <div class="sec-eyebrow"><span class="idx">05</span> PRINCIPI</div>
+    <h2>Costruita come uno strumento, non una scatola nera.</h2>
+  </div>
+  <div class="fgrid">
+    <div class="fcell" data-reveal>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#bf5af2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6-4.6-1.9 4.6-1.9L12 3z"/><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg>
+      <h3>AI che spiega, non decide</h3><p>Ti racconta cosa contiene la cartella e perché ha quel colore, nella tua lingua. Il verdetto resta sempre delle regole.</p></div>
+    <div class="fcell" data-reveal style="--i:1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8ab9ff" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 .9h8a1 1 0 0 0 1-.9L18 7"/></svg>
+      <h3>Prima il Cestino, sempre</h3><p>Nessuna cancellazione diretta: tutto passa dal Cestino, con il Rimetti a posto garantito dal nostro manifest.</p></div>
+    <div class="fcell" data-reveal style="--i:2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8ab9ff" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      <h3>Annulla vero</h3><p>Un manifest interno di undo: ripristino nella posizione originale anche dopo aver svuotato, con gestione delle collisioni.</p></div>
+    <div class="fcell" data-reveal>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8ab9ff" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <h3>Privacy totale</h3><p>Niente telemetria, niente analytics, niente upload. L'AI opzionale riceve solo nome e percorso della voce — <b>mai il contenuto dei file</b>.</p></div>
+    <div class="fcell" data-reveal style="--i:1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8ab9ff" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 5-7"/></svg>
+      <h3>La matematica dello spazio</h3><p>Perché un disco “512 GB” ne mostra 494, cos'è lo spazio eliminabile, quanto è davvero libero: spiegato senza gergo.</p></div>
+    <div class="fcell" data-reveal style="--i:2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8ab9ff" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>
+      <h3>Tre lingue complete</h3><p>Interfaccia, spiegazioni e knowledge base interamente in italiano, inglese e spagnolo — analisi AI incluse.</p></div>
   </div>
 </section>
 
 <section id="faq">
-  <div class="wrap">
-    <h2>Domande frequenti</h2>
-    <p class="lede">Le cose che chiunque chiederebbe prima di fidarsi.</p>
-    <details open><summary>È sicuro? Può rompere il mio Mac?</summary>
-      <p>Il semaforo rosso copre tutto ciò che è vitale (snapshot, backup, volumi di sistema) e viene rifiutato a livello di codice: anche selezionandolo, l'eliminazione parte. Tutto il resto passa dal Cestino con Annulla.</p></details>
-    <details><summary>Cosa sono le “richieste AI incluse”?</summary>
-      <p>L'acquisto include un tetto di analisi AI gratuite, conteggiate per la tua licenza. Quando finiscono, l'app continua a funzionare al 100% — puoi aggiungere la tua chiave API per continuare le analisi AI.</p></details>
-    <details><summary>Vedete i miei file?</summary>
-      <p>No. Nessuna telemetria, nessun upload. L'AI opzionale riceve solo il nome e il percorso della voce con il verdetto già deciso — mai il contenuto dei file.</p></details>
-    <details><summary>Funziona sul mio Mac?</summary>
-      <p>macOS 13 o superiore, Apple Silicon e Intel. L'app richiede l'Accesso completo al disco per leggere le dimensioni reali dei dati di sistema — te lo chiede con una guida, e puoi anche usarlo senza concedendolo.</p></details>
+  <div class="sec-head" data-reveal style="text-align:center;max-width:700px">
+    <div class="sec-eyebrow"><span class="idx">06</span> FAQ</div>
+    <h2 style="margin:0 auto">Le cose che chiunque chiederebbe.</h2>
+  </div>
+  <div class="faq" data-reveal>
+    <div class="faq-item open">
+      <button class="faq-q">È sicuro? Può rompere il mio Mac?<span class="plus"></span></button>
+      <div class="faq-a"><div class="faq-a-in">Il semaforo rosso copre tutto ciò che è vitale (snapshot, backup, volumi di sistema) e viene rifiutato a livello di codice: anche selezionandolo, l'eliminazione non parte. Tutto il resto passa dal Cestino con Annulla.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Cosa sono le “richieste AI incluse”?<span class="plus"></span></button>
+      <div class="faq-a"><div class="faq-a-in">L'acquisto include un tetto di analisi AI gratuite, conteggiate per la tua licenza. Quando finiscono, l'app continua a funzionare al 100% — puoi aggiungere la tua chiave API per continuare le analisi AI.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Vedete i miei file?<span class="plus"></span></button>
+      <div class="faq-a"><div class="faq-a-in">No. Nessuna telemetria, nessun upload. L'AI opzionale riceve solo nome e percorso della voce con il verdetto già deciso — mai il contenuto dei file.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Funziona sul mio Mac?<span class="plus"></span></button>
+      <div class="faq-a"><div class="faq-a-in">macOS 13 o superiore, Apple Silicon e Intel. L'app richiede l'Accesso completo al disco per misurare le dimensioni reali dei dati di sistema — con una guida passo-passo, e puoi usarla anche senza concederlo.</div></div>
+    </div>
   </div>
 </section>
 
-<section id="prezzi">
-  <div class="wrap">
-    <div class="cta">
-      <h2>Torna a padrone del tuo disco</h2>
-      <p class="lede" style="margin-bottom:26px">Una licenza, un acquisto solo. Include il tetto di analisi AI gratuite.</p>
-      <div class="price">€ 8 <small>/ una volta · aggiornamenti inclusi</small></div>
+<section id="pricing">
+  <div class="pricing" data-reveal>
+    <div class="price-box">
+      <div class="price-k">Una licenza · Un solo acquisto · Aggiornamenti inclusi</div>
+      <div class="price">€8<small> / una tantum</small></div>
+      <p class="price-sub">Include 400 analisi AI. Riprenditi il tuo disco — e capisci finalmente cosa c'era dentro.</p>
       <div class="ctas">
-        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — € 8</a>
+        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Acquista — €8 <span class="arr">→</span></a>
         <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Scarica e prova</a>
       </div>
-      <p style="margin-top:16px;font-size:13px;color:var(--muted)">macOS 13+ · Apple Silicon · Firmata e notarizzata Apple: si apre con un doppio click</p>
+      <div class="price-fine">macOS 13+ · Apple Silicon · Firmata e notarizzata Apple — si apre con un doppio clic</div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <b style="color:var(--text)">Clean system data</b> — System Data, translated.<br>
-    Fatto con cura per Mac · <a style="color:var(--muted)" href="/privacy.html">Privacy</a> · <a style="color:var(--muted)" href="mailto:support@cleansystemdata.site">Contatti</a>
+  <div class="foot">
+    <span class="brand"><span class="strata" style="display:inline-flex;flex-direction:column;gap:2px"><span style="width:14px;height:4px;border-radius:2px;background:var(--green);display:block"></span><span style="width:10px;height:4px;border-radius:2px;background:var(--amber);display:block"></span><span style="width:6px;height:4px;border-radius:2px;background:var(--red);display:block"></span></span>Clean system data</span>
+    <span>Dati di sistema, tradotti. Fatta con cura per Mac.</span>
+    <span class="mono"><a href="#">PRIVACY</a> · <a href="mailto:support@cleansystemdata.site">CONTATTI</a></span>
   </div>
 </footer>
 
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── nav + progress ── */
+  var nav = document.getElementById('nav'), prog = document.getElementById('progress');
+  var win = document.getElementById('appWindow'), scene = win.closest('.scene');
+  var win2 = document.getElementById('win2');
+
+  var tx = {v: 0, t: 0};          /* lerped scroll for hero window */
+  var px = {v: 0, t: 0};          /* lerped parallax for second window */
+
+  function clamp(x,a,b){ return Math.min(b, Math.max(a,x)); }
+
+  function targets(){
+    var y = window.scrollY;
+    /* progress bar */
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.transform = 'scaleX(' + (h>0 ? y/h : 0) + ')';
+    /* nav hairline */
+    nav.classList.toggle('scrolled', y > 30);
+    /* hero window progress: 0 at load → 1 when scene center passes mid viewport */
+    var r = scene.getBoundingClientRect();
+    var p = clamp((window.innerHeight - r.top) / (window.innerHeight * 0.72), 0, 1);
+    tx.t = reduce ? 1 : p;
+    /* second window parallax: gentle drift */
+    var r2 = win2.getBoundingClientRect();
+    var c = (r2.top + r2.height/2 - window.innerHeight/2) / window.innerHeight;
+    px.t = reduce ? 0 : clamp(c, -1, 1);
+  }
+
+  function tick(){
+    tx.v += (tx.t - tx.v) * 0.12;
+    px.v += (px.t - px.v) * 0.10;
+    var p = tx.v;
+    var rot = (1 - p) * 24;              /* 24deg → 0 */
+    var sc  = 0.9 + p * 0.1;             /* .90 → 1 */
+    var ty  = (1 - p) * 60;              /* lift while flattening */
+    win.style.transform = 'rotateX(' + rot.toFixed(3) + 'deg) scale(' + sc.toFixed(4) + ') translateY(' + ty.toFixed(2) + 'px)';
+    win2.style.transform = 'translateY(' + (px.v * -36).toFixed(2) + 'px)';
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('scroll', targets, {passive:true});
+  window.addEventListener('resize', targets);
+  targets();
+  requestAnimationFrame(tick);
+
+  /* ── reveal on scroll ── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        /* counters */
+        e.target.querySelectorAll('[data-count]').forEach(runCount);
+        if(e.target.hasAttribute('data-count')) runCount(e.target);
+        /* strata bars */
+        e.target.querySelectorAll('.bar i').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.18, rootMargin: '0px 0px -6% 0px'});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+
+  /* also fill bars/counters inside observed rows */
+  document.querySelectorAll('.strata-row').forEach(function(el){ io.observe(el); });
+
+  function runCount(el){
+    if(el.__done) return; el.__done = true;
+    var target = parseFloat(el.getAttribute('data-count'));
+    var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+    if(reduce){ el.textContent = target.toFixed(dec); return; }
+    var t0 = null, dur = 1400;
+    function step(ts){
+      if(!t0) t0 = ts;
+      var k = clamp((ts - t0)/dur, 0, 1);
+      k = 1 - Math.pow(1 - k, 4);
+      el.textContent = (target * k).toFixed(dec);
+      if(k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ── FAQ accordion ── */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var btn = item.querySelector('.faq-q'), panel = item.querySelector('.faq-a');
+    btn.setAttribute('aria-expanded', item.classList.contains('open'));
+    if(item.classList.contains('open')) panel.style.height = 'auto';
+    btn.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      /* close others */
+      document.querySelectorAll('.faq-item.open').forEach(function(o){
+        if(o !== item){
+          o.classList.remove('open');
+          var op = o.querySelector('.faq-a');
+          op.style.height = op.scrollHeight + 'px';
+          requestAnimationFrame(function(){ op.style.height = '0px'; });
+          o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        panel.style.height = panel.scrollHeight + 'px';
+        requestAnimationFrame(function(){ panel.style.height = '0px'; });
+        btn.setAttribute('aria-expanded','false');
+      } else {
+        item.classList.add('open');
+        panel.style.height = panel.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded','true');
+        panel.addEventListener('transitionend', function h(){
+          if(item.classList.contains('open')) panel.style.height = 'auto';
+          panel.removeEventListener('transitionend', h);
+        });
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
