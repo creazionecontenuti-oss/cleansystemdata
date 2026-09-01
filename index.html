@@ -80,12 +80,16 @@ nav.scrolled{border-bottom-color:var(--line);background:rgba(5,8,16,.82)}
 .nav-cta{background:var(--blue);color:#fff;text-decoration:none;padding:9px 18px;border-radius:999px;
   font-weight:600;font-size:13.5px;transition:transform .15s ease-out,box-shadow .15s ease-out;box-shadow:0 0 0 0 rgba(66,114,245,0)}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(66,114,245,.4)}
+.nav-buy{border:1px solid var(--line2);color:var(--text);text-decoration:none;padding:8px 16px;border-radius:999px;
+  font-weight:600;font-size:13.5px;transition:transform .15s ease-out,border-color .2s,background .2s}
+.nav-buy:hover{transform:translateY(-2px);border-color:#3a4a75;background:rgba(17,26,43,.7)}
 @media(max-width:900px){.nav-links{display:none}}
 @media(max-width:640px){
   .nav-in{padding:0 16px;gap:12px;height:56px}
   .logo{white-space:nowrap;font-size:13.5px;gap:8px}
   .nav-cta{padding:8px 14px;font-size:12.5px}
   .langswitch{font-size:10px;gap:0}
+  .nav-buy{display:none}
   .hero{padding-top:118px}
   .readout{flex-direction:column}
   .readout div{border-right:none;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-width:0}
@@ -350,7 +354,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
     <span class="langswitch">
       <a href="https://cleansystemdata.site/" class="on">EN</a><a href="https://cleansystemdata.site/it/">IT</a><a href="https://cleansystemdata.site/es/">ES</a>
     </span>
-    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Download</a>
+    <a class="nav-buy" href="#pricing">Buy — $8</a>
+    <a class="nav-cta" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Download</a>
   </div>
 </nav>
 
@@ -368,7 +373,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
       <div><div class="k">Verdicts</div><div class="v"><span style="color:var(--green)">●</span> <span style="color:var(--amber)">●</span> <span style="color:var(--red)">●</span></div></div>
     </div>
     <div class="ctas" data-reveal style="--i:4">
-      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Download for Mac <span class="arr">→</span></a>
+      <a class="btn primary" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Download for Mac <span class="arr">→</span></a>
       <a class="btn ghost" href="#ai">See the AI in action</a>
     </div>
     <div class="hero-note" data-reveal style="--i:5"><span class="violet">✦</span>&nbsp; 400 AI ANALYSES INCLUDED WITH THE LICENSE · INTERFACE IN EN / IT / ES</div>
@@ -548,11 +553,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
   <div class="pricing" data-reveal>
     <div class="price-box">
       <div class="price-k">One license · One purchase · Updates included</div>
-      <div class="price">€8<small> / one-time</small></div>
+      <div class="price">$8<small> / one-time</small></div>
       <p class="price-sub">Includes 400 AI analyses. Take back your disk — and finally understand what was inside it.</p>
       <div class="ctas">
-        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Buy — €8 <span class="arr">→</span></a>
-        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.3.dmg">Download &amp; try</a>
+        <a class="btn primary" href="https://shop.cleansystemdata.site/l/cleansystemdata">Buy — $8 <span class="arr">→</span></a>
+        <a class="btn ghost" href="https://github.com/creazionecontenuti-oss/cleansystemdata/releases/latest/download/CleanSystemData-1.0.2.dmg">Download &amp; try</a>
       </div>
       <div class="price-fine">macOS 13+ · Apple Silicon · Apple-signed and notarized — it opens with a double click</div>
     </div>
@@ -563,7 +568,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px;color:var(--faint);f
   <div class="foot">
     <span class="brand"><span class="strata" style="display:inline-flex;flex-direction:column;gap:2px"><span style="width:14px;height:4px;border-radius:2px;background:var(--green);display:block"></span><span style="width:10px;height:4px;border-radius:2px;background:var(--amber);display:block"></span><span style="width:6px;height:4px;border-radius:2px;background:var(--red);display:block"></span></span>Clean system data</span>
     <span>System Data, translated. Made with care for Mac.</span>
-    <span class="mono"><a href="/privacy.html">PRIVACY</a> · <a href="mailto:support@cleansystemdata.site">CONTACT</a></span>
+    <span class="mono"><a href="#">PRIVACY</a> · <a href="mailto:support@cleansystemdata.site">CONTACT</a></span>
   </div>
 </footer>
 
