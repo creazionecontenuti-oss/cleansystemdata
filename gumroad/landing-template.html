@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Clean system data — See what's actually inside macOS "System Data"</title>
+<style>
+:root{
+  color-scheme:dark light;
+  --bg:#050810; --panel:#0c1220; --panel2:#111a2b; --line:#1a2540; --line2:#232f4d;
+  --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.55); --faint:rgba(255,255,255,.36);
+  --green:#34d399; --amber:#fbbf24; --red:#f87171; --violet:#bf5af2; --blue:#4272f5; --blue2:#5b86f7;
+  --on-accent:#ffffff;
+  --shadow:0 24px 70px rgba(0,0,0,.5);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Inter,Roboto,"Helvetica Neue",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f4f6fb; --panel:#ffffff; --panel2:#eef1f8; --line:#dfe4f0; --line2:#cdd5e8;
+    --text:#0e1330; --muted:#4c5578; --faint:#7d86a8;
+    --green:#0a9d63; --amber:#b45309; --red:#dc2626; --violet:#9333ea; --blue:#2f55d4; --blue2:#2f55d4;
+    --shadow:0 24px 60px rgba(20,30,70,.16);
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--blue);color:#fff}
+img{max-width:100%;display:block}
+:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--blue);border-radius:8px}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px;position:relative}
+
+/* ── top bar ── */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1120px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14.5px;letter-spacing:-.01em;min-width:0}
+.brand img{width:26px;height:26px;border-radius:7px;flex:0 0 auto}
+.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .spacer{flex:1}
+.price-chip{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line2);
+  border-radius:999px;padding:5px 12px;white-space:nowrap}
+.price-chip b{color:var(--text);font-weight:600}
+
+/* ── buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:none;border-radius:999px;
+  font-weight:650;font-size:16px;letter-spacing:-.01em;text-decoration:none;padding:16px 32px;
+  transition:transform .15s ease-out,box-shadow .15s ease-out,background .2s,border-color .2s}
+.btn.primary{background:var(--blue);color:var(--on-accent);box-shadow:0 10px 30px color-mix(in srgb,var(--blue) 35%,transparent)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px color-mix(in srgb,var(--blue) 45%,transparent)}
+.btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--text)}
+.btn.ghost:hover{transform:translateY(-2px);border-color:var(--faint)}
+.btn.small{padding:9px 18px;font-size:13.5px;white-space:nowrap}
+@media(max-width:460px){.btn.small{padding:8px 13px;font-size:12.5px}}
+.btn .arr{transition:transform .2s var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
+
+/* ── hero ── */
+.hero{padding:72px 0 56px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(40% 30% at 15% 5%,color-mix(in srgb,var(--green) 8%,transparent),transparent 70%),
+    radial-gradient(40% 30% at 85% 4%,color-mix(in srgb,var(--red) 7%,transparent),transparent 70%),
+    radial-gradient(55% 40% at 50% 0%,color-mix(in srgb,var(--blue) 11%,transparent),transparent 70%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:48px;align-items:center}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--panel)}
+.eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+h1{margin-top:24px;font-size:clamp(34px,4.6vw,58px);line-height:1.05;letter-spacing:-.035em;font-weight:800}
+h1 .grad{background:linear-gradient(92deg,var(--green),var(--amber) 52%,var(--red));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:20px;color:var(--muted);font-size:clamp(15.5px,1.5vw,18px);max-width:52ch}
+.sub b{color:var(--text);font-weight:600}
+.rating-row{display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+.stars{color:var(--amber);letter-spacing:2px;font-size:15px}
+.rating-chip{font-size:13.5px;color:var(--muted)}
+.rating-chip b{color:var(--text)}
+.review-link{color:var(--muted);font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
+.ctas{margin-top:30px;display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+.micro{margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.micro span{display:inline-flex;align-items:center;gap:7px}
+.micro svg{width:14px;height:14px;flex:0 0 auto}
+
+/* mac window frame */
+.macwin{background:var(--panel);border:1px solid var(--line2);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.macbar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.macbar i{width:11px;height:11px;border-radius:50%;display:block}
+.macbar i:nth-child(1){background:#ff5f57}.macbar i:nth-child(2){background:#febc2e}.macbar i:nth-child(3){background:#28c840}
+.macbar .t{margin-left:10px;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+.macwin img{width:100%;height:auto}
+.win-caption{margin-top:14px;text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.win-caption b{color:var(--muted);font-weight:500}
+
+/* ── trust strip ── */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust-in{max-width:1120px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr)}
+.trust div{padding:22px 18px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:600;border-right:1px solid var(--line)}
+.trust div:last-child{border-right:none}
+.trust svg{width:20px;height:20px;flex:0 0 auto}
+.trust small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:1px}
+@media(max-width:860px){.trust-in{grid-template-columns:1fr 1fr}.trust div:nth-child(2n){border-right:none}.trust div{border-bottom:1px solid var(--line)}.trust div:nth-child(n+3){border-bottom:none}}
+@media(max-width:460px){.trust-in{grid-template-columns:1fr}.trust div{border-right:none;border-bottom:1px solid var(--line)}.trust div:last-child{border-bottom:none}}
+
+/* ── sections ── */
+section{padding:84px 0;position:relative}
+.sec-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
+.sec-eyebrow .idx{color:var(--blue)}
+h2{font-size:clamp(28px,3.6vw,44px);letter-spacing:-.03em;line-height:1.1;font-weight:780;max-width:22ch}
+.lede{color:var(--muted);max-width:620px;margin-top:16px;font-size:clamp(15px,1.4vw,17px)}
+.lede b{color:var(--text);font-weight:600}
+
+/* ── black box vs answer ── */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px}
+@media(max-width:860px){.compare{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
+.card.dim{opacity:.92}
+.card h3{font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.card h3 .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line2);border-radius:999px;padding:3px 9px}
+.macos-row{display:flex;align-items:center;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px}
+.macos-row .bar{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#8e8e93 72%,var(--line) 72%)}
+.macos-row .q{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.macos-big{margin-top:14px;font-size:15px;color:var(--muted)}
+.macos-big b{color:var(--text);font-family:var(--mono);font-weight:600}
+.strata-mini{margin-top:6px;display:flex;flex-direction:column;gap:12px}
+.srow{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.srow .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}
+.srow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .bar{flex:1;height:8px;border-radius:4px;background:var(--panel2);overflow:hidden;min-width:40px}
+.srow .bar i{display:block;height:100%;border-radius:4px;width:0;transition:width 1.4s var(--ease)}
+.srow .bar .fg{background:var(--green)}.srow .bar .fa{background:var(--amber)}.srow .bar .fr{background:var(--red)}
+.srow .gb{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ── steps ── */
+.steps{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px}
+.step .num{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.12em}
+.step h3{font-size:19px;letter-spacing:-.015em;margin:12px 0 8px}
+.step p{color:var(--muted);font-size:14.5px}
+.step p b{color:var(--text);font-weight:600}
+
+/* ── AI card ── */
+.ai-sec{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--violet) 5%,transparent) 25%,color-mix(in srgb,var(--violet) 5%,transparent) 75%,transparent)}
+.ai-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:28px;margin-top:44px;align-items:stretch}
+@media(max-width:860px){.ai-grid{grid-template-columns:1fr}}
+.ai-card{background:var(--panel);border:1px solid color-mix(in srgb,var(--violet) 40%,var(--line));border-radius:18px;padding:26px;
+  box-shadow:0 18px 50px color-mix(in srgb,var(--violet) 12%,transparent)}
+.ai-head{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.ai-head .spark{color:var(--violet);font-size:15px}
+.ai-head .tag{border:1px solid color-mix(in srgb,var(--violet) 50%,transparent);color:var(--violet);border-radius:999px;padding:2px 10px;font-size:9.5px}
+.ai-head .meta{margin-left:auto;color:var(--faint);font-variant-numeric:tabular-nums}
+.ai-card h4{font-size:18px;letter-spacing:-.01em;margin-bottom:8px}
+.ai-card>p{color:var(--muted);font-size:14.5px}
+.sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--faint)}
+.sources span.chip{border:1px solid var(--line2);border-radius:999px;padding:4px 11px;color:var(--blue2)}
+.ai-points{display:flex;flex-direction:column;gap:0}
+.ai-point{display:flex;gap:16px;padding:18px 4px;border-bottom:1px solid var(--line)}
+.ai-point:last-child{border-bottom:none}
+.ai-point .glyph{font-family:var(--mono);font-size:13px;color:var(--violet);flex:0 0 26px;padding-top:2px}
+.ai-point b{display:block;font-size:15px;letter-spacing:-.01em;margin-bottom:2px}
+.ai-point p{color:var(--muted);font-size:13.5px}
+
+/* ── screenshot section ── */
+.shot{margin-top:44px}
+.shot .macwin{max-width:860px;margin:0 auto}
+
+/* ── verdicts ── */
+.verdicts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+@media(max-width:860px){.verdicts{grid-template-columns:1fr}}
+.verdict{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
+.verdict .bigdot{width:14px;height:14px;border-radius:50%;display:block;margin-bottom:16px}
+.bigdot.g{background:var(--green);box-shadow:0 0 22px color-mix(in srgb,var(--green) 70%,transparent)}
+.bigdot.a{background:var(--amber);box-shadow:0 0 22px color-mix(in srgb,var(--amber) 70%,transparent)}
+.bigdot.r{background:var(--red);box-shadow:0 0 22px color-mix(in srgb,var(--red) 70%,transparent)}
+.verdict .vk{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.verdict h3{font-size:19px;letter-spacing:-.015em;margin:5px 0 8px}
+.verdict p{color:var(--muted);font-size:14px}
+.verdict p b{color:var(--text)}
+
+/* ── included checklist ── */
+.included{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin-top:40px}
+@media(max-width:700px){.included{grid-template-columns:1fr}}
+.inc{display:flex;gap:14px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.inc svg{width:20px;height:20px;flex:0 0 auto;margin-top:2px}
+.inc b{display:block;font-size:15px;letter-spacing:-.01em}
+.inc p{color:var(--muted);font-size:13.5px;margin-top:2px}
+
+/* ── price box ── */
+.price-sec{padding:84px 0}
+.price-box{max-width:760px;margin:0 auto;text-align:center;background:var(--panel);border:1px solid var(--line2);
+  border-radius:26px;padding:60px 28px;position:relative;overflow:hidden;
+  background-image:radial-gradient(70% 90% at 50% -20%,color-mix(in srgb,var(--blue) 14%,transparent),transparent 60%)}
+.price-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.big-price{margin-top:16px;font-size:clamp(64px,9vw,108px);font-weight:800;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
+.big-price small{font-size:clamp(15px,1.7vw,18px);color:var(--muted);font-weight:500;letter-spacing:-.01em}
+.anchor{margin-top:10px;color:var(--muted);font-size:14.5px}
+.anchor s{color:var(--faint)}
+.price-box .ctas{justify-content:center;margin-top:30px}
+.guarantee{margin-top:18px;display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:8px 16px;background:color-mix(in srgb,var(--panel2) 60%,transparent)}
+.guarantee svg{width:15px;height:15px}
+.price-fine{margin-top:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;color:var(--faint)}
+
+/* ── FAQ ── */
+.faq{max-width:720px;margin:40px auto 0}
+details{border-bottom:1px solid var(--line)}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:22px 40px 22px 4px;position:relative;font-size:16.5px;font-weight:600;letter-spacing:-.01em;transition:color .2s}
+summary::-webkit-details-marker{display:none}
+summary:hover{color:var(--blue2)}
+summary::after{content:"+";position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:400;font-size:22px;color:var(--faint);transition:transform .3s var(--ease)}
+details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+details .a{padding:0 4px 24px;color:var(--muted);font-size:15px;max-width:62ch}
+details .a b{color:var(--text);font-weight:600}
+
+/* ── description disclosure ── */
+.fulldesc{max-width:720px;margin:0 auto}
+.fulldesc summary{font-size:14px;color:var(--muted);font-weight:500;padding:18px 40px 18px 4px}
+.fulldesc .a{font-size:14px;white-space:pre-line}
+
+/* ── footer ── */
+footer{border-top:1px solid var(--line);padding:36px 0 90px;color:var(--faint);font-size:13px}
+.foot{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot a{color:var(--muted);text-decoration:none}
+.foot a:hover{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+
+/* ── sticky mobile buy bar ── */
+.stickybuy{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;align-items:center;gap:14px;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);
+  transform:translateY(110%);transition:transform .4s var(--ease)}
+.stickybuy.show{transform:translateY(0)}
+.stickybuy .p{font-family:var(--mono);font-weight:600;font-size:17px}
+.stickybuy .p small{display:block;font-size:10px;color:var(--faint);font-weight:400;letter-spacing:.06em}
+.stickybuy .btn{flex:1;padding:13px 20px;font-size:15px}
+@media(max-width:920px){.stickybuy{display:flex}}
+
+/* ── reveal ── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="brand"><img src="__B64_ICON__" alt="" width="26" height="26"><span data-gumroad-field="name">Clean system data — Mac</span></span>
+    <span class="spacer"></span>
+    <span class="price-chip"><b data-gumroad-field="price">€8</b> · one-time</span>
+    <button type="button" class="btn primary small" data-gumroad-action="buy">Buy now</button>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow rv"><span class="pulse"></span>Mac app · macOS 13+ · Apple Silicon &amp; Intel</span>
+      <h1 class="rv">macOS says “System&nbsp;Data: 40&nbsp;GB”.<br><span class="grad">See what's actually inside.</span></h1>
+      <p class="sub rv">Clean system data opens the black box: every cache, snapshot, log and backup —
+        <b>measured on your disk</b>, explained in plain language, and marked with a traffic light
+        so you know <b>exactly what's safe to delete</b>. In English, Italiano and Español.</p>
+      <div class="rating-row rv">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <span class="rating-chip"><b data-gumroad-field="rating">New</b> on Gumroad</span>
+        <span class="review-link" data-gumroad-field="review-count">Be the first to review</span>
+      </div>
+      <div class="ctas rv">
+        <button type="button" class="btn primary" data-gumroad-action="buy">Buy now — <span data-gumroad-field="price">€8</span> <span class="arr">→</span></button>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+      <div class="micro rv">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>One-time payment, yours forever</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/></svg>30-day money-back guarantee</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M2 20h20"/></svg>License by email in minutes</span>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="macwin">
+        <div class="macbar"><i></i><i></i><i></i><span class="t">Clean system data — Stratigraphy</span></div>
+        <img src="__B64_STRATA__" alt="Clean system data Stratigraphy view: system data layers with green, amber and red verdicts" width="1400" height="988" loading="eager">
+      </div>
+      <p class="win-caption">A real scan: <b>203.32 GB</b> of system data found, <b>7.9 GB</b> safely purgeable — every layer weighed and colored by verdict.</p>
+    </div>
+  </div>
+</header>
+
+<div class="trust">
+  <div class="trust-in">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg><span>30-day money-back<small>Not convinced? Full refund.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Zero telemetry<small>Your files never leave the Mac.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Signed &amp; notarized<small>Opens with a double click.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6-4.6-1.9 4.6-1.9L12 3z"/></svg><span>400 AI analyses included<small>No API key to configure.</small></span></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">01</span> THE PROBLEM</div>
+    <h2 class="rv">macOS gives you a number.<br>Not an answer.</h2>
+    <p class="lede rv">Every Mac accumulates tens of gigabytes of “System Data”. Apple shows you a grey bar and a
+      total — nothing else. Clean system data turns that mystery into an <b>item-by-item inventory</b> you can actually act on.</p>
+    <div class="compare">
+      <div class="card dim rv">
+        <h3>What macOS tells you <span class="tag">Before</span></h3>
+        <div class="macos-row"><span class="bar"></span><span class="q">System Data&nbsp;?</span></div>
+        <p class="macos-big">“System Data: <b>40 GB</b>.” …and that's all. Delete what? Is it safe? Who knows.</p>
+      </div>
+      <div class="card rv">
+        <h3>What you see with the app <span class="tag">After</span></h3>
+        <div class="strata-mini">
+          <div class="srow"><span class="dot a"></span><span class="nm">Developer caches</span><span class="bar"><i class="fa" data-w="100"></i></span><span class="gb">57.9 GB</span></div>
+          <div class="srow"><span class="dot r"></span><span class="nm">iPhone &amp; iPad backups</span><span class="bar"><i class="fr" data-w="73"></i></span><span class="gb">42.5 GB</span></div>
+          <div class="srow"><span class="dot g"></span><span class="nm">macOS installers</span><span class="bar"><i class="fg" data-w="23"></i></span><span class="gb">13.5 GB</span></div>
+          <div class="srow"><span class="dot a"></span><span class="nm">Spotlight index</span><span class="bar"><i class="fa" data-w="22"></i></span><span class="gb">12.9 GB</span></div>
+        </div>
+        <p class="macos-big">Every layer <b>measured, named and color-coded</b> — green means safe to clean.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">02</span> HOW IT WORKS</div>
+    <h2 class="rv">Three steps. No Terminal, no guesswork.</h2>
+    <div class="steps">
+      <div class="step rv"><span class="num">01</span><h3>Scan</h3><p>A real inventory of caches, logs, snapshots, dev builds and backups — <b>measured on your disk</b>, not estimated.</p></div>
+      <div class="step rv"><span class="num">02</span><h3>Understand</h3><p>Each item gets a traffic light from <b>deterministic rules</b>, plus a plain-language explanation. Optional AI analysis for the curious.</p></div>
+      <div class="step rv"><span class="num">03</span><h3>Trash — and rethink</h3><p>Nothing is deleted directly: everything goes to the Trash with <b>Undo always available</b> via an internal manifest.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="ai-sec" id="ai">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">03</span> THE AI THAT EXPLAINS ✦</div>
+    <h2 class="rv">It explains. <span style="color:var(--violet)">It never decides.</span></h2>
+    <p class="lede rv">An AI button on every item tells you <b>what that folder contains and why it has that color</b> —
+      in your language, with cost and duration visible. The verdict always stays with the rules.</p>
+    <div class="ai-grid">
+      <div class="ai-card rv">
+        <div class="ai-head"><span class="spark">✦</span> AI analysis <span class="tag">cloud</span><span class="meta">$0.0025 · 3 s</span></div>
+        <h4>Safari's cache — why it's green</h4>
+        <p>This folder is the browser's “storage room”: it keeps copies of pages you've visited so they reopen
+          faster. It rebuilds itself whenever needed, so clearing it loses nothing important — you just get the space back.</p>
+        <div class="sources"><span>WEB SOURCES:</span><span class="chip">support.apple.com</span><span class="chip">apple.stackexchange.com</span></div>
+      </div>
+      <div class="ai-points">
+        <div class="ai-point rv"><span class="glyph">✦</span><div><b>400 analyses included</b><p>With the license — no API key to configure. Afterwards continue with your own key (BYOK).</p></div></div>
+        <div class="ai-point rv"><span class="glyph">⌕</span><div><b>Optional web search</b><p>The AI consults real sources and cites them — perfect for unknown items.</p></div></div>
+        <div class="ai-point rv"><span class="glyph">≡</span><div><b>Up to 10 in parallel</b><p>Batch analysis reviews the whole selection at once — 9 items in about 30 seconds.</p></div></div>
+        <div class="ai-point rv"><span class="glyph">◇</span><div><b>In your language</b><p>Explanations in English, Italian or Spanish, always consistent with the item's verdict.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verdicts" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">04</span> SAFETY</div>
+    <h2 class="rv">One traffic light, zero anxiety.</h2>
+    <p class="lede rv">The verdict isn't an AI that “thinks” — it's a set of <b>deterministic, transparent rules</b>,
+      verified item by item on your macOS version.</p>
+    <div class="verdicts">
+      <div class="verdict rv"><span class="bigdot g"></span><span class="vk">Safe to clean</span><h3>Green</h3><p>Caches and logs that regenerate on their own. Verified item by item on your macOS version.</p></div>
+      <div class="verdict rv"><span class="bigdot a"></span><span class="vk">Careful</span><h3>Amber</h3><p>Useful but delicate: the app walks you through it step by step instead of blindly deleting.</p></div>
+      <div class="verdict rv"><span class="bigdot r"></span><span class="vk">Don't touch</span><h3>Red</h3><p>Snapshots, iPhone backups, system volumes: explained clearly and <b>never</b> offered for deletion — rejected at the code level.</p></div>
+    </div>
+    <div class="shot rv">
+      <div class="macwin">
+        <div class="macbar"><i></i><i></i><i></i><span class="t">Clean system data — Item detail</span></div>
+        <img src="__B64_DETAIL__" alt="Item detail view with red Don't touch verdict, AI button and trash-first footer" width="1200" height="847" loading="lazy">
+      </div>
+      <p class="win-caption">Every item gets its verdict and its AI button. Red <b>can't be cleaned</b> — and nothing is ever deleted directly.</p>
+    </div>
+  </div>
+</section>
+
+<section id="included" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">05</span> WHAT YOU GET</div>
+    <h2 class="rv">Everything included. No subscription.</h2>
+    <div class="included">
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>The Stratigraphy</b><p>Your system data like a geological core sample — each layer a category, each color a verdict.</p></div></div>
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>400 AI analyses included</b><p>Worth ~$1 of AI — no key to configure. Afterwards you can continue with your own API key.</p></div></div>
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>Trash-first with real Undo</b><p>Guaranteed restore from the internal manifest — even after emptying, with collision handling.</p></div></div>
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>Total privacy</b><p>No telemetry, no analytics, no uploads. The AI only receives an item's name and path — never file contents.</p></div></div>
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>The math of space</b><p>Why a “512 GB” drive shows 494, what purgeable space is, how much is really free — explained without jargon.</p></div></div>
+      <div class="inc rv"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><div><b>Three complete languages</b><p>Interface, explanations and knowledge base in English, Italiano and Español — AI analyses included.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="price-sec" id="buy">
+  <div class="wrap">
+    <div class="price-box rv">
+      <div class="price-k">One license · One purchase · Updates included</div>
+      <div class="big-price"><span data-gumroad-field="price">€8</span><small> / one-time</small></div>
+      <p class="anchor">Less than a pizza — one payment, no subscription, yours forever.</p>
+      <div class="ctas">
+        <button type="button" class="btn primary" data-gumroad-action="buy">Get Clean system data — <span data-gumroad-field="price">€8</span> <span class="arr">→</span></button>
+      </div>
+      <div style="margin-top:18px"><span class="guarantee"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>30-day money-back guarantee — if it doesn't help, you don't pay.</span></div>
+      <div class="price-fine">macOS 13+ · Apple Silicon &amp; Intel · Apple-signed &amp; notarized · License code by email</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-eyebrow rv"><span class="idx">06</span> FAQ</div>
+    <h2 class="rv">The things anyone would ask.</h2>
+    <div class="faq rv">
+      <details open>
+        <summary>Is it safe? Can it break my Mac?</summary>
+        <div class="a">The red traffic light covers everything vital (snapshots, backups, system volumes) and is <b>rejected at the code level</b>: even if you select it, deletion won't start. Everything else goes to the Trash with Undo — nothing is ever deleted directly.</div>
+      </details>
+      <details>
+        <summary>What happens right after I buy?</summary>
+        <div class="a">You receive your <b>license code by email</b> within minutes. Download the app, open Settings → License, paste the code. Done — the 400 AI analyses are already attached to your license.</div>
+      </details>
+      <details>
+        <summary>What are the “400 included AI analyses”?</summary>
+        <div class="a">A cap of free AI analyses counted for your license — no API key to configure. When they run out, the app keeps working 100%; you can add your own API key (BYOK) to continue the AI analyses.</div>
+      </details>
+      <details>
+        <summary>Will it work on my Mac?</summary>
+        <div class="a"><b>macOS 13 or later</b>, Apple Silicon and Intel. The app asks for Full Disk Access to measure real sizes — with a step-by-step guide, and you can also use it without granting it. Apple Developer ID signed and notarized.</div>
+      </details>
+      <details>
+        <summary>Do you see my files?</summary>
+        <div class="a">No. <b>No telemetry, no uploads.</b> The optional AI only receives the item's name and path with its verdict already decided — never file contents.</div>
+      </details>
+      <details>
+        <summary>And if I don't like it?</summary>
+        <div class="a">You're covered by a <b>30-day money-back guarantee</b>. One email and you get a full refund — no questions asked.</div>
+      </details>
+    </div>
+    <div class="fulldesc rv" style="margin-top:28px">
+      <details>
+        <summary>Read the full product description</summary>
+        <div class="a" data-gumroad-field="description">Clean system data opens the black box of macOS “System Data”: a deterministic traffic light for every item, trash-first deletion with guaranteed undo, optional AI explanations in your language, and zero telemetry. Includes 400 AI analyses with the license.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <span>© Andrea Vitiani · <a href="https://shop.cleansystemdata.site/">Gumroad store</a></span>
+    <span>Made with care for Mac · <a href="https://cleansystemdata.site/" target="_blank" rel="noopener">cleansystemdata.site</a></span>
+    <span><a href="mailto:support@cleansystemdata.site" target="_blank" rel="noopener">support@cleansystemdata.site</a></span>
+  </div>
+</footer>
+
+<div class="stickybuy" id="stickybuy">
+  <span class="p"><span data-gumroad-field="price">€8</span><small>ONE-TIME · 30-DAY REFUND</small></span>
+  <button type="button" class="btn primary" data-gumroad-action="buy">Buy now <span class="arr">→</span></button>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal + bars */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('.srow .bar i').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: .15, rootMargin: '0px 0px -5% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  /* sticky mobile buy bar */
+  var bar = document.getElementById('stickybuy');
+  function onScroll(){
+    bar.classList.toggle('show', window.scrollY > 560);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
