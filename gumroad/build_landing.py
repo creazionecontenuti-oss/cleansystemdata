@@ -5,38 +5,28 @@ Reads gumroad/landing-template.html, converts the site's own PNG assets to
 compact WebP data URIs and injects them, writing the final self-contained
 gumroad/landing.html that the Gumroad CLI previews/publishes.
 """
-import base64
-import io
 import os
 import sys
 
-from PIL import Image
-
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-JOBS = [
-    ("__B64_ICON__", "assets/icon-256.png", 256, 90),
-    ("__B64_STRATA__", "assets/stratigrafia.png", 1400, 82),
-    ("__B64_DETAIL__", "assets/item-detail.png", 1200, 82),
-]
-
-
-def webp_b64(path, max_w, quality):
-    im = Image.open(path).convert("RGB")
-    if im.width > max_w:
-        im = im.resize((max_w, int(im.height * max_w / im.width)), Image.LANCZOS)
-    buf = io.BytesIO()
-    im.save(buf, "WEBP", quality=quality, method=6)
-    return "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode()
+# Le immagini sono servite dal SITO (https://cleansystemdata.site/assets/...):
+# la description Gumroad ha un limite ~50 KB e i data-URI WebP la gonfiano a
+# 151 KB → API rifiuta. URL esterni = description leggera e sempre aggiornata.
+URLS = {
+    "__B64_ICON__": "https://cleansystemdata.site/assets/icon-256.png",
+    "__B64_STRATA__": "https://cleansystemdata.site/assets/stratigrafia.png",
+    "__B64_DETAIL__": "https://cleansystemdata.site/assets/item-detail.png",
+}
 
 
 def main():
     tpl_path = os.path.join(ROOT, "gumroad", "landing-template.html")
     with open(tpl_path, encoding="utf-8") as f:
         html = f.read()
-    for placeholder, rel, max_w, q in JOBS:
-        html = html.replace(placeholder, webp_b64(os.path.join(ROOT, rel), max_w, q))
-    leftover = [p for p, _, _, _ in JOBS if p in html]
+    for placeholder, url in URLS.items():
+        html = html.replace(placeholder, url)
+    leftover = [p for p in URLS if p in html]
     if leftover:
         sys.exit(f"Placeholders not replaced: {leftover}")
     out = os.path.join(ROOT, "gumroad", "landing.html")
