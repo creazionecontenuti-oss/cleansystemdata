@@ -1,0 +1,56 @@
+name: Gumroad landing page
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'preview | publish | clear'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+          - preview
+          - publish
+          - clear
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: pip install pillow
+      - name: Build landing
+        run: python gumroad/build_landing.py
+      - name: Run pipeline (${{ inputs.action }})
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          PIPELINE_ACTION: ${{ inputs.action }}
+        run: python gumroad/pipeline.py | tee report.md
+      - name: Report issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.existsSync('report.md') ? fs.readFileSync('report.md', 'utf8') : '(nessun report)';
+            const action = '${{ inputs.action }}';
+            const body = `### Gumroad page pipeline — ${action}\n\n\`\`\`\n${report}\n\`\`\`\nRun: ${context.runId} (${context.sha.slice(0,7)})`;
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              labels: 'gumroad-pipeline', state: 'all'
+            });
+            const existing = issues.data[0];
+            if (existing) {
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body });
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body: `**${action}**:\n\n\`\`\`\n${report}\n\`\`\`` });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: 'Gumroad page pipeline', labels: ['gumroad-pipeline'], body });
+            }
